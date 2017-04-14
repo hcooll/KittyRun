@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "E:\\01_Workspaces\\demo\\KittyRun\\cocos\\build\\intermediates\\res\\merged\\androidTest\\debug\\raw\\backsound.mp3",
+        "source": "E:\\01_Workspaces\\demo\\KittyRun\\cocos\\build\\intermediates\\bundles\\debug\\res\\raw\\backsound.mp3"
+    },
+    {
+        "merged": "E:\\01_Workspaces\\demo\\KittyRun\\cocos\\build\\intermediates\\res\\merged\\androidTest\\debug\\raw\\effect.mp3",
+        "source": "E:\\01_Workspaces\\demo\\KittyRun\\cocos\\build\\intermediates\\bundles\\debug\\res\\raw\\effect.mp3"
+    }
+]

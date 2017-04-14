@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="E:\01_Workspaces\demo\KittyRun\cocos\src\main\jniLibs"><file name="armeabi/libgdx.so" path="E:\01_Workspaces\demo\KittyRun\cocos\src\main\jniLibs\armeabi\libgdx.so"/><file name="x86/libgdx.so" path="E:\01_Workspaces\demo\KittyRun\cocos\src\main\jniLibs\x86\libgdx.so"/></source></dataSet><dataSet config="release"><source path="E:\01_Workspaces\demo\KittyRun\cocos\src\release\jniLibs"/></dataSet></merger>

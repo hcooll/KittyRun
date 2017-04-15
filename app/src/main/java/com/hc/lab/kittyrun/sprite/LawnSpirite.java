@@ -10,6 +10,7 @@ import org.cocos2d.actions.interval.CCSequence;
 import org.cocos2d.nodes.CCTextureCache;
 import org.cocos2d.opengl.CCTexture2D;
 import org.cocos2d.types.CGPoint;
+import org.cocos2d.types.CGRect;
 import org.cocos2d.types.util.CGPointUtil;
 
 /**
@@ -20,9 +21,14 @@ public class LawnSpirite extends ActionSprite {
 
     private boolean working;
 
-    public LawnSpirite(ScreenPlay play) {
-        super(play);
+    public LawnSpirite(String filepath) {
+        super(filepath);
     }
+
+    public LawnSpirite(String filepath, CGRect rect) {
+        super(filepath, rect);
+    }
+
 
     public boolean isWorking() {
         return working;
@@ -56,6 +62,8 @@ public class LawnSpirite extends ActionSprite {
 
     public void dismiss() {
         this.removeSelf();
-        play.onActionStop(mAction);
+        if (mActionListener != null) {
+            mActionListener.onActionStop(mAction);
+        }
     }
 }

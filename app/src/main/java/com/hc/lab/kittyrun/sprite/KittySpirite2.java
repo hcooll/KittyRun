@@ -10,6 +10,7 @@ import org.cocos2d.actions.instant.CCHide;
 import org.cocos2d.actions.interval.CCDelayTime;
 import org.cocos2d.actions.interval.CCJumpTo;
 import org.cocos2d.actions.interval.CCSequence;
+import org.cocos2d.types.CGRect;
 
 /**
  * Created by congwiny on 2017/4/14.
@@ -20,9 +21,14 @@ public class KittySpirite2 extends ActionSprite {
     private boolean isWalking;
     private boolean isFlying;
 
-    public KittySpirite2(ScreenPlay play) {
-        super(play);
+    public KittySpirite2(String filepath) {
+        super(filepath);
     }
+
+    public KittySpirite2(String filepath, CGRect rect) {
+        super(filepath, rect);
+    }
+
 
     @Override
     public void run(Action action) {

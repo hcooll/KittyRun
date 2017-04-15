@@ -1,5 +1,7 @@
 package com.hc.lab.kittyrun.story;
 
+import android.util.Log;
+
 import com.hc.lab.kittyrun.action.CountDownAction;
 import com.hc.lab.kittyrun.action.GuideAction;
 import com.hc.lab.kittyrun.action.JumpAction;
@@ -12,6 +14,8 @@ import com.hc.lab.kittyrun.sprite.GuideSpirite;
 import com.hc.lab.kittyrun.sprite.KittySpirite;
 import com.hc.lab.kittyrun.sprite.LawnSpirite;
 import com.hc.lab.kittyrun.sprite.MileSprite;
+import com.hc.lab.kittyrun.strategy.LawnStrategy;
+import com.hc.lab.kittyrun.strategy.StrategyManager;
 
 import org.cocos2d.types.CGRect;
 
@@ -23,6 +27,7 @@ public class StoryManager {
 
     private static final String TAG = StoryManager.class.getSimpleName();
     public static StoryManager storyManager;
+    private StrategyManager strategyManager;
     //电影剧本默认
     private ScreenPlay mPlay;
 
@@ -40,6 +45,7 @@ public class StoryManager {
 
     private StoryManager(ScreenPlay play) {
         mPlay = play;
+        strategyManager = StrategyManager.getInstance();
     }
 
     public Story getDefaultStory(boolean firstGuide) {
@@ -60,9 +66,16 @@ public class StoryManager {
 
     public Story getNewLawnStory() {
         NewLawnStory newLawnStory = new NewLawnStory();
-        LawnSpirite spirite = new LawnSpirite("image/land/high_long_snow.png");
+        LawnStrategy lawnStrategy = strategyManager.getLawnActionStrategy();
+
+        LawnSpirite spirite = new LawnSpirite(lawnStrategy.lawnPic);
+        spirite.setAnchorPoint(lawnStrategy.anchor);
+        spirite.setPosition(lawnStrategy.position);
+        Log.e(TAG, "lawn pic=" + lawnStrategy.lawnPic);
         spirite.setActionStatusListener(mPlay);
-        newLawnStory.addPlot(spirite, new MoveAction());
+        MoveAction moveAction = new MoveAction();
+        moveAction.setStrategy(lawnStrategy);
+        newLawnStory.addPlot(spirite, moveAction);
         return newLawnStory;
     }
 

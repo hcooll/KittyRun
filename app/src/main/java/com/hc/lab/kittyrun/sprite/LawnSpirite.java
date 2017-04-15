@@ -1,14 +1,11 @@
 package com.hc.lab.kittyrun.sprite;
 
 import com.hc.lab.kittyrun.action.Action;
-import com.hc.lab.kittyrun.screenplay.ScreenPlay;
-import com.hc.lab.kittyrun.story.Story;
+import com.hc.lab.kittyrun.strategy.LawnStrategy;
 
 import org.cocos2d.actions.instant.CCCallFunc;
 import org.cocos2d.actions.interval.CCMoveTo;
 import org.cocos2d.actions.interval.CCSequence;
-import org.cocos2d.nodes.CCTextureCache;
-import org.cocos2d.opengl.CCTexture2D;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.util.CGPointUtil;
@@ -20,6 +17,7 @@ import org.cocos2d.types.util.CGPointUtil;
 public class LawnSpirite extends ActionSprite {
 
     private boolean working;
+    private LawnStrategy mLawnStrategy;
 
     public LawnSpirite(String filepath) {
         super(filepath);
@@ -41,20 +39,18 @@ public class LawnSpirite extends ActionSprite {
     @Override
     public void run(Action action) {
         super.run(action);
-        CCTexture2D texture = CCTextureCache.sharedTextureCache().addImage("image/land/high_long_rock.png");
-        setTexture(texture);
-        move();
-
+        mLawnStrategy = (LawnStrategy) action.getStrategy();
+        move(mLawnStrategy);
     }
 
     /**
      * 移动
      */
-    private void move() {
+    private void move(LawnStrategy lawnStrategy) {
         //计算速度
-        CGPoint start = CGPoint.make(mLayer.getCgSize().width, 200);
-        CGPoint end = CGPoint.make(-mLayer.getCgSize().width, 200);
-        float t = CGPointUtil.distance(start, end) / 20;
+        CGPoint start = CGPoint.make(mLayer.getCgSize().width, lawnStrategy.y);
+        CGPoint end = CGPoint.make(-mLayer.getCgSize().width, lawnStrategy.y);
+        float t = CGPointUtil.distance(start, end) / lawnStrategy.speed;
         CCMoveTo ccMoveTo = CCMoveTo.action(t, end);
         CCSequence ccSequence = CCSequence.actions(ccMoveTo, CCCallFunc.action(this, "dismiss"));
         this.runAction(ccSequence);
@@ -66,4 +62,5 @@ public class LawnSpirite extends ActionSprite {
             mActionListener.onActionStop(mAction);
         }
     }
+
 }

@@ -1,6 +1,6 @@
 package com.hc.lab.kittyrun.action;
 
-import org.cocos2d.types.CGPoint;
+import com.hc.lab.kittyrun.strategy.Strategy;
 
 /**
  * Created by congwiny on 2017/4/14.
@@ -15,5 +15,13 @@ public class Action {
     public static final int TYPE_MOVE = 4;
     public static final int TYPE_GUIDE = 5;
 
+    private Strategy strategy;
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
 }

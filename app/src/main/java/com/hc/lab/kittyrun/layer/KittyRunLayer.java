@@ -33,9 +33,12 @@ public class KittyRunLayer extends BaseLayer {
             for (ActionSprite actionSprite : actionSprites) {
                 Action action = hashMap.get(actionSprite);
                 if (!storyHashMap.containsKey(actionSprite)) {
-                    actionSprite.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
+                    //先这么设置。要想设置Spirite的位置，就得设置Strategy
+                    if (action.getStrategy() == null) {
+                        actionSprite.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
+                        actionSprite.setPosition(cgSize.width / 2, cgSize.height / 2);
+                    }
                     actionSprite.setLayer(this);
-                    actionSprite.setPosition(cgSize.width / 2, cgSize.height / 2);
                     this.addChild(actionSprite);
                     storyHashMap.put(actionSprite, story);
                 }

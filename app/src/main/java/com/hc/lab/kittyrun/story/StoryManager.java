@@ -1,8 +1,5 @@
 package com.hc.lab.kittyrun.story;
 
-import android.util.Log;
-import android.util.SparseArray;
-
 import com.hc.lab.kittyrun.action.CountDownAction;
 import com.hc.lab.kittyrun.action.GuideAction;
 import com.hc.lab.kittyrun.action.JumpAction;
@@ -16,13 +13,7 @@ import com.hc.lab.kittyrun.sprite.KittySpirite2;
 import com.hc.lab.kittyrun.sprite.LawnSpirite;
 import com.hc.lab.kittyrun.sprite.MileSprite;
 
-import org.cocos2d.nodes.CCDirector;
-import org.cocos2d.types.CGPoint;
-import org.cocos2d.types.CGSize;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import org.cocos2d.types.CGRect;
 
 /**
  * Created by congwiny on 2017/4/14.
@@ -54,12 +45,13 @@ public class StoryManager {
     public Story getDefaultStory(boolean firstGuide) {
         GuideStory guideStory = new GuideStory();
         if (firstGuide) {
-            GuideSpirite guideSpirite = new GuideSpirite(mPlay);
-
+            GuideSpirite guideSpirite = new GuideSpirite("blank.png");
+            guideSpirite.setActionStatusListener(mPlay);
             guideStory.addPlot(guideSpirite, new GuideAction());
         }
 
-        CountdownSprite2 countdownSprite2 = new CountdownSprite2(mPlay);
+        CountdownSprite2 countdownSprite2 = new CountdownSprite2("image/bounus/0.png");
+        countdownSprite2.setActionStatusListener(mPlay);
         guideStory.addPlot(countdownSprite2, new CountDownAction());
 
 
@@ -68,15 +60,22 @@ public class StoryManager {
 
     public Story getNewLawnStory() {
         NewLawnStory newLawnStory = new NewLawnStory();
-        LawnSpirite spirite = new LawnSpirite(mPlay);
+        LawnSpirite spirite = new LawnSpirite("image/land/high_long_snow.png");
+        spirite.setActionStatusListener(mPlay);
         newLawnStory.addPlot(spirite, new MoveAction());
         return newLawnStory;
     }
 
     public Story getKittyRunStory(boolean isJump) {
         KittyRunStory kittyRunStory = new KittyRunStory();
-        KittySpirite2 kittySpirite2 = new KittySpirite2(mPlay);
-        MileSprite mileSprite = new MileSprite(mPlay);
+        KittySpirite2 kittySpirite2 = new KittySpirite2("image/kitty/run0000.png");
+        kittySpirite2.setActionStatusListener(mPlay);
+
+        CGRect cgRect = CGRect.make(-20, 20, 200, 100);
+        MileSprite mileSprite = new MileSprite("blank.png", cgRect);
+
+        mileSprite.setActionStatusListener(mPlay);
+
         if (isJump) {
             kittyRunStory.addPlot(kittySpirite2, new JumpAction());
         } else {

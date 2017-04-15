@@ -1,6 +1,5 @@
 package com.hc.lab.kittyrun;
 
-import android.content.Context;
 import android.graphics.PixelFormat;
 
 import com.hc.lab.kittyrun.layer.KittyRunLayer;
@@ -20,7 +19,7 @@ import org.cocos2d.opengl.CCGLSurfaceView;
 public class KittyRunDirector {
     KittyRunSceenPlay play;
     CCDirector director;
-    KittyRunLayer layer;
+    KittyRunLayer kittyRunLayer;
 
     public KittyRunDirector(CCGLSurfaceView surfaceView) {
         director = CCDirector.sharedDirector();
@@ -39,9 +38,9 @@ public class KittyRunDirector {
             director.setDeviceOrientation(CCDirector.kCCDeviceOrientationPortrait);// 横屏
             director.setDisplayFPS(false);// 显示帧率
 
-            layer = new KittyRunLayer();
+            kittyRunLayer = new KittyRunLayer();
             CCScene scene = CCScene.node();
-            scene.addChild(layer);
+            scene.addChild(kittyRunLayer);
             //导演管理场景
             director.runWithScene(scene);
         }
@@ -56,7 +55,7 @@ public class KittyRunDirector {
 
 
     public void instructStory(Story... story) {
-        layer.performanceStory(story);
+        kittyRunLayer.performanceStory(story);
     }
 
     public void onResume() {

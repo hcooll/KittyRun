@@ -25,6 +25,14 @@ public class CGRect {
         return new CGRect(origin.x, origin.y, size.width, size.height);
     }
 
+    /**
+     *
+     * @param x 控件内容在x方向的平移，往右平移为正，向左平移为负
+     * @param y 控件内容在y方向的平移，往上平移为正，向下平移为负
+     * @param w spirite控件的宽度
+     * @param h spirite控件的高度
+     * @return
+     */
     public static CGRect make(float x, float y, float w, float h) {
         return new CGRect(x, y, w, h);
     }

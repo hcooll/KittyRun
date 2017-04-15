@@ -7,6 +7,8 @@ import com.hc.lab.kittyrun.util.CommonUtil;
 
 import org.cocos2d.actions.instant.CCCallFunc;
 import org.cocos2d.actions.interval.CCSequence;
+import org.cocos2d.opengl.CCTexture2D;
+import org.cocos2d.types.CGRect;
 
 /**
  * Created by congwiny on 2017/4/14.
@@ -14,8 +16,13 @@ import org.cocos2d.actions.interval.CCSequence;
 
 public class CountdownSprite2 extends ActionSprite {
 
-    public CountdownSprite2(ScreenPlay play) {
-        super(play);
+
+    public CountdownSprite2(String filepath) {
+        super(filepath);
+    }
+
+    public CountdownSprite2(String filepath, CGRect rect) {
+        super(filepath, rect);
     }
 
     /**
@@ -40,6 +47,8 @@ public class CountdownSprite2 extends ActionSprite {
     public void startGame() {
         // 没有作用了就销毁掉
         this.removeSelf();
-        play.onActionStop(mAction);
+        if (mActionListener != null) {
+            mActionListener.onActionStop(mAction);
+        }
     }
 }

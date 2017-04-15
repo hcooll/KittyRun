@@ -7,9 +7,9 @@ import com.hc.lab.kittyrun.action.MileAction;
 import com.hc.lab.kittyrun.action.MoveAction;
 import com.hc.lab.kittyrun.action.WalkAction;
 import com.hc.lab.kittyrun.screenplay.ScreenPlay;
-import com.hc.lab.kittyrun.sprite.CountdownSprite2;
+import com.hc.lab.kittyrun.sprite.CountdownSprite;
 import com.hc.lab.kittyrun.sprite.GuideSpirite;
-import com.hc.lab.kittyrun.sprite.KittySpirite2;
+import com.hc.lab.kittyrun.sprite.KittySpirite;
 import com.hc.lab.kittyrun.sprite.LawnSpirite;
 import com.hc.lab.kittyrun.sprite.MileSprite;
 
@@ -50,9 +50,9 @@ public class StoryManager {
             guideStory.addPlot(guideSpirite, new GuideAction());
         }
 
-        CountdownSprite2 countdownSprite2 = new CountdownSprite2("image/bounus/0.png");
-        countdownSprite2.setActionStatusListener(mPlay);
-        guideStory.addPlot(countdownSprite2, new CountDownAction());
+        CountdownSprite countdownSprite = new CountdownSprite("image/bounus/0.png");
+        countdownSprite.setActionStatusListener(mPlay);
+        guideStory.addPlot(countdownSprite, new CountDownAction());
 
 
         return guideStory;
@@ -68,8 +68,8 @@ public class StoryManager {
 
     public Story getKittyRunStory(boolean isJump) {
         KittyRunStory kittyRunStory = new KittyRunStory();
-        KittySpirite2 kittySpirite2 = new KittySpirite2("image/kitty/run0000.png");
-        kittySpirite2.setActionStatusListener(mPlay);
+        KittySpirite kittySpirite = new KittySpirite("image/kitty/run0000.png");
+        kittySpirite.setActionStatusListener(mPlay);
 
         CGRect cgRect = CGRect.make(-20, 20, 200, 100);
         MileSprite mileSprite = new MileSprite("blank.png", cgRect);
@@ -77,9 +77,9 @@ public class StoryManager {
         mileSprite.setActionStatusListener(mPlay);
 
         if (isJump) {
-            kittyRunStory.addPlot(kittySpirite2, new JumpAction());
+            kittyRunStory.addPlot(kittySpirite, new JumpAction());
         } else {
-            kittyRunStory.addPlot(kittySpirite2, new WalkAction());
+            kittyRunStory.addPlot(kittySpirite, new WalkAction());
         }
         kittyRunStory.addPlot(mileSprite, new MileAction());
         return kittyRunStory;

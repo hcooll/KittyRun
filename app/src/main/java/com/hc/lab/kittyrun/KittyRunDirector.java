@@ -2,6 +2,7 @@ package com.hc.lab.kittyrun;
 
 import android.graphics.PixelFormat;
 
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.layer.KittyRunLayer;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
 import com.hc.lab.kittyrun.story.Story;
@@ -31,10 +32,11 @@ public class KittyRunDirector {
         if (surfaceView != null) {
             surfaceView.setZOrderOnTop(true);
             surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+            surfaceView.getHolder().setFixedSize(DataConstant.WIDTH, DataConstant.HEIGHT);
             surfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 
             director.attachInView(surfaceView);// 开线程
-            director.setScreenSize(340, 680);
+            director.setScreenSize(DataConstant.WIDTH, DataConstant.HEIGHT);
             director.setDeviceOrientation(CCDirector.kCCDeviceOrientationPortrait);// 横屏
             director.setDisplayFPS(false);// 显示帧率
 

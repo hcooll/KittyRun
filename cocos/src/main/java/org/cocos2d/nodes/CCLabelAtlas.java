@@ -37,7 +37,7 @@ public class CCLabelAtlas extends CCAtlasNode
     }
 
     /** initializes the CCLabelAtlas with a string, a char map file(the atlas), the width and height of each element and the starting char of the atlas */
-    protected CCLabelAtlas(CharSequence theString, String charmapfile, int w, int h, char c) {
+    public CCLabelAtlas(CharSequence theString, String charmapfile, int w, int h, char c) {
         super(charmapfile, w, h, theString.length());
 
         string_ = new TextBuilder(theString.length());

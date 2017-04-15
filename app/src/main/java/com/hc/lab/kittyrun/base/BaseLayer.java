@@ -30,4 +30,9 @@ public abstract class BaseLayer extends CCLayer {
 	protected static Activity getContext() {
 		return CCDirector.sharedDirector().getActivity();
 	}
+
+	public CGSize getCgSize() {
+		return cgSize;
+	}
+
 }

@@ -14,7 +14,7 @@ import org.cocos2d.opengl.CCGLSurfaceView;
 public class MainActivity extends AppCompatActivity {
 
     // 导演
-    CCDirector director;
+    KittyRunDirector director;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,20 +23,25 @@ public class MainActivity extends AppCompatActivity {
 
         CCGLSurfaceView surfaceView = new CCGLSurfaceView(this);
         addContentView(surfaceView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        // 设置背景透明
-        surfaceView.setZOrderOnTop(true);
-        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-        surfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 
-        director = CCDirector.sharedDirector();
-        director.attachInView(surfaceView);// 开线程
-        director.setScreenSize(340, 680);
-        director.setDeviceOrientation(CCDirector.kCCDeviceOrientationPortrait);// 横屏
-        director.setDisplayFPS(true);// 不显示帧率
-        CCScene scene = CCScene.node();
-        scene.addChild(new RunLayer());
-        //导演管理场景
-        director.runWithScene(scene);
+        director = new KittyRunDirector(surfaceView);
+        director.startingUp();
+
+//        // 设置背景透明
+//        surfaceView.setZOrderOnTop(true);
+//        surfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+//        surfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+//
+//        director = CCDirector.sharedDirector();
+//        director.attachInView(surfaceView);// 开线程
+//        director.setScreenSize(340, 680);
+//        director.setDeviceOrientation(CCDirector.kCCDeviceOrientationPortrait);// 横屏
+//        director.setDisplayFPS(true);// 不显示帧率
+//        CCScene scene = CCScene.node();
+//        scene.addChild(new RunLayer());
+//        //导演管理场景
+//        director.runWithScene(scene);
+
 
     }
 

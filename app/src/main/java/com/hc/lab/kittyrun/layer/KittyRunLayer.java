@@ -4,9 +4,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.hc.lab.kittyrun.action.Action;
+import com.hc.lab.kittyrun.action.KittyJumpAction;
 import com.hc.lab.kittyrun.action.KittyWalkAction;
 import com.hc.lab.kittyrun.action.LawnMoveAction;
 import com.hc.lab.kittyrun.base.BaseLayer;
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.constant.SpriteConstant;
 import com.hc.lab.kittyrun.listener.ActionStatusListener;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
@@ -19,6 +21,7 @@ import com.hc.lab.kittyrun.sprite.LawnSprite;
 import com.hc.lab.kittyrun.sprite.MileSprite;
 import com.hc.lab.kittyrun.sprite.MoonSprite;
 import com.hc.lab.kittyrun.sprite.TrapSprite;
+import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.strategy.LawnStrategy;
 import com.hc.lab.kittyrun.strategy.StrategyManager;
 
@@ -62,9 +65,11 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private CountdownSprite mCountdownSprite;
 
     private LawnSprite mCurrentLawnSprite;
+    private LawnSprite mPrevLawnSprite;
 
 
     public KittyRunLayer(KittyRunSceenPlay sceenPlay) {
+        setIsTouchEnabled(true);
         this.mSceenPlay = sceenPlay;
         strategyManager = StrategyManager.getInstance();
         mTrapSpriteList = new LinkedList<>();
@@ -106,11 +111,6 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         }
     }
 
-    @Override
-    public boolean ccTouchesBegan(MotionEvent event) {
-        return super.ccTouchesBegan(event);
-    }
-
     //布置场景
     public void initLayerSprite() {
         mKittySpirite = new KittySprite("image/kitty/run0000.png");
@@ -129,6 +129,20 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         addChild(mCurrentLawnSprite, 0);
 
     }
+
+    @Override
+    public boolean ccTouchesBegan(MotionEvent event) {
+        Log.e(TAG, "cc touch began..");
+        KittyJumpAction action = new KittyJumpAction();
+        KittyJumpStrategy kittyJumpStrategy = strategyManager
+                .getKittyJumpStrategy(0, mKittySpirite.getPosition().x,
+                        mKittySpirite.getPosition().y,
+                        mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
+        action.setStrategy(kittyJumpStrategy);
+        mKittySpirite.run(action);
+        return super.ccTouchesBegan(event);
+    }
+
 
     @Override
     public void onActionStart(Action action) {
@@ -155,7 +169,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 mKittySpirite.run(kittyWalkAction);
 
                 //开启任务调度检测边界
-                CCScheduler.sharedScheduler().schedule("checkBoundary", this, 0.10f,
+                CCScheduler.sharedScheduler().schedule("checkBoundary", this, 0.005f,
                         false);
                 break;
             case Action.TYPE_LAWN_MOVE:
@@ -172,7 +186,6 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         LawnSprite spirite = new LawnSprite(lawnStrategy.lawnPic);
         spirite.setAnchorPoint(lawnStrategy.anchor);
         spirite.setPosition(lawnStrategy.position);
-        Log.e(TAG, "lawn pic=" + lawnStrategy.lawnPic);
         spirite.setActionStatusListener(this);
         LawnMoveAction moveAction = new LawnMoveAction();
         moveAction.setStrategy(lawnStrategy);
@@ -180,15 +193,69 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         return spirite;
     }
 
-    public synchronized void checkBoundary(float t) {
-        //检测自身边界
-        if (mCurrentLawnSprite.getPosition().x + mCurrentLawnSprite.getContentSize().width <= cgSize.width) {
-            //草坪走完了，就得搞下一个草坪滚动，同时生成下一个草坪入队
-            LawnSprite lawnSprite = mLawnSpriteList.poll();
-            addChild(lawnSprite, 0);
-            lawnSprite.run(lawnSprite.getAction());
-            mLawnSpriteList.add(getNewLawnSprite(false));
-            mCurrentLawnSprite = lawnSprite;
+    public void checkBoundary(float t) {
+        synchronized (mSceenPlay) {
+            //检测自身边界
+            if (mCurrentLawnSprite.getPosition().x + mCurrentLawnSprite.getContentSize().width <= cgSize.width) {
+                //草坪走完了，就得搞下一个草坪滚动，同时生成下一个草坪入队
+                mPrevLawnSprite = mCurrentLawnSprite;
+
+                mCurrentLawnSprite = mLawnSpriteList.poll();
+                addChild(mCurrentLawnSprite, 0);
+                mCurrentLawnSprite.run(mCurrentLawnSprite.getAction());
+                mLawnSpriteList.add(getNewLawnSprite(false));
+            }
+
+            float currentLawnLeftX = mCurrentLawnSprite.getPosition().x;
+            float currentLawnRightX = mCurrentLawnSprite.getPosition().x + mCurrentLawnSprite.getContentSize().width;
+            float kittyPositionX = mKittySpirite.getPosition().x + mKittySpirite.getContentSize().width / 2;
+            if (kittyPositionX >= currentLawnLeftX && kittyPositionX <= currentLawnRightX) {
+                //ok
+                Log.e(TAG, "okokok111 kittyPositionX" + kittyPositionX +
+                        ",currentLawnLeftX" + currentLawnLeftX + ",currentLawnRightX" + currentLawnRightX);
+                return;
+            }
+
+
+            if (mPrevLawnSprite != null) {
+                float prevLawnLeftX = mPrevLawnSprite.getPosition().x;
+                float prevLawnRightX = mPrevLawnSprite.getPosition().x + mPrevLawnSprite.getContentSize().width;
+                float kittyPositionX2 = mKittySpirite.getPosition().x + mKittySpirite.getContentSize().width / 2;
+                if (kittyPositionX2 >= prevLawnLeftX && kittyPositionX2 <= prevLawnRightX) {
+                    //ok
+                    Log.e(TAG, "okokok222 kittyPositionX2: " + kittyPositionX2 +
+                            ",prevLawnLeftX" + prevLawnLeftX + ",prevLawnRightX" + prevLawnRightX);
+                    return;
+                }
+            }
+
+            float currentLawnHeight = mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height;
+            float kittyHeight = mKittySpirite.getPosition().y;
+            if (kittyHeight >= currentLawnHeight) {
+                Log.e(TAG, "kitty height=" + kittyHeight + ",curent lawn height=" + currentLawnHeight);
+                return;
+            }
+
+            float prevLawnRightX2 = mPrevLawnSprite.getPosition().x + mPrevLawnSprite.getContentSize().width;
+            float currentLawnLeftX2 = mCurrentLawnSprite.getPosition().x;
+            float kittyPositionX3 = mKittySpirite.getPosition().x + mKittySpirite.getContentSize().width / 2;
+            if (kittyPositionX3 > prevLawnRightX2 && kittyPositionX3 < currentLawnLeftX2) {
+                gameOver();
+            } else {
+                return;
+            }
+            gameOver();
         }
+
     }
+
+    private void gameOver() {
+        //完蛋去死吧,game over
+        mCurrentLawnSprite.stopMove();
+        mPrevLawnSprite.stopMove();
+        Log.e(TAG, "完蛋去死吧...");
+        mKittySpirite.fallDown();
+        unschedule("checkBoundary");
+    }
+
 }

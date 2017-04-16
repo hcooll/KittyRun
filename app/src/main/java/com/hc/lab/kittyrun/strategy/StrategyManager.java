@@ -1,7 +1,10 @@
 package com.hc.lab.kittyrun.strategy;
 
+import android.util.Log;
+
 import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.util.MathRandom;
+import com.hc.lab.kittyrun.util.PhysicsUtils;
 
 import org.cocos2d.types.CGPoint;
 
@@ -28,6 +31,11 @@ public class StrategyManager {
             "image/land/medium_short_rock.png",
             "image/land/high_long_rock.png",
             "image/land/high_short_rock.png"
+    };
+
+    private static final float[] kittyJumpHeight = new float[]{
+            DataConstant.MAX_JUMP_HEIGHT,
+            DataConstant.MEDIUM_JUMP_HEIGHT
     };
 
 
@@ -79,6 +87,28 @@ public class StrategyManager {
             lawnStrategy.position = CGPoint.ccp(0, 0);
         }
         return lawnStrategy;
+    }
+
+    public KittyJumpStrategy getKittyJumpStrategy(float jumpHeight, float kittyPositionX, float kittyPositionY,
+                                                  float nextLawnHeight) {
+
+        KittyJumpStrategy kittyJumpStrategy = new KittyJumpStrategy();
+        int index = mRandom.nextInt(2);
+        kittyJumpStrategy.jumpHeight = kittyJumpHeight[index];
+
+        kittyJumpStrategy.duration = PhysicsUtils
+                .getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyPositionY, nextLawnHeight);
+        CGPoint toPosition = new CGPoint();
+        if (kittyPositionY + kittyJumpStrategy.jumpHeight <= nextLawnHeight) {
+            toPosition.x = kittyPositionX;
+            toPosition.y = kittyPositionY;
+        } else {
+            toPosition.x = kittyPositionX;
+            toPosition.y = nextLawnHeight;
+        }
+        kittyJumpStrategy.toPosition = toPosition;
+        Log.e("xxx", "jump data==" + kittyJumpStrategy);
+        return kittyJumpStrategy;
     }
 
     public int getStrategyMode() {

@@ -2,10 +2,10 @@ package com.hc.lab.kittyrun;
 
 import android.graphics.PixelFormat;
 
+import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.layer.KittyRunLayer;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
-import com.hc.lab.kittyrun.story.Story;
 
 import org.cocos2d.layers.CCScene;
 import org.cocos2d.nodes.CCDirector;
@@ -40,7 +40,7 @@ public class KittyRunDirector {
             director.setDeviceOrientation(CCDirector.kCCDeviceOrientationPortrait);// 横屏
             director.setDisplayFPS(false);// 显示帧率
 
-            kittyRunLayer = new KittyRunLayer();
+            kittyRunLayer = new KittyRunLayer(play);
             CCScene scene = CCScene.node();
             scene.addChild(kittyRunLayer);
             //导演管理场景
@@ -52,12 +52,12 @@ public class KittyRunDirector {
      * 开机
      */
     public void startingUp() {
-        play.beginSceenPlay();
+        play.beginAction();
     }
 
 
-    public void instructStory(Story... story) {
-        kittyRunLayer.performanceStory(story);
+    public void performanceAction(Action... actions) {
+        kittyRunLayer.performanceAction(actions);
     }
 
     public void onResume() {
@@ -68,7 +68,7 @@ public class KittyRunDirector {
         director.onPause();
     }
 
-    public void end() {
+    public synchronized void end() {
         director.end();
     }
 }

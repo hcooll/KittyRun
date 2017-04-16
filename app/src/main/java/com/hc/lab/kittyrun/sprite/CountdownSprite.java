@@ -1,8 +1,8 @@
 package com.hc.lab.kittyrun.sprite;
 
 import com.hc.lab.kittyrun.action.Action;
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.screenplay.ScreenPlay;
-import com.hc.lab.kittyrun.story.Story;
 import com.hc.lab.kittyrun.util.CommonUtil;
 
 import org.cocos2d.actions.instant.CCCallFunc;
@@ -19,6 +19,9 @@ public class CountdownSprite extends ActionSprite {
 
     public CountdownSprite(String filepath) {
         super(filepath);
+        setAnchorPoint(0.5f, 0.5f);
+        setPosition(DataConstant.WIDTH / 2, DataConstant.HEIGHT / 2);
+
     }
 
     public CountdownSprite(String filepath, CGRect rect) {
@@ -47,8 +50,5 @@ public class CountdownSprite extends ActionSprite {
     public void startGame() {
         // 没有作用了就销毁掉
         this.removeSelf();
-        if (mActionListener != null) {
-            mActionListener.onActionStop(mAction);
-        }
     }
 }

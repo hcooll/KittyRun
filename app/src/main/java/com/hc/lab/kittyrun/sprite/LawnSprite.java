@@ -1,8 +1,11 @@
 package com.hc.lab.kittyrun.sprite;
 
+import android.util.Log;
+
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.strategy.LawnStrategy;
 
+import org.cocos2d.actions.CCScheduler;
 import org.cocos2d.actions.instant.CCCallFunc;
 import org.cocos2d.actions.interval.CCMoveTo;
 import org.cocos2d.actions.interval.CCSequence;
@@ -14,16 +17,16 @@ import org.cocos2d.types.util.CGPointUtil;
  * Created by congwiny on 2017/4/14.
  */
 
-public class LawnSpirite extends ActionSprite {
+public class LawnSprite extends ActionSprite {
 
     private boolean working;
     private LawnStrategy mLawnStrategy;
 
-    public LawnSpirite(String filepath) {
+    public LawnSprite(String filepath) {
         super(filepath);
     }
 
-    public LawnSpirite(String filepath, CGRect rect) {
+    public LawnSprite(String filepath, CGRect rect) {
         super(filepath, rect);
     }
 
@@ -39,7 +42,9 @@ public class LawnSpirite extends ActionSprite {
     @Override
     public void run(Action action) {
         super.run(action);
+
         mLawnStrategy = (LawnStrategy) action.getStrategy();
+        Log.e("zzz", "lawn sprite strategy==" + mLawnStrategy + "action==" + action);
         move(mLawnStrategy);
     }
 
@@ -48,8 +53,8 @@ public class LawnSpirite extends ActionSprite {
      */
     private void move(LawnStrategy lawnStrategy) {
         //计算速度
-        CGPoint start = CGPoint.make(mLayer.getCgSize().width, lawnStrategy.y);
-        CGPoint end = CGPoint.make(-mLayer.getCgSize().width, lawnStrategy.y);
+        CGPoint start = CGPoint.make(getPosition().x, lawnStrategy.y);
+        CGPoint end = CGPoint.make(-getContentSize().width, lawnStrategy.y);
         float t = CGPointUtil.distance(start, end) / lawnStrategy.speed;
         CCMoveTo ccMoveTo = CCMoveTo.action(t, end);
         CCSequence ccSequence = CCSequence.actions(ccMoveTo, CCCallFunc.action(this, "dismiss"));
@@ -58,9 +63,9 @@ public class LawnSpirite extends ActionSprite {
 
     public void dismiss() {
         this.removeSelf();
-        if (mActionListener != null) {
-            mActionListener.onActionStop(mAction);
-        }
+        stopAllActions();
+
     }
+
 
 }

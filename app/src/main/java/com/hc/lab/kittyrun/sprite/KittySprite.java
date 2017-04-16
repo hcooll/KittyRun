@@ -1,22 +1,22 @@
 package com.hc.lab.kittyrun.sprite;
 
 import com.hc.lab.kittyrun.action.Action;
-import com.hc.lab.kittyrun.screenplay.ScreenPlay;
+import com.hc.lab.kittyrun.constant.SpriteConstant;
 import com.hc.lab.kittyrun.util.CommonUtil;
+import com.hc.lab.kittyrun.util.SizeConvertUtils;
 
-import org.cocos2d.actions.CCScheduler;
 import org.cocos2d.actions.instant.CCCallFunc;
-import org.cocos2d.actions.instant.CCHide;
 import org.cocos2d.actions.interval.CCDelayTime;
 import org.cocos2d.actions.interval.CCJumpTo;
 import org.cocos2d.actions.interval.CCSequence;
+import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 
 /**
  * Created by congwiny on 2017/4/14.
  */
 
-public class KittySpirite extends ActionSprite {
+public class KittySprite extends ActionSprite {
 
     // 小精灵飞的高度等级
     public static final int FLY_DEGREE_LOW = 0x1;
@@ -26,11 +26,15 @@ public class KittySpirite extends ActionSprite {
     private boolean isWalking;
     private boolean isFlying;
 
-    public KittySpirite(String filepath) {
+    public KittySprite(String filepath) {
         super(filepath);
+        setAnchorPoint(CGPoint.ccp(0,0));
+        setPosition(SizeConvertUtils.getConvertCGPoint(
+                SpriteConstant.ORIGN_POSITION_X_KITTY,
+                SpriteConstant.ORIGN_POSITION_Y_KITTY));
     }
 
-    public KittySpirite(String filepath, CGRect rect) {
+    public KittySprite(String filepath, CGRect rect) {
         super(filepath, rect);
     }
 
@@ -39,10 +43,10 @@ public class KittySpirite extends ActionSprite {
     public void run(Action action) {
         super.run(action);
         switch (action.type) {
-            case Action.TYPE_WALK:
+            case Action.TYPE_KITTY_WALK:
                 walk();
                 break;
-            case Action.TYPE_JUMP:
+            case Action.TYPE_KITTY_JUMP:
                 break;
         }
     }

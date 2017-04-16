@@ -13,6 +13,15 @@ public class DataConstant {
     public static final int WIDTH = 360;
     public static final int HEIGHT = 640;
 
-    public static final int GAP_WIDTH = 50;
+    public static final int GAP_WIDTH = 60;
+
+    public static final int MAX_JUMP_HEIGHT = 250;
+    public static final int MEDIUM_JUMP_HEIGHT = 150;
+
+    public static final int KITTY_JUMP_VELOCITY= 250;
+
+    public static final int LAWN_MOVE_VELOCITY= 300;
+    //重力加速度
+    public static final int GA= 10;
 
 }

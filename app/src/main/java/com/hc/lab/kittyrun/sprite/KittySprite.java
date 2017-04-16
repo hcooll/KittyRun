@@ -2,6 +2,7 @@ package com.hc.lab.kittyrun.sprite;
 
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.constant.SpriteConstant;
+import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.util.CommonUtil;
 import com.hc.lab.kittyrun.util.SizeConvertUtils;
 
@@ -25,10 +26,11 @@ public class KittySprite extends ActionSprite {
 
     private boolean isWalking;
     private boolean isFlying;
+    private boolean isDead;
 
     public KittySprite(String filepath) {
         super(filepath);
-        setAnchorPoint(CGPoint.ccp(0,0));
+        setAnchorPoint(CGPoint.ccp(0, 0));
         setPosition(SizeConvertUtils.getConvertCGPoint(
                 SpriteConstant.ORIGN_POSITION_X_KITTY,
                 SpriteConstant.ORIGN_POSITION_Y_KITTY));
@@ -42,11 +44,16 @@ public class KittySprite extends ActionSprite {
     @Override
     public void run(Action action) {
         super.run(action);
+        if (isDead){
+            return;
+        }
         switch (action.type) {
             case Action.TYPE_KITTY_WALK:
                 walk();
                 break;
             case Action.TYPE_KITTY_JUMP:
+                KittyJumpStrategy strategy = (KittyJumpStrategy) action.getStrategy();
+                startJump(strategy);
                 break;
         }
     }
@@ -57,8 +64,6 @@ public class KittySprite extends ActionSprite {
             isFlying = false;
             this.stopAllActions();
             this.runAction(CommonUtil.getRepeatAnimation(null, 0, 5, "image/kitty/run000%01d.png", 0.15f));
-            CCSequence ccSequence = CCSequence.actions(CCDelayTime.action(5), CCDelayTime.action(0.5F), CCCallFunc.action(this, "startJump"));
-            this.runAction(ccSequence);
         }
     }
 
@@ -74,8 +79,21 @@ public class KittySprite extends ActionSprite {
         }
     }
 
+
     public void startJump() {
         jump();
+    }
+
+    private void startJump(KittyJumpStrategy strategy) {
+        if (!isFlying) {
+            isWalking = false;
+            isFlying = true;
+            this.stopAllActions();
+            CCJumpTo ccJumpTo = CCJumpTo.action(strategy.duration, strategy.toPosition, strategy.jumpHeight, 1);
+            CCSequence ccSequence = CCSequence.actions(ccJumpTo, CCCallFunc.action(this, "endJump"));
+            this.runAction(ccSequence);
+            this.runAction(CommonUtil.getRepeatAnimation(null, 1, 3, "image/kitty/fly000%01d.png", 0.15f));
+        }
     }
 
 
@@ -107,5 +125,21 @@ public class KittySprite extends ActionSprite {
                 return 2.0f;
         }
         return 0;
+    }
+
+    public void fallDown() {
+        isWalking = false;
+        isFlying = false;
+        isDead = true;
+        this.stopAllActions();
+
+        CCJumpTo ccJumpTo = CCJumpTo.action(0.5f, CGPoint.ccp(getPosition().x, getPosition().y - 100), 0, 1);
+        CCSequence ccSequence = CCSequence.actions(ccJumpTo, CCCallFunc.action(this, "gameOver"));
+        this.runAction(ccSequence);
+        this.runAction(CommonUtil.getRepeatAnimation(null, 1, 3, "image/kitty/fly000%01d.png", 0.15f));
+    }
+
+    public void gameOver() {
+        this.stopAllActions();
     }
 }

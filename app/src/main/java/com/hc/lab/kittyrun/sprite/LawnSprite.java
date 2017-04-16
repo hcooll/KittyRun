@@ -67,5 +67,9 @@ public class LawnSprite extends ActionSprite {
 
     }
 
+    public void stopMove() {
+        stopAllActions();
+    }
+
 
 }

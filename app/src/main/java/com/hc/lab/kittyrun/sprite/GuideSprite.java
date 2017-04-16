@@ -9,13 +9,13 @@ import org.cocos2d.types.CGRect;
  * Created by congwiny on 2017/4/14.
  */
 
-public class GuideSpirite extends ActionSprite{
+public class GuideSprite extends ActionSprite{
 
-    public GuideSpirite(String filepath) {
+    public GuideSprite(String filepath) {
         super(filepath);
     }
 
-    public GuideSpirite(String filepath, CGRect rect) {
+    public GuideSprite(String filepath, CGRect rect) {
         super(filepath, rect);
     }
 }

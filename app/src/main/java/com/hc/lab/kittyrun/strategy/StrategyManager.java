@@ -1,10 +1,11 @@
 package com.hc.lab.kittyrun.strategy;
 
 import com.hc.lab.kittyrun.constant.DataConstant;
-import com.hc.lab.kittyrun.story.StoryManager;
 import com.hc.lab.kittyrun.util.MathRandom;
 
 import org.cocos2d.types.CGPoint;
+
+import java.util.Random;
 
 /**
  * Created by congwiny on 2017/4/15.
@@ -18,6 +19,7 @@ public class StrategyManager {
     public static final int MODE_MEDIUM = 2;
     public static final int MODE_DIFFICULT = 3;
     private int strategyMode;
+    private Random mRandom;
 
     private static final String[] lawns = new String[]{
             "image/land/low_long_rock.png",
@@ -28,15 +30,17 @@ public class StrategyManager {
             "image/land/high_short_rock.png"
     };
 
+
     private static StrategyManager strategyManager;
 
     private StrategyManager() {
         this.strategyMode = 1;
+        mRandom = new Random();
     }
 
     public static StrategyManager getInstance() {
         if (strategyManager == null) {
-            synchronized (StoryManager.class) {
+            synchronized (StrategyManager.class) {
                 if (strategyManager == null) {
                     strategyManager = new StrategyManager();
                 }
@@ -45,7 +49,7 @@ public class StrategyManager {
         return strategyManager;
     }
 
-    public LawnStrategy getLawnActionStrategy() {
+    public LawnStrategy getLawnActionStrategy(boolean isDefalut) {
         switch (strategyMode) {
             case MODE_EASY:
                 break;
@@ -55,15 +59,25 @@ public class StrategyManager {
                 break;
         }
         LawnStrategy lawnStrategy = new LawnStrategy();
-        int position = MathRandom.percentageRandom();
-        if (position < 0) {
-            position = 0;
+        int gap = DataConstant.GAP_WIDTH + mRandom.nextInt(10);
+        if (!isDefalut) {
+            int position = MathRandom.percentageRandom();
+            if (position < 0) {
+                position = 0;
+            }
+            lawnStrategy.lawnPic = lawns[position];
+            lawnStrategy.speed = 100;//模拟值，以后可以计算
+            lawnStrategy.y = 20;//模拟值
+            lawnStrategy.anchor = CGPoint.ccp(0, 0);
+
+            lawnStrategy.position = CGPoint.ccp(DataConstant.WIDTH + gap, 0);
+        } else {
+            lawnStrategy.lawnPic = lawns[0];
+            lawnStrategy.speed = 100;//模拟值，以后可以计算
+            lawnStrategy.y = 0;//模拟值
+            lawnStrategy.anchor = CGPoint.ccp(0, 0);
+            lawnStrategy.position = CGPoint.ccp(0, 0);
         }
-        lawnStrategy.lawnPic = lawns[position];
-        lawnStrategy.speed = 100;//模拟值，以后可以计算
-        lawnStrategy.y = 20;//模拟值
-        lawnStrategy.anchor = CGPoint.ccp(0, 0);
-        lawnStrategy.position = CGPoint.ccp(DataConstant.WIDTH, 0);
         return lawnStrategy;
     }
 

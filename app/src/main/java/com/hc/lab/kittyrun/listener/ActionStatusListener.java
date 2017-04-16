@@ -1,7 +1,6 @@
-package com.hc.lab.kittyrun.action;
+package com.hc.lab.kittyrun.listener;
 
 import com.hc.lab.kittyrun.action.Action;
-import com.hc.lab.kittyrun.story.Story;
 
 /**
  * Created by congwiny on 2017/4/14.

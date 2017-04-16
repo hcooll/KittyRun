@@ -6,6 +6,6 @@ package com.hc.lab.kittyrun.action;
 
 public class JumpAction extends Action{
     public JumpAction() {
-        type = Action.TYPE_JUMP;
+        type = Action.TYPE_KITTY_JUMP;
     }
 }

@@ -74,14 +74,14 @@ public class StrategyManager {
                 position = 0;
             }
             lawnStrategy.lawnPic = lawns[position];
-            lawnStrategy.speed = 100;//模拟值，以后可以计算
-            lawnStrategy.y = 20;//模拟值
+            lawnStrategy.speed = DataConstant.LAWN_MOVE_VELOCITY;//模拟值，以后可以计算
+            lawnStrategy.y = 0;//模拟值
             lawnStrategy.anchor = CGPoint.ccp(0, 0);
 
             lawnStrategy.position = CGPoint.ccp(DataConstant.WIDTH + gap, 0);
         } else {
             lawnStrategy.lawnPic = lawns[0];
-            lawnStrategy.speed = 100;//模拟值，以后可以计算
+            lawnStrategy.speed = DataConstant.LAWN_MOVE_VELOCITY;//模拟值，以后可以计算
             lawnStrategy.y = 0;//模拟值
             lawnStrategy.anchor = CGPoint.ccp(0, 0);
             lawnStrategy.position = CGPoint.ccp(0, 0);
@@ -89,7 +89,7 @@ public class StrategyManager {
         return lawnStrategy;
     }
 
-    public KittyJumpStrategy getKittyJumpStrategy(float jumpHeight, float kittyPositionX, float kittyPositionY,
+    public KittyJumpStrategy getKittyJumpStrategy(float jumpHeight, CGPoint kittyOriginPoint,
                                                   float nextLawnHeight) {
 
         KittyJumpStrategy kittyJumpStrategy = new KittyJumpStrategy();
@@ -97,15 +97,11 @@ public class StrategyManager {
         kittyJumpStrategy.jumpHeight = kittyJumpHeight[index];
 
         kittyJumpStrategy.duration = PhysicsUtils
-                .getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyPositionY, nextLawnHeight);
+                .getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyOriginPoint.y, nextLawnHeight);
         CGPoint toPosition = new CGPoint();
-        if (kittyPositionY + kittyJumpStrategy.jumpHeight <= nextLawnHeight) {
-            toPosition.x = kittyPositionX;
-            toPosition.y = kittyPositionY;
-        } else {
-            toPosition.x = kittyPositionX;
-            toPosition.y = nextLawnHeight;
-        }
+
+        toPosition.x = kittyOriginPoint.x;
+        toPosition.y = nextLawnHeight;
         kittyJumpStrategy.toPosition = toPosition;
         Log.e("xxx", "jump data==" + kittyJumpStrategy);
         return kittyJumpStrategy;

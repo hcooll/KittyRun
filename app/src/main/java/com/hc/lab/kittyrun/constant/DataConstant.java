@@ -20,7 +20,7 @@ public class DataConstant {
 
     public static final int KITTY_JUMP_VELOCITY= 250;
 
-    public static final int LAWN_MOVE_VELOCITY= 300;
+    public static final int LAWN_MOVE_VELOCITY= 200;
     //重力加速度
     public static final int GA= 10;
 

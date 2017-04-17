@@ -38,7 +38,7 @@ public class KittyRunDirector {
             director.attachInView(surfaceView);// 开线程
             director.setScreenSize(DataConstant.WIDTH, DataConstant.HEIGHT);
             director.setDeviceOrientation(CCDirector.kCCDeviceOrientationPortrait);// 横屏
-            director.setDisplayFPS(false);// 显示帧率
+            director.setDisplayFPS(true);// 显示帧率
 
             kittyRunLayer = new KittyRunLayer(play);
             CCScene scene = CCScene.node();

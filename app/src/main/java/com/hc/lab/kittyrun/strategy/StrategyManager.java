@@ -74,14 +74,13 @@ public class StrategyManager {
                 position = 0;
             }
             lawnStrategy.lawnPic = lawns[position];
-            lawnStrategy.speed = 100;//模拟值，以后可以计算
+            lawnStrategy.speed = DataConstant.LAWN_MOVE_VELOCITY;//模拟值，以后可以计算
             lawnStrategy.y = 20;//模拟值
             lawnStrategy.anchor = CGPoint.ccp(0, 0);
-
             lawnStrategy.position = CGPoint.ccp(DataConstant.WIDTH + gap, 0);
         } else {
             lawnStrategy.lawnPic = lawns[0];
-            lawnStrategy.speed = 100;//模拟值，以后可以计算
+            lawnStrategy.speed = DataConstant.LAWN_MOVE_VELOCITY;//模拟值，以后可以计算
             lawnStrategy.y = 0;//模拟值
             lawnStrategy.anchor = CGPoint.ccp(0, 0);
             lawnStrategy.position = CGPoint.ccp(0, 0);

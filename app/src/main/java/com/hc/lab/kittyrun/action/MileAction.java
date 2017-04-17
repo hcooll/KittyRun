@@ -5,4 +5,7 @@ package com.hc.lab.kittyrun.action;
  */
 
 public class MileAction extends Action{
+    public MileAction() {
+        type = Action.TYPE_RUN_MILE;
+    }
 }

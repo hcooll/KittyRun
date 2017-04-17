@@ -7,13 +7,14 @@ import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.action.KittyJumpAction;
 import com.hc.lab.kittyrun.action.KittyWalkAction;
 import com.hc.lab.kittyrun.action.LawnMoveAction;
+import com.hc.lab.kittyrun.action.MileAction;
 import com.hc.lab.kittyrun.base.BaseLayer;
-import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.constant.SpriteConstant;
 import com.hc.lab.kittyrun.listener.ActionStatusListener;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
 import com.hc.lab.kittyrun.sprite.ComboSprite;
 import com.hc.lab.kittyrun.sprite.CountdownSprite;
+import com.hc.lab.kittyrun.sprite.ExitSprite;
 import com.hc.lab.kittyrun.sprite.GiftContainerSprite;
 import com.hc.lab.kittyrun.sprite.GiftSprite;
 import com.hc.lab.kittyrun.sprite.KittySprite;
@@ -61,6 +62,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private LinkedList<GiftSprite> mGiftSpriteList;
     private LinkedList<LawnSprite> mLawnSpriteList;
 
+    private ExitSprite mExitSprite;
     private KittySprite mKittySpirite;
     private GiftContainerSprite mGiftContainerSpirite;
     private MileSprite mMileSprite;
@@ -71,6 +73,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private LawnSprite mCurrentLawnSprite;
     private LawnSprite mPrevLawnSprite;
 
+    private boolean isStarted = false;
 
     public KittyRunLayer(KittyRunSceenPlay sceenPlay) {
         setIsTouchEnabled(true);
@@ -115,8 +118,12 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         }
     }
 
-    //布置场景
+    // 布置初始场景
     public void initLayerSprite() {
+        mMileSprite = new MileSprite("image/mile/0.png");
+        mMileSprite.setTag(SpriteConstant.SPRITE_TAG_MILE);
+        addChild(mMileSprite);
+
         mKittySpirite = new KittySprite("image/kitty/run0000.png");
         mKittySpirite.setTag(SpriteConstant.SPRITE_TAG_KITTY);
 
@@ -137,20 +144,21 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     @Override
     public boolean ccTouchesBegan(MotionEvent event) {
         Log.e(TAG, "cc touch began..");
-        if (CommonUtil.isClicke(event, this, getChildByTag(SpriteConstant.SPRITE_TAG_CLOSE))) {
-            gameOver();
-        } else {
-            KittyJumpAction action = new KittyJumpAction();
-            KittyJumpStrategy kittyJumpStrategy = strategyManager
-                    .getKittyJumpStrategy(0, mKittySpirite.getPosition().x,
-                            mKittySpirite.getPosition().y,
-                            mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
-            action.setStrategy(kittyJumpStrategy);
-            mKittySpirite.run(action);
+        if (isStarted) {
+            if (CommonUtil.isClicke(event, this, getChildByTag(SpriteConstant.SPRITE_TAG_EXIT))) {
+                gameOver();
+            } else {
+                KittyJumpAction action = new KittyJumpAction();
+                KittyJumpStrategy kittyJumpStrategy = strategyManager.getKittyJumpStrategy(0,
+                        mKittySpirite.getPosition().x,
+                        mKittySpirite.getPosition().y,
+                        mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
+                action.setStrategy(kittyJumpStrategy);
+                mKittySpirite.run(action);
+            }
         }
         return super.ccTouchesBegan(event);
     }
-
 
     @Override
     public void onActionStart(Action action) {
@@ -165,10 +173,11 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         switch (action.type) {
             case Action.TYPE_COUNT_DOWN:
                 // 添加游戏结束按钮
-                CCSprite closeSprite = CCSprite.sprite("image/close.png");
-                closeSprite.setPosition(cgSize.width / 10 * 9, cgSize.height / 10 * 9);
-                closeSprite.setScale(0.5f);
-                addChild(closeSprite, 1, SpriteConstant.SPRITE_TAG_CLOSE);
+                mExitSprite = new ExitSprite("image/game_exit.png");
+                addChild(mExitSprite, 1, SpriteConstant.SPRITE_TAG_EXIT);
+
+                // 开始计算距离
+                mMileSprite.run(new MileAction());
 
                 //草坪开始移动
                 mCurrentLawnSprite.run(mCurrentLawnSprite.getAction());
@@ -183,17 +192,16 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 mKittySpirite.run(kittyWalkAction);
 
                 //开启任务调度检测边界
-                CCScheduler.sharedScheduler().schedule("checkBoundary", this, 0.005f,
+                CCScheduler.sharedScheduler().schedule("checkBoundary", this, 0.05f,
                         false);
+
+                isStarted = true;
                 break;
             case Action.TYPE_LAWN_MOVE:
 
                 break;
-
         }
-
     }
-
 
     public LawnSprite getNewLawnSprite(boolean defaultLawn) {
         LawnStrategy lawnStrategy = strategyManager.getLawnActionStrategy(defaultLawn);
@@ -264,6 +272,8 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     }
 
     private void gameOver() {
+        isStarted = false;
+        mMileSprite.stopRunMile();
         //完蛋去死吧,game over
         mCurrentLawnSprite.stopMove();
         if (mPrevLawnSprite != null) {

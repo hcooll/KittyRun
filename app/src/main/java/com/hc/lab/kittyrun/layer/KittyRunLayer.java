@@ -126,6 +126,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
         //生成下一个LawnSprite
         mLawnSpriteList.add(getNewLawnSprite(false));
+        mLawnSpriteList.add(getNewLawnSprite(false));
         addChild(mCurrentLawnSprite, 0);
 
     }
@@ -133,13 +134,18 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     @Override
     public boolean ccTouchesBegan(MotionEvent event) {
         Log.e(TAG, "cc touch began..");
-        KittyJumpAction action = new KittyJumpAction();
-        KittyJumpStrategy kittyJumpStrategy = strategyManager
-                .getKittyJumpStrategy(0, mKittySpirite.getPosition().x,
-                        mKittySpirite.getPosition().y,
-                        mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
-        action.setStrategy(kittyJumpStrategy);
-        mKittySpirite.run(action);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                KittyJumpAction action = new KittyJumpAction();
+
+                KittyJumpStrategy kittyJumpStrategy = strategyManager
+                        .getKittyJumpStrategy(0, mKittySpirite.getPosition(),
+                                mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
+                action.setStrategy(kittyJumpStrategy);
+                mKittySpirite.run(action);
+                break;
+        }
+
         return super.ccTouchesBegan(event);
     }
 
@@ -169,7 +175,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 mKittySpirite.run(kittyWalkAction);
 
                 //开启任务调度检测边界
-                CCScheduler.sharedScheduler().schedule("checkBoundary", this, 0.005f,
+                CCScheduler.sharedScheduler().schedule("checkBoundary", this, 0.05f,
                         false);
                 break;
             case Action.TYPE_LAWN_MOVE:
@@ -194,7 +200,9 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     }
 
     public void checkBoundary(float t) {
-        synchronized (mSceenPlay) {
+        synchronized (KittyRunLayer.class) {
+
+            Log.e(TAG, "check boundary..." + Thread.currentThread());
             //检测自身边界
             if (mCurrentLawnSprite.getPosition().x + mCurrentLawnSprite.getContentSize().width <= cgSize.width) {
                 //草坪走完了，就得搞下一个草坪滚动，同时生成下一个草坪入队
@@ -204,6 +212,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 addChild(mCurrentLawnSprite, 0);
                 mCurrentLawnSprite.run(mCurrentLawnSprite.getAction());
                 mLawnSpriteList.add(getNewLawnSprite(false));
+                Log.e(TAG, "boundary lawn sprite size" + mLawnSpriteList.size());
             }
 
             float currentLawnLeftX = mCurrentLawnSprite.getPosition().x;
@@ -229,21 +238,20 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 }
             }
 
-            float currentLawnHeight = mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height;
-            float kittyHeight = mKittySpirite.getPosition().y;
-            if (kittyHeight >= currentLawnHeight) {
-                Log.e(TAG, "kitty height=" + kittyHeight + ",curent lawn height=" + currentLawnHeight);
-                return;
-            }
 
             float prevLawnRightX2 = mPrevLawnSprite.getPosition().x + mPrevLawnSprite.getContentSize().width;
             float currentLawnLeftX2 = mCurrentLawnSprite.getPosition().x;
             float kittyPositionX3 = mKittySpirite.getPosition().x + mKittySpirite.getContentSize().width / 2;
             if (kittyPositionX3 > prevLawnRightX2 && kittyPositionX3 < currentLawnLeftX2) {
-                gameOver();
-            } else {
-                return;
+                float currentLawnHeight = mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height;
+                float prevLawnHeight = mPrevLawnSprite.getPosition().y + mPrevLawnSprite.getContentSize().height;
+                float kittyHeight = mKittySpirite.getPosition().y;
+                if (kittyHeight > currentLawnHeight && kittyHeight > prevLawnHeight) {
+                    Log.e(TAG, "kitty height=" + kittyHeight + ",curent lawn height=" + currentLawnHeight);
+                    return;
+                }
             }
+
             gameOver();
         }
 

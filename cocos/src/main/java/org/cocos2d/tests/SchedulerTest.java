@@ -124,7 +124,7 @@ public class SchedulerTest extends Activity {
 		public SchedulerTestLayer() {
 			super();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 24);
 			addChild(label);

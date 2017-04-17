@@ -43,9 +43,9 @@ public class CCParticleRain extends CCQuadParticleSystem {
 		angleVar = 5;
 
         // emitter position
-        setPosition(CGPoint.make(CCDirector.sharedDirector().winSize().width / 2,
-                CCDirector.sharedDirector().winSize().height));
-        posVar.x = CCDirector.sharedDirector().winSize().width / 2;
+        setPosition(CGPoint.make(CCDirector.sharedDirector().screenSize().width / 2,
+                CCDirector.sharedDirector().screenSize().height));
+        posVar.x = CCDirector.sharedDirector().screenSize().width / 2;
         posVar.y = 0;
 
         // life of particles

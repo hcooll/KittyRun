@@ -13,7 +13,6 @@ import com.hc.lab.kittyrun.monitor.Collision;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.nodes.CCSprite;
 import org.cocos2d.opengl.CCTexture2D;
-import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
 
@@ -25,7 +24,7 @@ public class ActionSprite extends CCSprite implements ActionRunnable, Collision 
     protected ActionStatusListener mActionListener;
     protected Action mAction;
     protected BaseLayer mLayer;
-    protected CGSize winSize;
+    protected CGSize screenSize;
 
     public ActionSprite(String filepath) {
         super(filepath);
@@ -53,7 +52,7 @@ public class ActionSprite extends CCSprite implements ActionRunnable, Collision 
     }
 
     private void initSprite() {
-        winSize = CCDirector.sharedDirector().winSize();
+        screenSize = CCDirector.sharedDirector().screenSize();
     }
 
     @Override

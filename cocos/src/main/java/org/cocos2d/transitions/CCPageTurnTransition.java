@@ -57,7 +57,7 @@ public class CCPageTurnTransition extends CCTransitionScene {
     public void onEnter() {
 	super.onEnter();
 
-	CGSize s = CCDirector.sharedDirector().winSize();
+	CGSize s = CCDirector.sharedDirector().screenSize();
 	int x,y;
 	if( s.width > s.height) {
 		x=16;

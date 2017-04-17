@@ -181,7 +181,7 @@ public class EaseActionsTest extends Activity {
             addChild(tamara, 1);
 
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             grossini.setPosition(CGPoint.make(60, 50));
             kathia.setPosition(CGPoint.make(60, 150));
@@ -238,7 +238,7 @@ public class EaseActionsTest extends Activity {
         public void onEnter() {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -284,7 +284,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
         //	IntervalAction move_back = move.reverse();
         
@@ -319,7 +319,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -351,7 +351,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -380,7 +380,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -412,7 +412,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -440,7 +440,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
         
             CCIntervalAction move_ease_inout1 = CCEaseElasticInOut.action(move.copy(), 0.3f);
@@ -473,7 +473,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -504,7 +504,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -536,7 +536,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -564,7 +564,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -595,7 +595,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCIntervalAction move = CCMoveBy.action(3, CGPoint.make(s.width-130,0));
             CCIntervalAction move_back = move.reverse();
         
@@ -624,7 +624,7 @@ public class EaseActionsTest extends Activity {
         {
             super.onEnter();
         
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             // rotate and jump
             CCIntervalAction jump1 = CCJumpBy.action(4, CGPoint.make(-s.width+80,0), 100, 4);
             CCIntervalAction jump2 = jump1.reverse();
@@ -772,7 +772,7 @@ public class EaseActionsTest extends Activity {
     {
     	[super onEnter];
     	
-    	CGSize s = [[CCDirector sharedDirector] winSize];
+    	CGSize s = [[CCDirector sharedDirector] screenSize];
     	
     	// rotate and jump
     	CCIntervalAction *jump1 = [CCJumpBy actionWithDuration:4 position:ccp(-s.width+80,0) height:100 jumps:4];

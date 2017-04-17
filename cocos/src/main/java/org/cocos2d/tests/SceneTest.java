@@ -112,8 +112,8 @@ public class SceneTest extends Activity {
 
             CCLabel label = CCLabel.makeLabel("Touch to pop scene", "DroidSans", 32);
             addChild(label);
-            float width = CCDirector.sharedDirector().winSize().width;
-            float height = CCDirector.sharedDirector().winSize().height;
+            float width = CCDirector.sharedDirector().screenSize().width;
+            float height = CCDirector.sharedDirector().screenSize().height;
             label.setPosition(CGPoint.make(width / 2, height / 2));
         }
 

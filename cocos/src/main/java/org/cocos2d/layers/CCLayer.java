@@ -122,7 +122,7 @@ public class CCLayer extends CCNode
     	else
     		accelerometer = null;
     	
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
         setRelativeAnchorPoint(false);
 
         setAnchorPoint(CGPoint.make(0.5f, 0.5f));

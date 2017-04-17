@@ -38,7 +38,7 @@ public class CCColorLayer extends CCLayer
 
     /** creates a CCLayer with color. Width and height are the window size. */
     public static CCColorLayer node(ccColor4B color) {
-        CGSize size = CCDirector.sharedDirector().winSize();
+        CGSize size = CCDirector.sharedDirector().screenSize();
         return new CCColorLayer(color, size.width, size.height);
     }
 
@@ -49,7 +49,7 @@ public class CCColorLayer extends CCLayer
 
     /** initializes a CCLayer with color. Width and height are the window size. */
     protected CCColorLayer(ccColor4B color) {
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
         init(color, s.width, s.height);
     }
 

@@ -40,7 +40,7 @@ public class CCRadialCCWTransition extends CCTransitionScene {
 		super.onEnter();
 		// create a transparent color layer
 		// in which we are going to add our rendertextures
-		CGSize size = CCDirector.sharedDirector().winSize();
+		CGSize size = CCDirector.sharedDirector().screenSize();
 
 		// create the second render texture for outScene
 		CCRenderTexture outTexture = CCRenderTexture.renderTexture((int)size.width, (int)size.height);

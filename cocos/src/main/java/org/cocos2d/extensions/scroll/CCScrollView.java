@@ -310,7 +310,7 @@ public class CCScrollView extends CCLayer{
 	 */
 //	public void beforeDraw(GL10 gl) {
 //	    if (clipsToBounds) {
-//	    	CGSize size = CCDirector.sharedDirector().winSize();
+//	    	CGSize size = CCDirector.sharedDirector().screenSize();
 //	    	gl.glEnable(GL10.GL_SCISSOR_TEST);            
 //	        CGPoint pos = getPosition();
 //			pos = getParent().convertToWorldSpace(pos.x, pos.y);

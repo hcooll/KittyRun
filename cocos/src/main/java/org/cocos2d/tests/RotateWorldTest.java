@@ -42,7 +42,7 @@ public class RotateWorldTest extends Activity {
         public SpriteLayer() {
             float x, y;
 
-            CGSize size = CCDirector.sharedDirector().winSize();
+            CGSize size = CCDirector.sharedDirector().screenSize();
             x = size.width;
             y = size.height;
 
@@ -85,7 +85,7 @@ public class RotateWorldTest extends Activity {
         public MainLayer() {
             float x, y;
 
-            CGSize size = CCDirector.sharedDirector().winSize();
+            CGSize size = CCDirector.sharedDirector().screenSize();
             x = size.width;
             y = size.height;
 

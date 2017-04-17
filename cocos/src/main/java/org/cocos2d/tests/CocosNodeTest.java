@@ -159,7 +159,7 @@ public class CocosNodeTest extends Activity {
 		public TestDemo() {
 			super();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 32);
 			addChild(label);
@@ -216,7 +216,7 @@ public class CocosNodeTest extends Activity {
 		public void onEnter() {
 			super.onEnter();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			CCSprite sp1 = CCSprite.sprite("grossinis_sister1.png");
 			CCSprite sp2 = CCSprite.sprite("grossinis_sister2.png");
@@ -387,7 +387,7 @@ public class CocosNodeTest extends Activity {
 		public StressTest1() {
 			super();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			CCSprite sp1 = CCSprite.sprite("grossinis_sister1.png");
 			addChild(sp1, 0, kTagSprite1);
@@ -400,7 +400,7 @@ public class CocosNodeTest extends Activity {
 		public void shouldNotCrash(float delta) {
 			unschedule("shouldNotCrash");
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			// if the node has timers, it crashes
 			CCNode explosion = CCParticleSun.node();
@@ -438,7 +438,7 @@ public class CocosNodeTest extends Activity {
 
 			super();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			CCLayer sublayer = CCLayer.node();
 
@@ -560,7 +560,7 @@ public class CocosNodeTest extends Activity {
         public CameraOrbitTest() {
             super();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCSprite p = CCSprite.sprite("background3.png");
             addChild(p, 0);
@@ -620,7 +620,7 @@ public class CocosNodeTest extends Activity {
         public CameraZoomTest() {
             super();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCSprite sprite = null;
             CCCamera cam = null;
@@ -683,7 +683,7 @@ public class CocosNodeTest extends Activity {
         public CameraCenterTest() {
             super();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCSprite sprite = null;
             CCOrbitCamera orbit = null;

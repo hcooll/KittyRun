@@ -119,7 +119,7 @@ public class DrawPrimitivesTest extends Activity {
 
     public static class TestDemo extends CCLayer {
         public TestDemo() {
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCMenuItemImage item1 = CCMenuItemImage.item("b1.png", "b2.png", this, "backCallback");
             CCMenuItemImage item2 = CCMenuItemImage.item("r1.png", "r2.png", this, "restartCallback");
@@ -197,7 +197,7 @@ public class DrawPrimitivesTest extends Activity {
         //    this.rotation = 90;
         //
         public void draw(GL10 gl) {
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
 
             // draw a simple line

@@ -52,7 +52,7 @@ public class CCSlideInLTransition extends CCTransitionScene implements CCTransit
      * initializes the scenes
      */
     protected void initScenes() {
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
         inScene.setPosition(-(s.width-ADJUST_FACTOR), 0);
     }
 
@@ -60,7 +60,7 @@ public class CCSlideInLTransition extends CCTransitionScene implements CCTransit
      * returns the action that will be performed
      */
     protected CCIntervalAction action() {
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
         return CCMoveBy.action(duration, CGPoint.make(s.width-ADJUST_FACTOR,0));
     }
 

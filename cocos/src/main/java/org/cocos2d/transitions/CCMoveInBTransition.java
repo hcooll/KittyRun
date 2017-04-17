@@ -22,7 +22,7 @@ public class CCMoveInBTransition extends CCMoveInLTransition {
      * initializes the scenes
      */
     protected void initScenes() {
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
         inScene.setPosition(0, -s.height);
     }
 }

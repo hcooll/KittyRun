@@ -22,6 +22,6 @@ public class CCMoveInTTransition extends CCMoveInLTransition {
      */
     @Override
     protected void initScenes() {
-        inScene.setPosition(0, CCDirector.sharedDirector().winSize().height);
+        inScene.setPosition(0, CCDirector.sharedDirector().screenSize().height);
     }
 }

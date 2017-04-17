@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/KittyRun.iml" filepath="$PROJECT_DIR$/KittyRun.iml" />
-      <module fileurl="file://$PROJECT_DIR$/KittyRun.iml" filepath="$PROJECT_DIR$/KittyRun.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cocos/cocos.iml" filepath="$PROJECT_DIR$/cocos/cocos.iml" />
       <module fileurl="file://$PROJECT_DIR$/cocos/cocos.iml" filepath="$PROJECT_DIR$/cocos/cocos.iml" />
     </modules>
   </component>

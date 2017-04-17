@@ -126,7 +126,7 @@ public class ParallaxTest extends Activity {
         static final int kTagGrossini = 2;
 
         public ParallaxDemo() {
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 18);
             label.setPosition(CGPoint.make(s.width / 2, s.height - 30));

@@ -4,7 +4,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.nodes.CCDirector;
-import org.cocos2d.nodes.CCNode;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
@@ -22,7 +21,7 @@ public class CCClipNode extends CCLayer {
 	static CGRect rect = CGRect.zero();
 	
 	private /*CGRect*/ void clipRectFromRect(){
-		CGSize size = CCDirector.sharedDirector().winSize();
+		CGSize size = CCDirector.sharedDirector().screenSize();
 		
 //		CGPoint pos = _clippedRect.origin;
 		pos.set(_clippedRect.origin);

@@ -69,7 +69,7 @@ public class CCMenu extends CCLayer {
         isTouchEnabled_ = true;
 
         // menu in the center of the screen
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
 
         setRelativeAnchorPoint(false);
         setAnchorPoint(0.5f, 0.5f);
@@ -262,7 +262,7 @@ public class CCMenu extends CCLayer {
 
         assert columnsOccupied != 0 : "Too many rows/columns for available menu items.";
 
-        CGSize winSize = CCDirector.sharedDirector().winSize();
+        CGSize winSize = CCDirector.sharedDirector().screenSize();
 
         row = 0;
         rowHeight = 0;
@@ -332,7 +332,7 @@ public class CCMenu extends CCLayer {
 
         assert rowsOccupied != 0 : "Too many rows/columns for available menu items.";
 
-        CGSize winSize = CCDirector.sharedDirector().winSize();
+        CGSize winSize = CCDirector.sharedDirector().screenSize();
 
         column = 0;
         columnWidth = 0;

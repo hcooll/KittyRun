@@ -166,7 +166,7 @@ public class AtlasTest extends Activity {
 
         public AtlasDemo() {
 
-        	CGSize s = CCDirector.sharedDirector().winSize();
+        	CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 32);
             addChild(label, 1);
@@ -227,7 +227,7 @@ public class AtlasTest extends Activity {
         	super();
         	
             textureAtlas = new CCTextureAtlas("atlastest.png", 3);
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             ccQuad2 texCoords[] = new ccQuad2[]{
                     new ccQuad2(0.0f,1.0f, 1.0f,1.0f, 0.0f,0.0f, 1.0f,0.0f),
@@ -424,7 +424,7 @@ public class AtlasTest extends Activity {
             addChild(label3, 0, kTagBitmapAtlas3);
 
 
-            CGSize s = CCDirector.sharedDirector().winSize();	
+            CGSize s = CCDirector.sharedDirector().screenSize();
             label1.setPosition(CGPoint.ccp(0,0));
             label2.setPosition(CGPoint.ccp( s.width/2, s.height/2));
             label3.setPosition(CGPoint.ccp( s.width, s.height));
@@ -480,7 +480,7 @@ public class AtlasTest extends Activity {
             CCBitmapFontAtlas label = CCBitmapFontAtlas.bitmapFontAtlas("Bitmap Font Atlas", "bitmapFontTest.fnt");
             addChild(label);
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             label.setPosition(CGPoint.ccp(s.width/2, s.height/2));
             label.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
@@ -531,7 +531,7 @@ public class AtlasTest extends Activity {
         }
 
         public void draw(GL10 gl) {
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCDrawingPrimitives.ccDrawLine(gl, CGPoint.ccp(0, s.height/2), CGPoint.ccp(s.width, s.height/2) );
             CCDrawingPrimitives.ccDrawLine(gl, CGPoint.ccp(s.width/2, 0), CGPoint.ccp(s.width/2, s.height) );
         }
@@ -571,7 +571,7 @@ public class AtlasTest extends Activity {
             CCBitmapFontAtlas label = CCBitmapFontAtlas.bitmapFontAtlas("abcdefg", "bitmapFontTest4.fnt");
             addChild(label);
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             label.setPosition(CGPoint.ccp(s.width/2, s.height/2));
             label.setAnchorPoint(CGPoint.ccp(0.5f, 0.5f));
@@ -599,7 +599,7 @@ public class AtlasTest extends Activity {
         public Atlas6() {
             super();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             CCBitmapFontAtlas label = null;
             label = CCBitmapFontAtlas.bitmapFontAtlas("FaFeFiFoFu", "bitmapFontTest5.fnt");
             addChild(label);
@@ -639,7 +639,7 @@ public class AtlasTest extends Activity {
         public AtlasBitmapColor() {
             super();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCBitmapFontAtlas label = null;
             label = CCBitmapFontAtlas.bitmapFontAtlas("Blue", "bitmapFontTest5.fnt");
@@ -689,7 +689,7 @@ public class AtlasTest extends Activity {
                         String.format("-%d-",i), "bitmapFontTest.fnt");
                 addChild(label);
 
-                CGSize s = CCDirector.sharedDirector().winSize();
+                CGSize s = CCDirector.sharedDirector().screenSize();
 
                 CGPoint p = CGPoint.ccp( ccMacros.CCRANDOM_0_1() * s.width, ccMacros.CCRANDOM_0_1() * s.height);
                 label.setPosition(p);

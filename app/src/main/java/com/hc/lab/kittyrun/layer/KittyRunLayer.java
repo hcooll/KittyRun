@@ -24,10 +24,14 @@ import com.hc.lab.kittyrun.sprite.TrapSprite;
 import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.strategy.LawnStrategy;
 import com.hc.lab.kittyrun.strategy.StrategyManager;
+import com.hc.lab.kittyrun.util.CommonUtil;
 
 import org.cocos2d.actions.CCScheduler;
+import org.cocos2d.nodes.CCSprite;
 
 import java.util.LinkedList;
+
+import static android.R.attr.action;
 
 /**
  * Created by congwiny on 2017/4/14.
@@ -133,13 +137,17 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     @Override
     public boolean ccTouchesBegan(MotionEvent event) {
         Log.e(TAG, "cc touch began..");
-        KittyJumpAction action = new KittyJumpAction();
-        KittyJumpStrategy kittyJumpStrategy = strategyManager
-                .getKittyJumpStrategy(0, mKittySpirite.getPosition().x,
-                        mKittySpirite.getPosition().y,
-                        mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
-        action.setStrategy(kittyJumpStrategy);
-        mKittySpirite.run(action);
+        if (CommonUtil.isClicke(event, this, getChildByTag(SpriteConstant.SPRITE_TAG_CLOSE))) {
+            gameOver();
+        } else {
+            KittyJumpAction action = new KittyJumpAction();
+            KittyJumpStrategy kittyJumpStrategy = strategyManager
+                    .getKittyJumpStrategy(0, mKittySpirite.getPosition().x,
+                            mKittySpirite.getPosition().y,
+                            mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
+            action.setStrategy(kittyJumpStrategy);
+            mKittySpirite.run(action);
+        }
         return super.ccTouchesBegan(event);
     }
 
@@ -156,6 +164,12 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         }
         switch (action.type) {
             case Action.TYPE_COUNT_DOWN:
+                // 添加游戏结束按钮
+                CCSprite closeSprite = CCSprite.sprite("image/close.png");
+                closeSprite.setPosition(cgSize.width / 10 * 9, cgSize.height / 10 * 9);
+                closeSprite.setScale(0.5f);
+                addChild(closeSprite, 1, SpriteConstant.SPRITE_TAG_CLOSE);
+
                 //草坪开始移动
                 mCurrentLawnSprite.run(mCurrentLawnSprite.getAction());
 
@@ -252,7 +266,9 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private void gameOver() {
         //完蛋去死吧,game over
         mCurrentLawnSprite.stopMove();
-        mPrevLawnSprite.stopMove();
+        if (mPrevLawnSprite != null) {
+            mPrevLawnSprite.stopMove();
+        }
         Log.e(TAG, "完蛋去死吧...");
         mKittySpirite.fallDown();
         unschedule("checkBoundary");

@@ -118,7 +118,7 @@ public abstract class CCGridBase {
 			
 			@Override
 			public void load(Resource res) {
-		    	CGSize s = CCDirector.sharedDirector().winSize();
+		    	CGSize s = CCDirector.sharedDirector().screenSize();
 
 		    	int textureSize = 8;
 		    	while (textureSize < s.width || textureSize < s.height)
@@ -147,7 +147,7 @@ public abstract class CCGridBase {
     public void applyLandscape(GL10 gl) {
     	CCDirector director = CCDirector.sharedDirector();
         boolean landscape = director.getLandscape();
-        CGSize winSize = director.winSize();
+        CGSize winSize = director.screenSize();
         float w = winSize.width / 2;
      	float h = winSize.height / 2;
      	
@@ -159,7 +159,7 @@ public abstract class CCGridBase {
     }
 
     public void set2DProjection(GL10 gl) {
-        CGSize winSize = CCDirector.sharedDirector().winSize();
+        CGSize winSize = CCDirector.sharedDirector().screenSize();
 
         gl.glLoadIdentity();
         gl.glViewport(0, 0, (int) winSize.width, (int) winSize.height);

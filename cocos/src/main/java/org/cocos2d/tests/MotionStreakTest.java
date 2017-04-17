@@ -125,7 +125,7 @@ public class MotionStreakTest extends Activity {
 
     static class MotionStreakTestLayer extends CCLayer {
         public MotionStreakTestLayer() {
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 18);
             addChild(label, kTagLabel);
@@ -179,7 +179,7 @@ public class MotionStreakTest extends Activity {
         public void onEnter() {
             super.onEnter();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             // the root object just rotates around
             root = CCSprite.sprite("r1.png");
@@ -237,7 +237,7 @@ public class MotionStreakTest extends Activity {
 
             setIsTouchEnabled(true);
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             // create the streak object and add it to the scene
             streak = new CCMotionStreak(3, 3, "streak.png", 64, 32, new ccColor4B(255,255,255,255));

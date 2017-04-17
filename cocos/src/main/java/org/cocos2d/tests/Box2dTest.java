@@ -144,7 +144,7 @@ public class Box2dTest extends Activity {
             this.setIsTouchEnabled(true);
         	this.setIsAccelerometerEnabled(true);
             
-        	CGSize s = CCDirector.sharedDirector().winSize();
+        	CGSize s = CCDirector.sharedDirector().screenSize();
 
       		// Define the gravity vector.
         	Vector2 gravity = new Vector2(9.8f, -9.8f);

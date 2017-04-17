@@ -159,7 +159,7 @@ public class EffectsAdvancedTest extends Activity {
 
 			float x,y;
 
-			CGSize size = CCDirector.sharedDirector().winSize();
+			CGSize size = CCDirector.sharedDirector().screenSize();
 			x = size.width;
 			y = size.height;
 
@@ -247,7 +247,7 @@ public class EffectsAdvancedTest extends Activity {
 			//     Lens3D is Grid3D and it's size is (15,10)
 			//     Waves3D is Grid3D and it's size is (15,10)
 
-			CGSize size = CCDirector.sharedDirector().winSize();
+			CGSize size = CCDirector.sharedDirector().screenSize();
 			CCIntervalAction lens = CCLens3D.action(CGPoint.ccp(size.width/2,size.height/2), 240, ccGridSize.ccg(15,10), 0.0f);
 			CCIntervalAction waves = CCWaves3D.action(18, 15, ccGridSize.ccg(15,10), 10);
 

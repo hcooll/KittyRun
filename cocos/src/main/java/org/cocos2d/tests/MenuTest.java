@@ -153,7 +153,7 @@ public class MenuTest extends Activity {
             menu.alignItemsVertically();
 
             // elastic effect
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             int i=0;
             for (CCNode child : menu.getChildren()) {
                 final CGPoint dstPoint = child.getPositionRef();
@@ -313,7 +313,7 @@ public class MenuTest extends Activity {
             CCMenu menu = CCMenu.menu(item1, item2, item3);	
             menu.setPosition(0,0);
             
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
             
             item1.setPosition(s.width/2 - 150, s.height/2);
             item2.setPosition(s.width/2 - 200, s.height/2);

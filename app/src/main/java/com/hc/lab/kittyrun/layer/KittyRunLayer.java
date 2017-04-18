@@ -150,7 +150,8 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                     replayGame();
                 } else if (isGameStarted) {
                     KittyJumpAction action = new KittyJumpAction();
-                    KittyJumpStrategy kittyJumpStrategy = mStrategyManager.getKittyJumpStrategy(mMileSprite.getMiles(), mKittySpirite, mCurrentLawnSprite);
+                    KittyJumpStrategy kittyJumpStrategy = mStrategyManager.getKittyJumpStrategy(
+                            mMileSprite.getMiles(), mKittySpirite, mPrevLawnSprite, mCurrentLawnSprite);
                     action.setStrategy(kittyJumpStrategy);
                     mKittySpirite.run(action);
                 }
@@ -234,7 +235,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
             CGPoint kittyPoint = mKittySpirite.getPosition();
             CGSize kittySize = mKittySpirite.getContentSize();
             float kittyHeight = kittyPoint.y;
-            float kittyPositionX = kittyPoint.x + kittySize.width / 2;
+            float kittyLeftCheckX = kittyPoint.x + kittySize.width / 3;
             float kittyRightX = kittyPoint.x + kittySize.width;
 
             CGPoint curLawnPoint = mCurrentLawnSprite.getPosition();
@@ -242,9 +243,17 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
             float currentLawnHeight = curLawnPoint.y + curLawnSize.height;
             float currentLawnLeftX = curLawnPoint.x;
             float currentLawnRightX = curLawnPoint.x + curLawnSize.width;
+
+            Log.e(TAG, "kittyHeight=" + kittyHeight
+                    + ",kittyLeftCheckX=" + kittyLeftCheckX
+                    + ",kittyRightX=" + kittyRightX
+                    + ",currentLawnHeight=" + currentLawnHeight
+                    + ",currentLawnLeftX=" + currentLawnLeftX
+                    + ",currentLawnRightX=" + currentLawnRightX);
+
             // 检测区域1
-            if (kittyPositionX >= currentLawnLeftX
-                    && kittyPositionX <= currentLawnRightX
+            if (kittyRightX >= currentLawnLeftX
+                    && kittyLeftCheckX <= currentLawnRightX
                     && kittyHeight >= currentLawnHeight) {
                 // ok
                 // Log.e(TAG, "okokok111 kittyPositionX" + kittyPositionX +
@@ -258,8 +267,8 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 float prevLawnRightX = preLawnPoint.x + preLawnSize.width;
                 float prevLawnHeight = preLawnPoint.y + preLawnSize.height;
                 // 检测区域2
-                if (kittyPositionX >= prevLawnLeftX
-                        && kittyPositionX <= prevLawnRightX
+                if (kittyRightX >= prevLawnLeftX
+                        && kittyLeftCheckX <= prevLawnRightX
                         && kittyHeight >= prevLawnHeight) {
                     // ok
                     // Log.e(TAG, "okokok222 kittyPositionX2: " + kittyPositionX +
@@ -272,7 +281,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
             // 检测区域3
             if (mKittySpirite.isUp(kittyHeight)
                     || (mKittySpirite.isFlying() && kittyHeight >= currentLawnHeight)) {
-                Log.e(TAG, "小人在往上跳，或者小人的高度在地面之上  height=" + kittyHeight + ",curent lawn height=" + currentLawnHeight);
+                //Log.e(TAG, "小人在往上跳，或者小人的高度在地面之上  height=" + kittyHeight + ",curent lawn height=" + currentLawnHeight);
                 return;
             }
 

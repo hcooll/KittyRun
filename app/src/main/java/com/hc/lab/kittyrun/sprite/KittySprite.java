@@ -66,12 +66,10 @@ public class KittySprite extends ActionSprite {
             isFlying = true;
             this.stopAllActions();
             float duration = strategy.duration;
-            //CCJumpTo ccJumpTo = CCJumpTo.action(duration, strategy.toPosition, strategy.jumpHeight, 1);
-            CCMoveTo ccMoveToUp = CCMoveTo.action(strategy.uPduration, CGPoint.ccp(position_.x, position_.y + strategy.jumpHeight));
-            CCMoveTo ccMoveToDown = CCMoveTo.action(strategy.downDuration, strategy.toPosition);
-            CCSequence ccSequence = CCSequence.actions(ccMoveToUp, ccMoveToDown, CCCallFunc.action(this, "endJump"));
+            CCJumpTo ccJumpTo = CCJumpTo.action(duration, strategy.toPosition, strategy.jumpHeight, 1);
+            CCSequence ccSequence = CCSequence.actions(ccJumpTo, CCCallFunc.action(this, "endJump"));
             this.runAction(ccSequence);
-            this.runAction(CommonUtil.getAnimation(null, 1, 3, "image/kitty/fly000%01d.png", duration / 3));
+            this.runAction(CommonUtil.getAnimation(null, 1, 3, "image/kitty/fly000%01d.png", duration / 4));
         }
     }
 
@@ -106,7 +104,6 @@ public class KittySprite extends ActionSprite {
     public boolean isUp(float curPosY) {
         boolean isUp = prePoxY < curPosY;
         prePoxY = curPosY;
-        Log.e("", "往上跳: " + isUp);
         return isUp;
     }
 }

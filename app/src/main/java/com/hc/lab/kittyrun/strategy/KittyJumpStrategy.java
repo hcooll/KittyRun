@@ -8,8 +8,6 @@ import org.cocos2d.types.CGPoint;
 
 public class KittyJumpStrategy extends Strategy {
     public float duration;
-    public float uPduration; // 向上跳的时间
-    public float downDuration;// 下降的时间
     public float jumpHeight;
     public CGPoint toPosition;
 
@@ -17,8 +15,6 @@ public class KittyJumpStrategy extends Strategy {
     public String toString() {
         return "KittyJumpStrategy{" +
                 "duration=" + duration +
-                "uPduration=" + uPduration +
-                "downDuration=" + downDuration +
                 ", jumpHeight=" + jumpHeight +
                 ", toPosition.x=" + toPosition.x +
                 ", toPosition.y=" + toPosition.y +

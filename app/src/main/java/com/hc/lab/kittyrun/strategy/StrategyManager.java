@@ -62,21 +62,21 @@ public class StrategyManager {
         return strategyManager;
     }
 
-    public void initStrategyMode(){
+    public void initStrategyMode() {
         this.strategyMode = MODE_EASY;
     }
 
     public LawnStrategy getLawnActionStrategy(boolean isDefalut) {
         LawnStrategy lawnStrategy = new LawnStrategy();
         if (isDefalut) {
-            lawnStrategy.lawnPic = getLawnImagePic(strategyMode,LAWN_WIDTH_DEGREE_SHORT, LAWN_HEIGHT_DEGREE_MEDIUM);
+            lawnStrategy.lawnPic = getLawnImagePic(strategyMode, LAWN_WIDTH_DEGREE_SHORT, LAWN_HEIGHT_DEGREE_MEDIUM);
             lawnStrategy.speed = DataConstant.LAWN_MOVE_VELOCITY;// 模拟值，以后可以计算
             lawnStrategy.anchor = CGPoint.ccp(0, 0.0f);
             lawnStrategy.position = CGPoint.ccp(DataConstant.WIDTH / 6, getLawnHeight(LAWN_HEIGHT_DEGREE_MEDIUM));
         } else {
             int widthDegree = mRandom.nextInt(2) + 1;
             int hightDegree = mRandom.nextInt(3) + 1;
-            lawnStrategy.lawnPic = getLawnImagePic(strategyMode,widthDegree, hightDegree);
+            lawnStrategy.lawnPic = getLawnImagePic(strategyMode, widthDegree, hightDegree);
             lawnStrategy.speed = DataConstant.LAWN_MOVE_VELOCITY;// 模拟值，以后可以计算
             lawnStrategy.anchor = CGPoint.ccp(0f, 0.0f);
             lawnStrategy.position = CGPoint.ccp(DataConstant.WIDTH + getLawnGap(strategyMode), getLawnHeight(hightDegree));
@@ -97,7 +97,7 @@ public class StrategyManager {
         return DataConstant.GAP_WIDTH;
     }
 
-    private String getLawnImagePic(int strategyMode,int widthDegree, int hightDegree) {
+    private String getLawnImagePic(int strategyMode, int widthDegree, int hightDegree) {
         switch (strategyMode) {
             case MODE_EASY:
                 if (widthDegree == LAWN_WIDTH_DEGREE_SHORT) {
@@ -169,43 +169,39 @@ public class StrategyManager {
         return 0;
     }
 
-    public KittyJumpStrategy getKittyJumpStrategy(long miles, KittySprite kittySprite, LawnSprite lawnSprite) {
+    public KittyJumpStrategy getKittyJumpStrategy(long miles, KittySprite kittySprite, LawnSprite preLawnSprite, LawnSprite curLawnSprite) {
         KittyJumpStrategy kittyJumpStrategy = new KittyJumpStrategy();
         int index = mRandom.nextInt(2);
         kittyJumpStrategy.jumpHeight = KITTY_JUMP_HEIGHT[index];
 
         CGPoint kittyPosition = kittySprite.getPosition();
         CGSize kittySize = kittySprite.getContentSize();
-        CGPoint lawnPosition = lawnSprite.getPosition();
-        CGSize lawnSize = lawnSprite.getContentSize();
+        CGPoint curLawnPosition = curLawnSprite.getPosition();
+        CGSize curLawnSize = curLawnSprite.getContentSize();
 
-        // 小人跳的最高点没有草坪高
-        if (kittyPosition.y + kittyJumpStrategy.jumpHeight < lawnPosition.y + lawnSize.height) {
-            Log.e("", "跳到当前的位置");
-            kittyJumpStrategy.duration = PhysicsUtils.getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyPosition.y, kittyPosition.y);
-            kittyJumpStrategy.uPduration = kittyJumpStrategy.duration / 2;
-            kittyJumpStrategy.downDuration = kittyJumpStrategy.duration / 2;
+        Log.e("getKittyJumpStrategy", "kittyHeight=" + kittyPosition.y
+                + ",kittyLeftX=" + kittyPosition.x
+                + ",kittyRightX=" + (kittyPosition.x + kittySize.width)
+                + ",currentLawnHeight=" + (curLawnPosition.y + curLawnSize.height)
+                + ",currentLawnLeftX=" + curLawnPosition.x
+                + ",currentLawnRightX=" + (curLawnPosition.x + curLawnSize.width));
+
+        float duration = PhysicsUtils.getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyPosition.y, kittyPosition.y);// 跳到当前位置需要的时间
+        float lawnMoveDis = DataConstant.LAWN_MOVE_VELOCITY * duration; // 草坪移动的距离
+        // 小人跳不过脚下的地面，或者小人跳的最高点没有下一个草坪高
+        if ((preLawnSprite != null
+                && lawnMoveDis < ((preLawnSprite.getPosition().x + preLawnSprite.getContentSize().width) - (kittyPosition.x + kittySize.width / 3)))
+                || (kittyPosition.y + kittyJumpStrategy.jumpHeight) < (curLawnPosition.y + curLawnSize.height)) {
+            Log.e("getKittyJumpStrategy", "跳到当前的位置");
+            kittyJumpStrategy.duration = duration;
             kittyJumpStrategy.toPosition = CGPoint.ccp(kittyPosition.x, kittyPosition.y);
             return kittyJumpStrategy;
-        }
-
-        // 通过计算小人跳跃的时间、地面移动的速度，判断小人能否跳到下一个草坪(不考虑小人会撞到地面上的情况)
-        float duration = PhysicsUtils.getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyPosition.y, lawnPosition.y + lawnSize.height);
-        if (DataConstant.LAWN_MOVE_VELOCITY * duration >= (lawnPosition.x - (kittyPosition.x + kittySize.width / 2))) {
-            Log.e("", "可以跳到下一个草坪");
-            // 小人可以跳到下一个草坪
-            kittyJumpStrategy.duration = duration;
-            kittyJumpStrategy.uPduration = kittyJumpStrategy.jumpHeight / DataConstant.KITTY_JUMP_VELOCITY;
-            kittyJumpStrategy.downDuration = duration - kittyJumpStrategy.uPduration;
-            kittyJumpStrategy.toPosition = CGPoint.ccp(kittyPosition.x, lawnPosition.y + lawnSize.height);
         } else {
-            Log.e("", "跳到当前的位置");
-            kittyJumpStrategy.duration = PhysicsUtils.getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyPosition.y, kittyPosition.y);
-            kittyJumpStrategy.uPduration = kittyJumpStrategy.duration / 2;
-            kittyJumpStrategy.downDuration = kittyJumpStrategy.duration / 2;
-            kittyJumpStrategy.toPosition = CGPoint.ccp(kittyPosition.x, kittyPosition.y);
+            Log.e("getKittyJumpStrategy", "跳到下一个草坪");
+            kittyJumpStrategy.duration = PhysicsUtils.getKittyJumpTime(kittyJumpStrategy.jumpHeight, kittyPosition.y, curLawnPosition.y + curLawnSize.height);
+            kittyJumpStrategy.toPosition = CGPoint.ccp(kittyPosition.x, curLawnPosition.y + curLawnSize.height);
         }
-        Log.e("", "小人的跳跃策略 getKittyJumpStrategy : " + kittyJumpStrategy);
+        Log.e("getKittyJumpStrategy", "小人的跳跃策略 getKittyJumpStrategy : " + kittyJumpStrategy);
         return kittyJumpStrategy;
     }
 
@@ -217,6 +213,6 @@ public class StrategyManager {
         } else {
             this.strategyMode = MODE_DIFFICULT;
         }
-        Log.e("", "setStrategyMode miles: " + miles +" strategyMode: "+this.strategyMode);
+        Log.e("", "setStrategyMode miles: " + miles + " strategyMode: " + this.strategyMode);
     }
 }

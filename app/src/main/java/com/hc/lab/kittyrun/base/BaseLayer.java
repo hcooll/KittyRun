@@ -20,7 +20,7 @@ public abstract class BaseLayer extends CCLayer {
 	}
 
 	public BaseLayer(){
-		cgSize = CCDirector.sharedDirector().winSize();
+		cgSize = CCDirector.sharedDirector().screenSize();
 	}
 
 	/**

@@ -20,7 +20,7 @@ public class CCFloatingMsg extends CCNode {
 		// TODO Auto-generated constructor stub
 	  CCScene scene = CCDirector.sharedDirector().getRunningScene();
 	  
-	  CGSize wSize = CCDirector.sharedDirector().winSize();
+	  CGSize wSize = CCDirector.sharedDirector().screenSize();
 	  
 	  lbl = CCLabel.makeLabel(msg, "Arial", size);
 	  lbl.setColor(color);

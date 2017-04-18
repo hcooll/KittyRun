@@ -43,8 +43,8 @@ public class ScrollTableViewMenu extends CCLayer implements CCTableViewDelegate,
 	//    
 //	    addChild(clipping);
 	    
-	    CGSize winSize = CCDirector.sharedDirector().winSize();
-	    tableView_ = CCTableView.view(this, CGSize.make(77, 300));//winSize.width, 57));
+	    CGSize winSize = CCDirector.sharedDirector().screenSize();
+	    tableView_ = CCTableView.view(this, CGSize.make(77, 300));//screenSize.width, 57));
 	    tableView_.tDelegate = this;
 	    tableView_.dataSource = this;
 //	    tableView_.setClipsToBounds(true);

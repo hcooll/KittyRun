@@ -182,7 +182,7 @@ public class TileMapTest extends Activity {
 
             this.setIsTouchEnabled(true);
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 24);
             addChild(label, 1);

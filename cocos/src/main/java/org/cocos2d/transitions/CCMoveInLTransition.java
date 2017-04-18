@@ -53,7 +53,7 @@ public class CCMoveInLTransition extends CCTransitionScene implements CCTransiti
      * initializes the scenes
      */
     protected void initScenes() {
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
         inScene.setPosition(-s.width, 0);
     }
 }

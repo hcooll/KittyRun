@@ -60,7 +60,7 @@ public class CCFollow extends CCAction {
 		boundarySet = false;
 		boundaryFullyCovered = false;
 
-		CGSize winSize = CCDirector.sharedDirector().winSize();
+		CGSize winSize = CCDirector.sharedDirector().screenSize();
 		fullScreenSize = CGPoint.make(winSize.width, winSize.height);
 		halfScreenSize = CGPoint.ccpMult(fullScreenSize, .5f);
 	}
@@ -73,7 +73,7 @@ public class CCFollow extends CCAction {
 		boundarySet = true;
 		boundaryFullyCovered = false;
 		
-		CGSize winSize = CCDirector.sharedDirector().winSize();
+		CGSize winSize = CCDirector.sharedDirector().screenSize();
 		fullScreenSize = CGPoint.make(winSize.width, winSize.height);
 		halfScreenSize = CGPoint.ccpMult(fullScreenSize, .5f);
 		

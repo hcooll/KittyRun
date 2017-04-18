@@ -41,7 +41,7 @@ public class CCParticleSmoke extends CCQuadParticleSystem {
 		angleVar = 5;
 		
 		// emitter position
-		CGSize winSize = CCDirector.sharedDirector().winSize();
+		CGSize winSize = CCDirector.sharedDirector().screenSize();
 		setPosition(CGPoint.ccp(winSize.width/2, 0));
 		posVar = CGPoint.ccp(20, 0);
 		

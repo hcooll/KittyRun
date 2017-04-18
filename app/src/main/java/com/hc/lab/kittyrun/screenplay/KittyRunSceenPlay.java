@@ -1,15 +1,12 @@
 package com.hc.lab.kittyrun.screenplay;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.hc.lab.kittyrun.KittyRunDirector;
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.action.CountDownAction;
 import com.hc.lab.kittyrun.constant.PreferenceConstant;
 import com.hc.lab.kittyrun.util.PreferenceUtils;
-
-import java.util.LinkedList;
 
 /**
  * Created by congwiny on 2017/4/14.
@@ -35,7 +32,14 @@ public class KittyRunSceenPlay extends ScreenPlay {
     public void beginAction() {
         boolean isFirstGuide = mPref.getPrefBoolean(PreferenceConstant.PREF_KEY_IS_GUIDE, false);
         mDirector.performanceAction(new CountDownAction());
+    }
 
+    public void stopAction(){
+        mDirector.shutDown();
+    }
+
+    public void reAction(){
+        beginAction();
     }
 
     /**

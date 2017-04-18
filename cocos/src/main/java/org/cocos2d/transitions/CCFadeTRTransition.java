@@ -34,7 +34,7 @@ public class CCFadeTRTransition extends CCTransitionScene implements CCTransitio
 	public void onEnter() {
 		super.onEnter();
 
-		CGSize s = CCDirector.sharedDirector().winSize();
+		CGSize s = CCDirector.sharedDirector().screenSize();
 		float aspect = s.width / s.height;
 		int x = (int) (12 * aspect);
 		int y = 12;

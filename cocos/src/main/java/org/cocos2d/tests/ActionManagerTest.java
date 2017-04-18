@@ -144,7 +144,7 @@ public class ActionManagerTest extends Activity {
 
 		public ActionManagerDemo() {
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 32);
 			addChild(label, 1);
@@ -337,7 +337,7 @@ public class ActionManagerTest extends Activity {
 		public void onEnter() {
 			super.onEnter();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			CCSprite grossini = CCSprite.sprite("grossini.png");
 			addChild(grossini, 0, kTagGrossini);

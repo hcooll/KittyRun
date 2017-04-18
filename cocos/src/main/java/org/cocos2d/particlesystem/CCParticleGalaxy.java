@@ -45,7 +45,7 @@ public class CCParticleGalaxy extends CCQuadParticleSystem {
 		angleVar = 360;
 		
 		// emitter position
-		CGSize winSize = CCDirector.sharedDirector().winSize();
+		CGSize winSize = CCDirector.sharedDirector().screenSize();
 		this.setPosition(CGPoint.ccp(winSize.width/2, winSize.height/2));
 		posVar = CGPoint.zero();
 		

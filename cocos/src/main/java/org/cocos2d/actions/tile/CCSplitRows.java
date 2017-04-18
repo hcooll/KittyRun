@@ -32,7 +32,7 @@ public class CCSplitRows extends CCTiledGrid3DAction {
     @Override
     public void start(CCNode aTarget) {
         super.start(aTarget);
-        winSize = CCDirector.sharedDirector().winSize();
+        winSize = CCDirector.sharedDirector().screenSize();
     }
 
     @Override

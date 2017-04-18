@@ -16,12 +16,10 @@ import org.cocos2d.types.CGRect;
 
 public class CountdownSprite extends ActionSprite {
 
-
     public CountdownSprite(String filepath) {
         super(filepath);
-        setAnchorPoint(0.5f, 0.5f);
-        setPosition(DataConstant.WIDTH / 2, DataConstant.HEIGHT / 2);
-
+        setAnchorPoint(0.5f, 0.0f);
+        setPosition(screenSize.width / 2, screenSize.height / 3 * 2);
     }
 
     public CountdownSprite(String filepath, CGRect rect) {
@@ -33,10 +31,9 @@ public class CountdownSprite extends ActionSprite {
      */
     private void countdown() {
         this.runAction(CCSequence.actions(
-                CommonUtil.getAnimation(null, 3, "image/bounus/%01d.png", 1.0f),
+                CommonUtil.getAnimation(null, 3, 1, "image/bounus/%01d.png", 1.0f),
                 CCCallFunc.action(this, "startGame")));
     }
-
 
     @Override
     public void run(Action action) {

@@ -189,7 +189,7 @@ public class ParticleTest extends Activity {
 
             this.setIsTouchEnabled(true);
             
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 18);
             label.setPosition(CGPoint.make(s.width / 2, s.height - 50));
@@ -740,7 +740,7 @@ public class ParticleTest extends Activity {
     		emitter = new CCPointParticleSystem(1000);
     		background.addChild(emitter, 10);
 
-    		CGSize s = CCDirector.sharedDirector().winSize();
+    		CGSize s = CCDirector.sharedDirector().screenSize();
 
     		// duration
     		emitter.setDuration(CCParticleSystem.kCCParticleDurationInfinity);
@@ -1143,7 +1143,7 @@ public class ParticleTest extends Activity {
     		emitter.setAngleVar(0);
 
     		// emitter position
-    		CGSize size = CCDirector.sharedDirector().winSize();
+    		CGSize size = CCDirector.sharedDirector().screenSize();
     		emitter.setPosition(CGPoint.ccp( size.width/2, size.height/2));
     		emitter.setPosVar(CGPoint.zero());
 
@@ -1224,7 +1224,7 @@ public class ParticleTest extends Activity {
     		emitter.setAngleVar(0);
 
     		// emitter position
-    		CGSize size = CCDirector.sharedDirector().winSize();
+    		CGSize size = CCDirector.sharedDirector().screenSize();
     		emitter.setPosition(CGPoint.ccp( size.width/2, size.height/2));
     		emitter.setPosVar(CGPoint.zero());
 
@@ -1303,7 +1303,7 @@ public class ParticleTest extends Activity {
     		emitter.setAngleVar(0);
 
     		// emitter position
-    		CGSize size = CCDirector.sharedDirector().winSize();
+    		CGSize size = CCDirector.sharedDirector().screenSize();
     		emitter.setPosition(CGPoint.ccp(size.width/2, size.height/2));
     		emitter.setPosVar(CGPoint.zero());
 

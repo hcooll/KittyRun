@@ -12,5 +12,4 @@ public class LawnStrategy extends Strategy {
     //草坪的图片
     public String lawnPic;
     public float speed;
-    public float y;//离地平面的高度
 }

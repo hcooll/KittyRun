@@ -81,12 +81,12 @@ public class CCScrollViewTest extends CCLayer{
 		addChild(backgroundLayer, 0);
 		addChild(scrollView, 10);
 	    
-	    CGSize winSize = CCDirector.sharedDirector().winSize();
+	    CGSize winSize = CCDirector.sharedDirector().screenSize();
 		scrollView.setViewSize(CGSize.make(winSize.width - 100, winSize.height - 100));
 	    scrollView.setPosition(CGPoint.ccp(50, 50));
 	    //scrollView->setClipsToBounds(true);
-		//scrollView->setPosition(ccp((winSize.width - scrollView->getViewSize().width) * 0.5f,
-		//						  (winSize.height - scrollView->getViewSize().height) * 0.5f)); // position scroll at the center.
+		//scrollView->setPosition(ccp((screenSize.width - scrollView->getViewSize().width) * 0.5f,
+		//						  (screenSize.height - scrollView->getViewSize().height) * 0.5f)); // position scroll at the center.
 	    
 	    
 	}

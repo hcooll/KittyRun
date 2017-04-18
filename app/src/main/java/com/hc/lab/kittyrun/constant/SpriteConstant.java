@@ -36,6 +36,11 @@ public class SpriteConstant {
     public static final int SPRITE_TAG_COUNTDOWN = 0x405;
     public static final int SPRITE_TAG_FIRST_LAWN= SPRITE_TAG_ROAD_ROCK01;
 
+    // 游戏控制
+    public static final int SPRITE_TAG_PLAY = 0x501;
+    public static final int SPRITE_TAG_EXIT = 0x502;
+    public static final int SPRITE_TAG_RESTART= 0x503;
+
     //根据测量原图得来
     public static final float ORIGN_POSITION_X_KITTY = 233;
     public static final float ORIGN_POSITION_Y_KITTY = 446;

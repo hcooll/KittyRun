@@ -28,7 +28,7 @@ public class CCJumpZoomTransition extends CCTransitionScene {
     @Override
     public void onEnter() {
         super.onEnter();
-        CGSize size = CCDirector.sharedDirector().winSize();
+        CGSize size = CCDirector.sharedDirector().screenSize();
         
         float width = size.width;
         // float height = size.getHeight();

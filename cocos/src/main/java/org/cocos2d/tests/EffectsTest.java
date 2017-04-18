@@ -196,7 +196,7 @@ public class EffectsTest extends Activity {
 			super(ccColor4B.ccc4(32, 32, 32, 255));
 			float x,y;
 
-			CGSize size = CCDirector.sharedDirector().winSize();
+			CGSize size = CCDirector.sharedDirector().screenSize();
 			x = size.width;
 			y = size.height;
 
@@ -355,7 +355,7 @@ public class EffectsTest extends Activity {
 		}
 
 		public static CCLens3D action(float t) {
-			CGSize size = CCDirector.sharedDirector().winSize();
+			CGSize size = CCDirector.sharedDirector().screenSize();
 			return CCLens3D.action(CGPoint.ccp(size.width/2,size.height/2), 240, ccGridSize.ccg(15,10), t);
 		}
 	}
@@ -368,7 +368,7 @@ public class EffectsTest extends Activity {
 		}
 
 		public static CCRipple3D action(float t) {
-			CGSize size = CCDirector.sharedDirector().winSize();
+			CGSize size = CCDirector.sharedDirector().screenSize();
 			return CCRipple3D.action(CGPoint.ccp(size.width/2,size.height/2), 240, 4, 160, ccGridSize.ccg(32,24), t);
 		}
 	}
@@ -404,7 +404,7 @@ public class EffectsTest extends Activity {
 		}
 
 		public static CCTwirl action(float t) {
-			CGSize size = CCDirector.sharedDirector().winSize();
+			CGSize size = CCDirector.sharedDirector().screenSize();
 			return CCTwirl.action(CGPoint.ccp(size.width/2, size.height/2), 1, 2.5f, ccGridSize.ccg(12,8), t);
 		}
 	}

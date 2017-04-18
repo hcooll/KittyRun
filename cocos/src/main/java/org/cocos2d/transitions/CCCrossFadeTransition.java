@@ -43,7 +43,7 @@ public class CCCrossFadeTransition extends CCTransitionScene {
 		// create a transparent color layer
 		// in which we are going to add our rendertextures
 		ccColor4B  color = new ccColor4B(0, 0, 0, 0);
-		CGSize size = CCDirector.sharedDirector().winSize();
+		CGSize size = CCDirector.sharedDirector().screenSize();
 		CCColorLayer layer = CCColorLayer.node(color);
 
 		// create the first render texture for inScene

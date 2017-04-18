@@ -242,7 +242,7 @@ public class ActionsTest extends Activity {
 			addChild(tamara, 2);
 			addChild(kathia, 3);
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			grossini.setPosition(CGPoint.ccp(s.width/2, s.height/3));
 			tamara.setPosition(CGPoint.ccp(s.width/2, 2*s.height/3));
@@ -290,7 +290,7 @@ public class ActionsTest extends Activity {
 		}
 
 		public void alignSpritesLeft(int numberOfSprites) {
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			if( numberOfSprites == 1 ) {
 				tamara.setVisible(false);
@@ -310,7 +310,7 @@ public class ActionsTest extends Activity {
 		}
 
 		public void centerSprites(int numberOfSprites) {
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			if( numberOfSprites == 1 ) {
 				tamara.setVisible(false);
@@ -343,7 +343,7 @@ public class ActionsTest extends Activity {
 		public void onEnter() {
 			super.onEnter();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			tamara.setScaleX(2.5f);
 			tamara.setScaleY(-1.0f);
@@ -371,7 +371,7 @@ public class ActionsTest extends Activity {
 
 			centerSprites(3);
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 
 			CCMoveTo actionTo = CCMoveTo.action(2, CGPoint.ccp(s.width-40, s.height-40));
@@ -459,7 +459,7 @@ public class ActionsTest extends Activity {
 		public void onEnter() {
 			super.onEnter();
 
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 
 			//
 			// startPosition can be any coordinate, but since the movement
@@ -622,7 +622,7 @@ public class ActionsTest extends Activity {
 		}
 
 		public void callback1() {
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 			CCLabel label = CCLabel.makeLabel("callback 1 called", "DroidSans", 16);
 			label.setPosition(CGPoint.ccp( s.width/4*1,s.height/2));
 
@@ -630,7 +630,7 @@ public class ActionsTest extends Activity {
 		}
 
 		public void callback2(Object sender) {
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 			CCLabel label = CCLabel.makeLabel("callback 2 called", "DroidSans", 16);
 			label.setPosition(CGPoint.ccp( s.width/4*2,s.height/2));
 
@@ -638,7 +638,7 @@ public class ActionsTest extends Activity {
 		}
 
 		public void callback3(Object sender, Object data) {
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 			CCLabel label = CCLabel.makeLabel("callback 3 called", "DroidSans", 16);
 			label.setPosition(CGPoint.ccp( s.width/4*3,s.height/2));
 
@@ -888,7 +888,7 @@ public class ActionsTest extends Activity {
 
 		public void callback1() {
 			// ccMacros.CCLOG(LOG_TAG,"callback 1 called");
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 			CCLabel label = CCLabel.makeLabel("callback 1 called", "DroidSans", 16);
 			label.setPosition(CGPoint.ccp( s.width/4*1,s.height/2));
 
@@ -897,7 +897,7 @@ public class ActionsTest extends Activity {
 		
 		public void callback2(Object sender) {
 			// ccMacros.CCLOG(LOG_TAG, "callback 2 called from:" + String.valueOf(sender));
-			CGSize s = CCDirector.sharedDirector(). winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 			CCLabel label = CCLabel.makeLabel("callback 2 called", "DroidSans", 16);
 			label.setPosition(CGPoint.ccp( s.width/4*2,s.height/2));
 
@@ -906,7 +906,7 @@ public class ActionsTest extends Activity {
 		
 		public void callback3(Object sender, Object data) {
 			// NSLog(@"callback 3 called from:%@ with data:%x",sender,(int)data);
-			CGSize s = CCDirector.sharedDirector().winSize();
+			CGSize s = CCDirector.sharedDirector().screenSize();
 			CCLabel label = CCLabel.makeLabel("callback 3 called", "DroidSans", 16);
 			label.setPosition(CGPoint.ccp( s.width/4*3,s.height/2));
 			addChild(label);
@@ -999,7 +999,7 @@ public class ActionsTest extends Activity {
 
 			centerSprites(1);
 
-			CGSize winSize = CCDirector.sharedDirector().winSize();
+			CGSize winSize = CCDirector.sharedDirector().screenSize();
 
 			grossini.setPosition(CGPoint.ccp(-200, winSize.height/2));
 
@@ -1016,7 +1016,7 @@ public class ActionsTest extends Activity {
 		}
 
 		public void draw(GL10 gl) {
-			CGSize winSize = CCDirector.sharedDirector().winSize();
+			CGSize winSize = CCDirector.sharedDirector().screenSize();
 
 			float x = winSize.width*2 - 100;
 			float y = winSize.height;

@@ -120,7 +120,7 @@ public class SpritesTest extends Activity {
         CCSprite tamara;
 
         public SpriteDemo() {
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             CCLabel label = CCLabel.makeLabel(title(), "DroidSans", 24);
             label.setPosition(CGPoint.make(s.width / 2, s.height / 2));
@@ -174,7 +174,7 @@ public class SpritesTest extends Activity {
         }
 
         protected void centerSprites() {
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             grossini.setPosition(CGPoint.make(s.width / 3, s.height / 2));
             // tamara.setPosition(CGPoint.make(2 * s.width / 3, s.height / 2));
@@ -212,7 +212,7 @@ public class SpritesTest extends Activity {
         public void onEnter() {
             super.onEnter();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
 
             CCIntervalAction actionTo = CCMoveTo.action(2, CGPoint.make(s.width - 40, s.height - 40));
@@ -291,7 +291,7 @@ public class SpritesTest extends Activity {
         public void onEnter() {
             super.onEnter();
 
-            CGSize s = CCDirector.sharedDirector().winSize();
+            CGSize s = CCDirector.sharedDirector().screenSize();
 
             //
             // startPosition can be any coordinate, but since the movement

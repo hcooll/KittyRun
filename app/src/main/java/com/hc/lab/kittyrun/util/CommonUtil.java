@@ -136,18 +136,24 @@ public class CommonUtil {
     }
 
     public static CCAnimate getAnimation(ArrayList<CCSpriteFrame> frames, int num, String filepath) {
-        return getAnimation(frames, num, filepath, 0.2f);
+        return getAnimation(frames, 1, num, filepath, 0.2f);
     }
 
     /**
      * 加载一次序列帧
      */
-    public static CCAnimate getAnimation(ArrayList<CCSpriteFrame> frames, int num, String filepath, float d) {
+    public static CCAnimate getAnimation(ArrayList<CCSpriteFrame> frames, int start, int end, String filepath, float d) {
         if (frames == null) {
             frames = new ArrayList<CCSpriteFrame>();
             // frames信息加载
-            for (int i = 1; i <= num; i++) {
-                frames.add(CCSprite.sprite(String.format(filepath, i)).displayedFrame());
+            if (start < end) {
+                for (int i = start; i <= end; i++) {
+                    frames.add(CCSprite.sprite(String.format(filepath, i)).displayedFrame());
+                }
+            } else {
+                for (int i = start; i >= end; i--) {
+                    frames.add(CCSprite.sprite(String.format(filepath, i)).displayedFrame());
+                }
             }
         }
         CCAnimation animation = CCAnimation.animation("", d, frames);
@@ -165,8 +171,14 @@ public class CommonUtil {
     public static CCAction getRepeatAnimation(ArrayList<CCSpriteFrame> frames, int start, int end, String filepath, float d) {
         if (frames == null) {
             frames = new ArrayList<CCSpriteFrame>();
-            for (int i = start; i <= end; i++) {
-                frames.add(CCSprite.sprite(String.format(filepath, i)).displayedFrame());
+            if (start < end) {
+                for (int i = start; i <= end; i++) {
+                    frames.add(CCSprite.sprite(String.format(filepath, i)).displayedFrame());
+                }
+            } else {
+                for (int i = start; i >= end; i--) {
+                    frames.add(CCSprite.sprite(String.format(filepath, i)).displayedFrame());
+                }
             }
         }
         CCAnimation anim = CCAnimation.animation("", d, frames);

@@ -23,7 +23,7 @@ public class CCScene extends CCNode {
     protected CCScene() {
     	super();
     	
-        CGSize s = CCDirector.sharedDirector().winSize();
+        CGSize s = CCDirector.sharedDirector().screenSize();
         
         setRelativeAnchorPoint(false);
 

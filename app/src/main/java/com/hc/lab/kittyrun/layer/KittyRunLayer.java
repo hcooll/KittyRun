@@ -9,7 +9,6 @@ import com.hc.lab.kittyrun.action.KittyWalkAction;
 import com.hc.lab.kittyrun.action.LawnMoveAction;
 import com.hc.lab.kittyrun.action.MileAction;
 import com.hc.lab.kittyrun.base.BaseLayer;
-import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.constant.SpriteConstant;
 import com.hc.lab.kittyrun.listener.ActionStatusListener;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
@@ -142,13 +141,17 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     public boolean ccTouchesBegan(MotionEvent event) {
         Log.e(TAG, "cc touch began..");
         if (isStarted) {
-            if (CommonUtil.isClicke(event, this, getChildByTag(SpriteConstant.SPRITE_TAG_EXIT))) {
-                gameOver();
-            } else {
-                KittyJumpAction action = new KittyJumpAction();
-                KittyJumpStrategy kittyJumpStrategy = strategyManager.getKittyJumpStrategy(mMileSprite.getMiles(), mKittySpirite, mCurrentLawnSprite);
-                action.setStrategy(kittyJumpStrategy);
-                mKittySpirite.run(action);
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (CommonUtil.isClicke(event, this, getChildByTag(SpriteConstant.SPRITE_TAG_EXIT))) {
+                        gameOver();
+                    } else {
+                        KittyJumpAction action = new KittyJumpAction();
+                        KittyJumpStrategy kittyJumpStrategy = strategyManager.getKittyJumpStrategy(mMileSprite.getMiles(), mKittySpirite, mCurrentLawnSprite);
+                        action.setStrategy(kittyJumpStrategy);
+                        mKittySpirite.run(action);
+                    }
+                    break;
             }
         }
         return super.ccTouchesBegan(event);
@@ -193,7 +196,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
     public LawnSprite getNewLawnSprite(boolean defaultLawn) {
         LawnStrategy lawnStrategy = strategyManager.getLawnActionStrategy(defaultLawn);
-        Log.e(TAG,"getNewLawnSprite Pic:"+lawnStrategy.lawnPic);
+        Log.e(TAG, "getNewLawnSprite Pic:" + lawnStrategy.lawnPic);
         LawnSprite spirite = new LawnSprite(lawnStrategy.lawnPic);
         spirite.setAnchorPoint(lawnStrategy.anchor);
         spirite.setPosition(lawnStrategy.position);
@@ -205,11 +208,12 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     }
 
     public void checkBoundary(float t) {
-        synchronized (mSceenPlay) {
+        synchronized (this) {
             // 游戏难度设置
             strategyManager.setStrategyMode(mMileSprite.getMiles());
 
             //检测地面边界
+            Log.e(TAG, "check boundary..." + Thread.currentThread());
             if (mCurrentLawnSprite.getPosition().x + mCurrentLawnSprite.getContentSize().width <= cgSize.width) {
                 //草坪走完了，就得搞下一个草坪滚动，同时生成下一个草坪入队
                 mPrevLawnSprite = mCurrentLawnSprite;
@@ -218,6 +222,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 addChild(mCurrentLawnSprite, 0);
                 mCurrentLawnSprite.run(mCurrentLawnSprite.getAction());
                 mLawnSpriteList.add(getNewLawnSprite(false));
+                Log.e(TAG, "boundary lawn sprite size" + mLawnSpriteList.size());
             }
 
             CGPoint kittyPoint = mKittySpirite.getPosition();

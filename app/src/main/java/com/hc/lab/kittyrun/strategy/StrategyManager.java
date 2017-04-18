@@ -47,8 +47,8 @@ public class StrategyManager {
     private static StrategyManager strategyManager;
 
     private StrategyManager() {
-        this.strategyMode = MODE_EASY;
         mRandom = new Random();
+        initStrategyMode();
     }
 
     public static StrategyManager getInstance() {
@@ -60,6 +60,10 @@ public class StrategyManager {
             }
         }
         return strategyManager;
+    }
+
+    public void initStrategyMode(){
+        this.strategyMode = MODE_EASY;
     }
 
     public LawnStrategy getLawnActionStrategy(boolean isDefalut) {

@@ -32,7 +32,14 @@ public class KittyRunSceenPlay extends ScreenPlay {
     public void beginAction() {
         boolean isFirstGuide = mPref.getPrefBoolean(PreferenceConstant.PREF_KEY_IS_GUIDE, false);
         mDirector.performanceAction(new CountDownAction());
+    }
 
+    public void stopAction(){
+        mDirector.shutDown();
+    }
+
+    public void reAction(){
+        beginAction();
     }
 
     /**

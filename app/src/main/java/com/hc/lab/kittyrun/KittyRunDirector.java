@@ -55,6 +55,12 @@ public class KittyRunDirector {
         play.beginAction();
     }
 
+    /**
+     * 关机
+     */
+    public void shutDown(){
+
+    }
 
     public void performanceAction(Action... actions) {
         kittyRunLayer.performanceAction(actions);

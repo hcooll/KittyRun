@@ -17,6 +17,7 @@ public class Action {
     public static final int TYPE_LAWN_MOVE = 4;
     public static final int TYPE_GUIDE = 5;
     public static final int TYPE_RUN_MILE = 6;
+    public static final int TYPE_GIFT_ENTER = 7;
 
     private Strategy mStrategy;
 

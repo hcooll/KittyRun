@@ -5,6 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.hc.lab.kittyrun"
+        multiDexEnabled true
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -29,4 +30,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':cocos')
     compile project(path: ':cocos')
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:multidex:1.0.1'
+
+    // 听云 崩溃统计、网络监听
+    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.5.3'
+
 }

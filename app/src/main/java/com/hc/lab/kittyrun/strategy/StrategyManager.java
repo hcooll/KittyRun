@@ -5,6 +5,7 @@ import android.util.Log;
 import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.sprite.KittySprite;
 import com.hc.lab.kittyrun.sprite.LawnSprite;
+import com.hc.lab.kittyrun.model.GiftModel;
 import com.hc.lab.kittyrun.util.MathRandom;
 import com.hc.lab.kittyrun.util.PhysicsUtils;
 
@@ -214,5 +215,11 @@ public class StrategyManager {
             this.strategyMode = MODE_DIFFICULT;
         }
         Log.e("", "setStrategyMode miles: " + miles + " strategyMode: " + this.strategyMode);
+    }
+
+    public GiftStrategy getGiftStrategy(GiftModel giftModel){
+        GiftStrategy giftStrategy = new GiftStrategy();
+        giftStrategy.setGiftModel(giftModel);
+        return giftStrategy;
     }
 }

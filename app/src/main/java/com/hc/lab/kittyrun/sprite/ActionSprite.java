@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.action.ActionRunnable;
+import com.hc.lab.kittyrun.base.BaseSprite;
 import com.hc.lab.kittyrun.listener.ActionStatusListener;
 import com.hc.lab.kittyrun.base.BaseLayer;
 import com.hc.lab.kittyrun.monitor.Collision;
@@ -20,39 +21,29 @@ import org.cocos2d.types.CGSize;
  * Created by congwiny on 2017/4/14.
  */
 
-public class ActionSprite extends CCSprite implements ActionRunnable, Collision {
+public class ActionSprite extends BaseSprite implements ActionRunnable, Collision {
     protected ActionStatusListener mActionListener;
     protected Action mAction;
     protected BaseLayer mLayer;
-    protected CGSize screenSize;
 
     public ActionSprite(String filepath) {
         super(filepath);
-        initSprite();
     }
 
     public ActionSprite(String filepath, CGRect rect) {
         super(filepath, rect);
-        initSprite();
     }
 
     public ActionSprite(Bitmap image, String key) {
         super(image, key);
-        initSprite();
     }
 
     public ActionSprite(CCTexture2D texture) {
         super(texture);
-        initSprite();
     }
 
     public ActionSprite(CCTexture2D texture, CGRect rect) {
         super(texture, rect);
-        initSprite();
-    }
-
-    private void initSprite() {
-        screenSize = CCDirector.sharedDirector().screenSize();
     }
 
     @Override

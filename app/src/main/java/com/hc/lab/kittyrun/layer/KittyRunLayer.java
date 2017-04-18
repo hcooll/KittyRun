@@ -3,6 +3,7 @@ package com.hc.lab.kittyrun.layer;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.hc.lab.kittyrun.R;
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.action.KittyJumpAction;
 import com.hc.lab.kittyrun.action.KittyWalkAction;
@@ -84,6 +85,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         mGiftSpriteList = new LinkedList<>();
         mLawnSpriteList = new LinkedList<>();
 
+        loadBGM();
         initLayerSprite();
     }
 
@@ -111,6 +113,13 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
             }
         }
+    }
+
+    /**
+     * 加载背景音乐
+     */
+    private void loadBGM() {
+        mSoundEngine.playSound(getContext(), R.raw.bg_music, true);
     }
 
     // 布置初始场景
@@ -154,6 +163,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                             mMileSprite.getMiles(), mKittySpirite, mPrevLawnSprite, mCurrentLawnSprite);
                     action.setStrategy(kittyJumpStrategy);
                     mKittySpirite.run(action);
+                    mSoundEngine.playEffect(getContext(), R.raw.jump_sound);
                 }
                 break;
         }
@@ -319,4 +329,6 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         initLayerSprite();
         mSceenPlay.reAction();
     }
+
+
 }

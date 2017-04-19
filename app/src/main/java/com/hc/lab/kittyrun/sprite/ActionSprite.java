@@ -48,6 +48,7 @@ public class ActionSprite extends BaseSprite implements ActionRunnable, Collisio
 
     @Override
     public void run(Action action) {
+        mAction = action;
         if (mActionListener != null) {
             mActionListener.onActionStart(action);
         }

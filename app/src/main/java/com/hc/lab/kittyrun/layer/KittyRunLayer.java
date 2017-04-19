@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.hc.lab.kittyrun.action.Action;
+import com.hc.lab.kittyrun.action.BounusPlusAction;
 import com.hc.lab.kittyrun.action.GiftEnterAction;
 import com.hc.lab.kittyrun.action.KittyJumpAction;
 import com.hc.lab.kittyrun.action.KittyWalkAction;
@@ -16,6 +17,7 @@ import com.hc.lab.kittyrun.listener.ActionStatusListener;
 import com.hc.lab.kittyrun.model.GiftModel;
 import com.hc.lab.kittyrun.model.GiftResMoel;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
+import com.hc.lab.kittyrun.sprite.BounusSprite;
 import com.hc.lab.kittyrun.sprite.ComboSprite;
 import com.hc.lab.kittyrun.sprite.CountdownSprite;
 import com.hc.lab.kittyrun.sprite.ExitSprite;
@@ -25,10 +27,12 @@ import com.hc.lab.kittyrun.sprite.KittySprite;
 import com.hc.lab.kittyrun.sprite.LawnSprite;
 import com.hc.lab.kittyrun.sprite.MileSprite;
 import com.hc.lab.kittyrun.sprite.MoonSprite;
+import com.hc.lab.kittyrun.sprite.BounusPlusSprite;
 import com.hc.lab.kittyrun.sprite.RestartSprite;
 import com.hc.lab.kittyrun.sprite.ShineSprite;
 import com.hc.lab.kittyrun.sprite.SmokeSprite;
 import com.hc.lab.kittyrun.sprite.TrapSprite;
+import com.hc.lab.kittyrun.strategy.BounusPlusStrategy;
 import com.hc.lab.kittyrun.strategy.GiftStrategy;
 import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.strategy.LawnStrategy;
@@ -40,11 +44,6 @@ import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGSize;
 
 import com.hc.lab.kittyrun.util.SizeConvertUtils;
-
-import org.cocos2d.actions.CCScheduler;
-import org.cocos2d.actions.instant.CCCallFunc;
-import org.cocos2d.actions.interval.CCDelayTime;
-import org.cocos2d.actions.interval.CCSequence;
 
 import java.util.LinkedList;
 
@@ -94,6 +93,8 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private LawnSprite mCurrentLawnSprite;
     private LawnSprite mPrevLawnSprite;
     private ShineSprite mShineSprite;
+    private BounusPlusSprite mBounusPlusSprite;
+    private BounusSprite mBounusSprite;
 
     private boolean isGameStarted = false;
     private GiftSprite mPrevGiftSprite;
@@ -183,6 +184,18 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         mShineSprite.setAnchorPoint(0.5f, 0.5f);
         mShineSprite.setVisible(false);
         addChild(mShineSprite);
+
+        mBounusPlusSprite = new BounusPlusSprite("image/bounus/0.png");
+        mBounusPlusSprite.setAnchorPoint(0.5f, 0.5f);
+        mBounusPlusSprite.setPosition(cgSize.width / 2, cgSize.height / 2);
+        mBounusPlusSprite.setVisible(false);
+        addChild(mBounusPlusSprite);
+
+        mBounusSprite = new BounusSprite("image/bounus/0.png");
+        mBounusSprite.setAnchorPoint(0f, 0f);
+        float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
+        mBounusSprite.setPosition(0, positionY);
+        addChild(mBounusSprite);
 
     }
 
@@ -393,13 +406,21 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
             boolean isCollision = CommonUtil.isCollision(kittyPos, mPrevGiftSprite.getPosition(),
                     mKittySpirite.getContentSize(), mPrevGiftSprite.getContentSize());
             if (isCollision) {
-
-                Log.e(TAG, "isCollision");
-                //碰撞到啦。。
-                mPrevGiftSprite.onCollision();
-                LawnStrategy lawnStrategy = (LawnStrategy) mPrevLawnSprite.getAction().getStrategy();
-                mShineSprite.followOnCollision(CGPoint.ccp(mPrevGiftSprite.getPosition().x, mPrevGiftSprite.getPosition().y),
-                        lawnStrategy.speed);
+                if (!mPrevGiftSprite.isOnCollision) {
+                    GiftStrategy giftStrategy = (GiftStrategy) mPrevGiftSprite.getAction().getStrategy();
+                    //碰撞到啦。。
+                    mPrevGiftSprite.onCollision();
+                    LawnStrategy lawnStrategy = (LawnStrategy) mPrevLawnSprite.getAction().getStrategy();
+                    mShineSprite.followOnCollision(CGPoint.ccp(mPrevGiftSprite.getPosition().x, mPrevGiftSprite.getPosition().y),
+                            lawnStrategy.speed);
+                    int rubyCost = giftStrategy.getGiftModel().count * giftStrategy.getGiftModel().diamond;
+                    BounusPlusAction bounusPlusAction = new BounusPlusAction();
+                    BounusPlusStrategy bounusPlusStrategy = mStrategyManager.getBounusPlusStrategy(rubyCost,
+                            CGPoint.ccp(mBounusPlusSprite.getPosition().x, mPrevGiftSprite.getPosition().y));
+                    bounusPlusAction.setStrategy(bounusPlusStrategy);
+                    mBounusPlusSprite.run(bounusPlusAction);
+                    mBounusSprite.addBounus(bounusPlusStrategy.bounusCount);
+                }
             }
         }
 
@@ -408,7 +429,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private void enqueueGiftSprite(GiftSprite giftSprite) {
         if (mAttachedGiftSprite.size() == 0) {
             giftSprite.setAnchorPoint(0.5f, 0.5f);
-            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
             giftSprite.setPosition(cgSize.width, positionY);
 
             mGiftBarSpirite.show();
@@ -418,7 +439,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
         } else if (mAttachedGiftSprite.size() == 1) {
             giftSprite.setAnchorPoint(0.5f, 0.5f);
-            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
             giftSprite.setPosition(cgSize.width, positionY);
             giftSprite.moveXAndScale(1, 0f);
             addChild(giftSprite, 1);
@@ -426,13 +447,13 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
         } else if (mAttachedGiftSprite.size() == 2) {
             giftSprite.setAnchorPoint(0.5f, 0.5f);
-            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
             giftSprite.setPosition(cgSize.width, positionY);
             giftSprite.moveXAndScale(2, 0f);
             addChild(giftSprite, 1);
             mAttachedGiftSprite.offer(giftSprite);
         } else if (mAttachedGiftSprite.size() == 3) {
-            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
             giftSprite.setAnchorPoint(0.5f, 0.5f);
             giftSprite.setPosition(cgSize.width, positionY);
             addChild(giftSprite, 1);

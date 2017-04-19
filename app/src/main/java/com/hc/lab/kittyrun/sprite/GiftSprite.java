@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.base.BaseSprite;
 import com.hc.lab.kittyrun.constant.DataConstant;
+import com.hc.lab.kittyrun.data.BounusData;
 import com.hc.lab.kittyrun.model.GiftResMoel;
 import com.hc.lab.kittyrun.strategy.GiftStrategy;
 import com.hc.lab.kittyrun.util.SizeConvertUtils;
@@ -31,6 +32,8 @@ import org.cocos2d.types.util.CGPointUtil;
 
 public class GiftSprite extends ActionSprite {
 
+    public boolean isOnCollision;
+
     public GiftSprite(Bitmap image, String key) {
         super(image, key);
     }
@@ -44,18 +47,22 @@ public class GiftSprite extends ActionSprite {
     @Override
     public void onCollision() {
 
-        super.onCollision();
-        if (getAction() != null) {
-            GiftStrategy giftStrategy = (GiftStrategy) getAction().getStrategy();
-            if (giftStrategy != null) {
-                if (giftStrategy.getGiftResMoel() != null
-                        && giftStrategy.getGiftResMoel().avatarBmp != null) {
-                    CCTexture2D ccTexture2D = new CCTexture2D();
-                    ccTexture2D.initWithImage(giftStrategy.getGiftResMoel().avatarBmp);
-                    setTexture(ccTexture2D);
-                    fadeScaleOut();
-                }
+        if (!isOnCollision) {
+            //增加bounus的次数
+            isOnCollision = true;
+            super.onCollision();
+            if (getAction() != null) {
+                GiftStrategy giftStrategy = (GiftStrategy) getAction().getStrategy();
+                if (giftStrategy != null) {
+                    if (giftStrategy.getGiftResMoel() != null
+                            && giftStrategy.getGiftResMoel().avatarBmp != null) {
+                        CCTexture2D ccTexture2D = new CCTexture2D();
+                        ccTexture2D.initWithImage(giftStrategy.getGiftResMoel().avatarBmp);
+                        setTexture(ccTexture2D);
+                        fadeScaleOut();
+                    }
 
+                }
             }
         }
 
@@ -128,6 +135,7 @@ public class GiftSprite extends ActionSprite {
 
 
     public void dismiss() {
+        isOnCollision = false;
         this.removeSelf();
     }
 

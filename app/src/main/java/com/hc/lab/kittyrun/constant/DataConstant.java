@@ -26,6 +26,10 @@ public class DataConstant {
 
     public static final int MILE_NUMBER_WIDTH = 38; // 距离数字的宽高大小
     public static final int MILE_NUMBER_HEIGHT = 46;
+
+    public static final int BOUNUS_NUMBER_WIDTH = 38; // 距离数字的宽高大小
+    public static final int BOUNUS_NUMBER_HEIGHT = 46;
+
     public static final int MILE_PER_SECEND = 100; // 每一秒增加100米
 
     // 地面的高度
@@ -55,5 +59,8 @@ public class DataConstant {
     public static final float ORIGIN_GIFT3_MOVE_X = 634;
 
     public static final float GIFT_MOVE_X_VELOCITY = 600;
+
+    public static final float ORIGIN_GIFT_BAR_POSITON_Y = 1126;
+    public static final float ORIGIN_BOUNUS_POSITON_Y = 1126;
 
 }

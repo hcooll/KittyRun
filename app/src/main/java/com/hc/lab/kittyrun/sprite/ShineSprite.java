@@ -41,6 +41,7 @@ public class ShineSprite extends ActionSprite {
 
     public void followOnCollision(CGPoint position, float lawnSpeed) {
         if (!isShineing) {
+            Log.e("xxx","followOnCollision");
             isShineing = true;
             stopAllActions();
             setPosition(position);
@@ -53,6 +54,7 @@ public class ShineSprite extends ActionSprite {
             this.runAction(ccSequence);
         }
     }
+
 
     public void dismiss() {
         isShineing = false;

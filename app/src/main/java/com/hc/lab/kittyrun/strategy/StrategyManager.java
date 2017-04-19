@@ -3,6 +3,7 @@ package com.hc.lab.kittyrun.strategy;
 import android.util.Log;
 
 import com.hc.lab.kittyrun.constant.DataConstant;
+import com.hc.lab.kittyrun.data.BounusData;
 import com.hc.lab.kittyrun.sprite.KittySprite;
 import com.hc.lab.kittyrun.sprite.LawnSprite;
 import com.hc.lab.kittyrun.model.GiftModel;
@@ -39,6 +40,8 @@ public class StrategyManager {
     private int strategyMode;
     private Random mRandom;
 
+    private BounusData mBounusData;
+
     private static final float[] KITTY_JUMP_HEIGHT = new float[]{
             DataConstant.MAX_JUMP_HEIGHT,
             DataConstant.MEDIUM_JUMP_HEIGHT
@@ -50,6 +53,11 @@ public class StrategyManager {
     private StrategyManager() {
         mRandom = new Random();
         initStrategyMode();
+        mBounusData = new BounusData();
+    }
+
+    public void resetBounusData() {
+        mBounusData.resetBonusCount();
     }
 
     public static StrategyManager getInstance() {
@@ -236,4 +244,12 @@ public class StrategyManager {
         giftStrategy.initHeight = initHeight;
         return giftStrategy;
     }
+
+    public BounusPlusStrategy getBounusPlusStrategy(int rubyCost, CGPoint giftPosition) {
+        BounusPlusStrategy bounusPlusStrategy = new BounusPlusStrategy();
+        bounusPlusStrategy.bounusCount = mBounusData.getBonus(rubyCost);
+        bounusPlusStrategy.position = CGPoint.ccp(giftPosition.x, giftPosition.y);
+        return bounusPlusStrategy;
+    }
+
 }

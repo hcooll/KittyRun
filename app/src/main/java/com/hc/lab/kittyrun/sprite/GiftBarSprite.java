@@ -32,7 +32,7 @@ public class GiftBarSprite extends ActionSprite {
         float height = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_HEIGHT);
         setContentSize(CGSize.make(width, height));
         setAnchorPoint(CGPoint.ccp(0f, 0.5f));
-        float positionY = SizeConvertUtils.getConvertWidth(1126);
+        float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
         setPosition(DataConstant.WIDTH, positionY);
 
     }

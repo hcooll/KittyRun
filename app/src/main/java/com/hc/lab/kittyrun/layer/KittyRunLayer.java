@@ -4,25 +4,32 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.hc.lab.kittyrun.action.Action;
+import com.hc.lab.kittyrun.action.GiftEnterAction;
 import com.hc.lab.kittyrun.action.KittyJumpAction;
 import com.hc.lab.kittyrun.action.KittyWalkAction;
 import com.hc.lab.kittyrun.action.LawnMoveAction;
 import com.hc.lab.kittyrun.action.MileAction;
 import com.hc.lab.kittyrun.base.BaseLayer;
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.constant.SpriteConstant;
 import com.hc.lab.kittyrun.listener.ActionStatusListener;
+import com.hc.lab.kittyrun.model.GiftModel;
+import com.hc.lab.kittyrun.model.GiftResMoel;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
 import com.hc.lab.kittyrun.sprite.ComboSprite;
 import com.hc.lab.kittyrun.sprite.CountdownSprite;
 import com.hc.lab.kittyrun.sprite.ExitSprite;
-import com.hc.lab.kittyrun.sprite.GiftContainerSprite;
+import com.hc.lab.kittyrun.sprite.GiftBarSprite;
 import com.hc.lab.kittyrun.sprite.GiftSprite;
 import com.hc.lab.kittyrun.sprite.KittySprite;
 import com.hc.lab.kittyrun.sprite.LawnSprite;
 import com.hc.lab.kittyrun.sprite.MileSprite;
 import com.hc.lab.kittyrun.sprite.MoonSprite;
 import com.hc.lab.kittyrun.sprite.RestartSprite;
+import com.hc.lab.kittyrun.sprite.ShineSprite;
+import com.hc.lab.kittyrun.sprite.SmokeSprite;
 import com.hc.lab.kittyrun.sprite.TrapSprite;
+import com.hc.lab.kittyrun.strategy.GiftStrategy;
 import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.strategy.LawnStrategy;
 import com.hc.lab.kittyrun.strategy.StrategyManager;
@@ -31,6 +38,13 @@ import com.hc.lab.kittyrun.util.CommonUtil;
 import org.cocos2d.actions.CCScheduler;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGSize;
+
+import com.hc.lab.kittyrun.util.SizeConvertUtils;
+
+import org.cocos2d.actions.CCScheduler;
+import org.cocos2d.actions.instant.CCCallFunc;
+import org.cocos2d.actions.interval.CCDelayTime;
+import org.cocos2d.actions.interval.CCSequence;
 
 import java.util.LinkedList;
 
@@ -59,31 +73,40 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     StrategyManager mStrategyManager;
     //陷阱
     private LinkedList<TrapSprite> mTrapSpriteList;
+    //已经显示出来礼物列表
+    private LinkedList<GiftSprite> mAttachedGiftSprite;
+    //没有显示出来的礼物
+    private LinkedList<GiftSprite> mDettachedGiftSprite;
+
     private LinkedList<GiftSprite> mGiftSpriteList;
     private LinkedList<LawnSprite> mLawnSpriteList;
 
     private ExitSprite mExitSprite;
     private RestartSprite mRestartSprite;
     private KittySprite mKittySpirite;
-    private GiftContainerSprite mGiftContainerSpirite;
+    private GiftBarSprite mGiftBarSpirite;
     private MileSprite mMileSprite;
     private MoonSprite mMoonSprite;
     private ComboSprite mComboSprite;
     private CountdownSprite mCountdownSprite;
 
+    private SmokeSprite mSmokeSprite;
     private LawnSprite mCurrentLawnSprite;
     private LawnSprite mPrevLawnSprite;
+    private ShineSprite mShineSprite;
 
     private boolean isGameStarted = false;
+    private GiftSprite mPrevGiftSprite;
 
     public KittyRunLayer(KittyRunSceenPlay sceenPlay) {
         setIsTouchEnabled(true);
         this.mSceenPlay = sceenPlay;
         mStrategyManager = StrategyManager.getInstance();
         mTrapSpriteList = new LinkedList<>();
-        mGiftSpriteList = new LinkedList<>();
-        mLawnSpriteList = new LinkedList<>();
+        mAttachedGiftSprite = new LinkedList<>();
+        mDettachedGiftSprite = new LinkedList<>();
 
+        mLawnSpriteList = new LinkedList<>();
         initLayerSprite();
     }
 
@@ -109,6 +132,16 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 case Action.TYPE_KITTY_WALK:
                     break;
 
+                case Action.TYPE_GIFT_ENTER:
+                    GiftEnterAction giftEnterAction = (GiftEnterAction) action;
+                    GiftStrategy strategy = (GiftStrategy) giftEnterAction.getStrategy();
+                    GiftResMoel giftResMoel = strategy.getGiftResMoel();
+                    GiftModel giftModel = strategy.getGiftModel();
+                    Log.e(TAG, "gift model == " + giftResMoel.giftBmp);
+                    GiftSprite giftSprite = new GiftSprite(giftResMoel.giftBmp, String.valueOf(giftModel.giftId));
+                    giftSprite.setAction(giftEnterAction);
+                    enqueueGiftSprite(giftSprite);
+                    break;
             }
         }
     }
@@ -136,7 +169,21 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         mKittySpirite.setTag(SpriteConstant.SPRITE_TAG_KITTY);
         mKittySpirite.setPosition(cgSize.width / 4,
                 mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
-        addChild(mKittySpirite);
+        addChild(mKittySpirite, 2);
+
+        mGiftBarSpirite = new GiftBarSprite("image/gift/cao.png");
+        addChild(mGiftBarSpirite);
+
+        mSmokeSprite = new SmokeSprite("image/smoke/smoke_0000.png");
+        mSmokeSprite.setAnchorPoint(0.5f, 0.5f);
+        mSmokeSprite.setVisible(false);
+        addChild(mSmokeSprite, 1);
+
+        mShineSprite = new ShineSprite("image/shine/shine_0000.png");
+        mShineSprite.setAnchorPoint(0.5f, 0.5f);
+        mShineSprite.setVisible(false);
+        addChild(mShineSprite);
+
     }
 
     @Override
@@ -192,7 +239,8 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
                 //开启任务调度检测边界
                 CCScheduler.sharedScheduler().schedule("checkBoundary", this, 0.05f, false);
-
+                //检查礼物碰撞
+                CCScheduler.sharedScheduler().schedule("checkGiftCollision", this, 0.05f, false);
                 isGameStarted = true;
                 break;
             case Action.TYPE_LAWN_MOVE:
@@ -230,6 +278,47 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 mCurrentLawnSprite.run(mCurrentLawnSprite.getAction());
                 mLawnSpriteList.add(getNewLawnSprite(false));
                 Log.e(TAG, "boundary lawn sprite size" + mLawnSpriteList.size());
+
+
+                //摆放礼物，并且和一起草坪走动
+                mPrevGiftSprite = mAttachedGiftSprite.poll();
+                if (mPrevGiftSprite != null) {
+                    GiftStrategy strategy = (GiftStrategy) mPrevGiftSprite.getAction().getStrategy();
+                    LawnStrategy lawnStrategy = (LawnStrategy) mPrevLawnSprite.getAction().getStrategy();
+
+                    float smokePositionX = mPrevLawnSprite.getPosition().x + mPrevLawnSprite.getContentSize().width
+                            - mSmokeSprite.getContentSize().width / 2;
+                    float smokePositionY = mPrevLawnSprite.getPosition().y + mPrevLawnSprite.getContentSize().height
+                            + mKittySpirite.getContentSize().height
+                            + strategy.initHeight + mSmokeSprite.getContentSize().height / 2;
+
+                    mSmokeSprite.setPosition(smokePositionX, smokePositionY);
+                    mSmokeSprite.followShowSmoke(CGPoint.ccp(smokePositionX, smokePositionY), lawnStrategy.speed);
+
+                    float giftPositionX = mPrevLawnSprite.getPosition().x + mPrevLawnSprite.getContentSize().width
+                            - mPrevGiftSprite.getContentSize().width * 3 / 2;
+                    //float giftPositionY = mPrevLawnSprite.getContentSize().height + mKittySpirite.getContentSize().height
+                    //       + strategy.initHeight + giftSprite.getContentSize().height / 2;
+
+                    mPrevGiftSprite.followLawnMove(CGPoint.ccp(giftPositionX, smokePositionY), lawnStrategy.speed);
+
+                    if (!mAttachedGiftSprite.isEmpty()) {
+                        for (int position = 0; position < mAttachedGiftSprite.size(); position++) {
+                            GiftSprite giftSprite = mAttachedGiftSprite.get(position);
+                            giftSprite.moveXAndScale(position, 0f);
+                        }
+
+                        if (mAttachedGiftSprite.size() <= 3) {
+                            if (!mDettachedGiftSprite.isEmpty()) {
+                                enqueueGiftSprite(mDettachedGiftSprite.poll());
+                            }
+                        }
+                    } else {
+                        mGiftBarSpirite.disappear();
+                    }
+
+                }
+
             }
 
             CGPoint kittyPoint = mKittySpirite.getPosition();
@@ -296,6 +385,64 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         }
     }
 
+    public void checkGiftCollision(float t) {
+        if (mPrevGiftSprite != null) {
+            CGPoint kittyPos = CGPoint.ccp(mKittySpirite.getPosition().x + mKittySpirite.getContentSize().width / 2,
+                    mKittySpirite.getPosition().y + mKittySpirite.getContentSize().height / 2);
+
+            boolean isCollision = CommonUtil.isCollision(kittyPos, mPrevGiftSprite.getPosition(),
+                    mKittySpirite.getContentSize(), mPrevGiftSprite.getContentSize());
+            if (isCollision) {
+
+                Log.e(TAG, "isCollision");
+                //碰撞到啦。。
+                mPrevGiftSprite.onCollision();
+                LawnStrategy lawnStrategy = (LawnStrategy) mPrevLawnSprite.getAction().getStrategy();
+                mShineSprite.followOnCollision(CGPoint.ccp(mPrevGiftSprite.getPosition().x, mPrevGiftSprite.getPosition().y),
+                        lawnStrategy.speed);
+            }
+        }
+
+    }
+
+    private void enqueueGiftSprite(GiftSprite giftSprite) {
+        if (mAttachedGiftSprite.size() == 0) {
+            giftSprite.setAnchorPoint(0.5f, 0.5f);
+            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            giftSprite.setPosition(cgSize.width, positionY);
+
+            mGiftBarSpirite.show();
+            giftSprite.moveXAndScale(0, 0.5f);
+            addChild(giftSprite, 1);
+            mAttachedGiftSprite.offer(giftSprite);
+
+        } else if (mAttachedGiftSprite.size() == 1) {
+            giftSprite.setAnchorPoint(0.5f, 0.5f);
+            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            giftSprite.setPosition(cgSize.width, positionY);
+            giftSprite.moveXAndScale(1, 0f);
+            addChild(giftSprite, 1);
+            mAttachedGiftSprite.offer(giftSprite);
+
+        } else if (mAttachedGiftSprite.size() == 2) {
+            giftSprite.setAnchorPoint(0.5f, 0.5f);
+            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            giftSprite.setPosition(cgSize.width, positionY);
+            giftSprite.moveXAndScale(2, 0f);
+            addChild(giftSprite, 1);
+            mAttachedGiftSprite.offer(giftSprite);
+        } else if (mAttachedGiftSprite.size() == 3) {
+            float positionY = SizeConvertUtils.getConvertWidth(1126);
+            giftSprite.setAnchorPoint(0.5f, 0.5f);
+            giftSprite.setPosition(cgSize.width, positionY);
+            addChild(giftSprite, 1);
+            mAttachedGiftSprite.offer(giftSprite);
+        } else if (mAttachedGiftSprite.size() >= 4) {
+            //添加到另一个列表里
+            mDettachedGiftSprite.offer(giftSprite);
+        }
+    }
+
     private void gameOver() {
         Log.e(TAG, "完蛋去死吧...");
         isGameStarted = false;
@@ -306,6 +453,8 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         if (mPrevLawnSprite != null) {
             mPrevLawnSprite.stopMove();
         }
+
+        // mGiftBarSpirite.disappear();
         mKittySpirite.fallDown();
         mSceenPlay.stopAction();
     }
@@ -315,7 +464,6 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         mStrategyManager.initStrategyMode();
         mLawnSpriteList.clear();
         removeAllChildren(true);
-
         initLayerSprite();
         mSceenPlay.reAction();
     }

@@ -15,6 +15,8 @@ public class GiftStrategy extends Strategy{
 
     public GiftModel giftModel;
     public GiftResMoel giftResMoel;
+    //初始化的时候的高度
+    public float initHeight;
 
 
     public GiftModel getGiftModel() {
@@ -31,5 +33,13 @@ public class GiftStrategy extends Strategy{
 
     public void setGiftResMoel(GiftResMoel giftResMoel) {
         this.giftResMoel = giftResMoel;
+    }
+
+    public float getInitHeight() {
+        return initHeight;
+    }
+
+    public void setInitHeight(float initHeight) {
+        this.initHeight = initHeight;
     }
 }

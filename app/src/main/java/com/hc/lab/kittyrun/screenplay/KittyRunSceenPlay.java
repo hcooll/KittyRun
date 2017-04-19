@@ -2,6 +2,9 @@ package com.hc.lab.kittyrun.screenplay;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import com.hc.lab.kittyrun.KittyRunDirector;
@@ -12,6 +15,7 @@ import com.hc.lab.kittyrun.listener.OnGiftResLoadListener;
 import com.hc.lab.kittyrun.model.GiftModel;
 import com.hc.lab.kittyrun.model.GiftResMoel;
 import com.hc.lab.kittyrun.strategy.GiftStrategy;
+import com.hc.lab.kittyrun.strategy.StrategyManager;
 import com.hc.lab.kittyrun.util.GlideWrapper;
 import com.hc.lab.kittyrun.util.PreferenceUtils;
 
@@ -29,8 +33,29 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
     private KittyRunDirector mDirector;
     private Context mContext;
     private PreferenceUtils mPref;
+
+    private static final int THRID_GIFT = 111;
+    private static final int SECOND_GIFT = 222;
     //开始了才接受外部消息
     private boolean isKittyRunStart;
+    private Handler mhandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SECOND_GIFT:
+                    GiftModel giftModel = new GiftModel();
+                    giftModel.setSecondGift();
+                    newGiftPlace(giftModel);
+                    break;
+                case THRID_GIFT:
+                    GiftModel giftModel2 = new GiftModel();
+                    giftModel2.setThirdGift();
+                    newGiftPlace(giftModel2);
+                    break;
+            }
+        }
+    };
 
     private LinkedList<GiftModel> mGiftModelList;
 
@@ -46,6 +71,8 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
         mDirector.performanceAction(new CountDownAction());
         GiftModel giftModel = new GiftModel();
         newGiftPlace(giftModel);
+        mhandler.sendEmptyMessageDelayed(SECOND_GIFT, 2000);
+        mhandler.sendEmptyMessageDelayed(THRID_GIFT, 5000);
     }
 
     public void stopAction() {
@@ -61,6 +88,7 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
     public void newGiftPlace(GiftModel giftModel) {
         mGiftModelList.offer(giftModel);
         GlideWrapper.loadGiftRes(mContext, giftModel, this);
+
     }
 
 
@@ -83,12 +111,11 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
         for (GiftModel tmpGiftModel : mGiftModelList) {
             if (giftModel.equals(tmpGiftModel)) {
                 mGiftModelList.remove(tmpGiftModel);
-                GiftStrategy giftStrategy = new GiftStrategy();
+                GiftStrategy giftStrategy = StrategyManager.getInstance().getGiftStrategy(giftModel);
                 giftStrategy.setGiftModel(giftModel);
                 giftStrategy.setGiftResMoel(giftResMoel);
                 Log.e(TAG, "gift res model gift bmp=" + giftResMoel.giftBmp);
                 Log.e(TAG, "gift res model avatar bmp=" + giftResMoel.avatarBmp);
-
                 GiftEnterAction giftEnterAction = new GiftEnterAction();
                 giftEnterAction.setStrategy(giftStrategy);
                 //发送礼物。。

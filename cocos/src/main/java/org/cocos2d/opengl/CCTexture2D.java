@@ -231,7 +231,7 @@ public class CCTexture2D implements Resource {
         
         if(needDownScale) {
         	Bitmap bitmap = Bitmap.createScaledBitmap(image, (int)imageSize.width, (int)imageSize.height, false);
-        	image.recycle();
+        	//image.recycle();
         	image = bitmap;
         }
 
@@ -239,8 +239,10 @@ public class CCTexture2D implements Resource {
             Bitmap bitmap = Bitmap.createBitmap(width, height,
                     image.hasAlpha() ? image.getConfig() : Bitmap.Config.RGB_565); //Bitmap.Config.ARGB_8888
             Canvas canvas = new Canvas(bitmap);
-            canvas.drawBitmap(image, 0, 0, null);
-            image.recycle();
+            Paint paint = new Paint();
+            paint.setDither(true);
+            canvas.drawBitmap(image, 0, 0, paint);
+            //image.recycle();
             image = bitmap;
         }
 
@@ -253,9 +255,10 @@ public class CCTexture2D implements Resource {
         Bitmap.Config config = Bitmap.Config.ARGB_8888;
         Bitmap bitmap = Bitmap.createBitmap((int) imageSize.width, (int) imageSize.height, config);
         Canvas canvas = new Canvas(bitmap);
-        
-        canvas.drawBitmap(image, 0, 0, new Paint());
-        image.recycle();
+        Paint paint = new Paint();
+        paint.setDither(true);
+        canvas.drawBitmap(image, 0, 0, paint);
+        //image.recycle();
 
         init(bitmap, imageSize, imageSize);
     }
@@ -264,9 +267,10 @@ public class CCTexture2D implements Resource {
         Bitmap.Config config = Bitmap.Config.ARGB_8888;
         Bitmap bitmap = Bitmap.createBitmap((int) imageSize.width, (int) imageSize.height, config);
         Canvas canvas = new Canvas(bitmap);
-        
-        canvas.drawBitmap(image, 0, 0, new Paint());
-        image.recycle();
+        Paint paint = new Paint();
+        paint.setDither(true);
+        canvas.drawBitmap(image, 0, 0, paint);
+        //image.recycle();
 
         init(bitmap, imageSize, contentSize);
     }
@@ -352,6 +356,7 @@ public class CCTexture2D implements Resource {
 //    	typeface = Typeface.DEFAULT;
 
         Paint textPaint = new Paint();
+        textPaint.setDither(true);
         textPaint.setTypeface(typeface);
         textPaint.setTextSize(fontSize);
         textPaint.setAntiAlias(true);

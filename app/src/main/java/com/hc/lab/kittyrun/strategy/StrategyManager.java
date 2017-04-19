@@ -217,9 +217,23 @@ public class StrategyManager {
         Log.e("", "setStrategyMode miles: " + miles + " strategyMode: " + this.strategyMode);
     }
 
-    public GiftStrategy getGiftStrategy(GiftModel giftModel){
+    public GiftStrategy getGiftStrategy(GiftModel giftModel) {
         GiftStrategy giftStrategy = new GiftStrategy();
-        giftStrategy.setGiftModel(giftModel);
+        float initHeight;
+        if (giftModel.diamond <= 10) {
+            initHeight = 72 / 2;
+        } else if (giftModel.diamond <= 100) {
+            initHeight = 72 / 3 + 20;
+        } else if (giftModel.diamond <= 1000) {
+            initHeight = 72 / 3 + 40;
+        } else if (giftModel.diamond <= 2000) {
+            initHeight = 72 / 3 + 60;
+        } else if (giftModel.diamond <= 4000) {
+            initHeight = 72 / 3 + 70;
+        } else {
+            initHeight = 72 / 3 + 80;
+        }
+        giftStrategy.initHeight = initHeight;
         return giftStrategy;
     }
 }

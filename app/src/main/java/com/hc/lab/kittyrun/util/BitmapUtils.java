@@ -160,7 +160,7 @@ public class BitmapUtils {
         return Math.round(dp * density);
     }
 
-    public static Bitmap getCircleBitmap(Bitmap bitmap,float border) {
+    public static Bitmap getCircleBitmap(Bitmap bitmap, float border) {
         int borderWidth = dpToPx(border);
         final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -172,6 +172,7 @@ public class BitmapUtils {
         final RectF rectF = new RectF(rect);
 
         paint.setAntiAlias(true);
+        paint.setDither(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
         canvas.drawOval(rectF, paint);

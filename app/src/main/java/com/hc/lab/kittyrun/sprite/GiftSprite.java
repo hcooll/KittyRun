@@ -33,6 +33,7 @@ import org.cocos2d.types.util.CGPointUtil;
 public class GiftSprite extends ActionSprite {
 
     public boolean isOnCollision;
+    public boolean isCombo;
 
     public GiftSprite(Bitmap image, String key) {
         super(image, key);
@@ -48,6 +49,7 @@ public class GiftSprite extends ActionSprite {
     public void onCollision() {
 
         if (!isOnCollision) {
+            isCombo = true;
             //增加bounus的次数
             isOnCollision = true;
             super.onCollision();

@@ -3,6 +3,7 @@ package com.hc.lab.kittyrun.sprite;
 import android.graphics.Bitmap;
 
 import com.hc.lab.kittyrun.action.Action;
+import com.hc.lab.kittyrun.action.GiftEnterAction;
 import com.hc.lab.kittyrun.base.BaseSprite;
 import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.data.BounusData;
@@ -25,6 +26,8 @@ import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGSize;
 import org.cocos2d.types.util.CGPointUtil;
 
+import static android.R.attr.key;
+
 /**
  * Created by hc on 2017/4/13 0013.
  * 礼物
@@ -34,6 +37,10 @@ public class GiftSprite extends ActionSprite {
 
     public boolean isOnCollision;
     public boolean isCombo;
+
+    public GiftSprite(String image) {
+        super(image);
+    }
 
     public GiftSprite(Bitmap image, String key) {
         super(image, key);
@@ -138,7 +145,9 @@ public class GiftSprite extends ActionSprite {
 
     public void dismiss() {
         isOnCollision = false;
-        this.removeSelf();
+        if (!((GiftStrategy) mAction.getStrategy()).getGiftModel().isGuideGift()) {
+            this.removeSelf();
+        }
     }
 
 }

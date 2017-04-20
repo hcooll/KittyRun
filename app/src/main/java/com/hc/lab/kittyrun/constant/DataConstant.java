@@ -15,14 +15,14 @@ public class DataConstant {
 
     public static final int GAP_WIDTH = 60; // 地面之间的距离
 
-    public static final int MAX_JUMP_HEIGHT = 250;  // 跳跃高度
-    public static final int MEDIUM_JUMP_HEIGHT = 200;
+    public static final int MAX_JUMP_HEIGHT = 200;  // 跳跃高度
+    public static final int MEDIUM_JUMP_HEIGHT = 150;
 
     public static final float MAX_JUMP_TIME = 2.0f;  // 跳跃时间
     public static final float MEDIUM_JUMP_TIME = 1.5f;
 
-    public static final int LAWN_MOVE_TIME = 4; // 草坪移动一个屏幕的时间，单位：秒
-    public static final int LAWN_MOVE_VELOCITY = WIDTH / LAWN_MOVE_TIME; // 草坪移动的速度
+    public static final float LAWN_MOVE_TIME = 3.5f; // 草坪移动一个屏幕的时间，单位：秒
+    public static final float LAWN_MOVE_VELOCITY = (float) WIDTH / LAWN_MOVE_TIME; // 草坪移动的速度
 
     public static final int MILE_NUMBER_WIDTH = 38; // 距离数字的宽高大小
     public static final int MILE_NUMBER_HEIGHT = 46;

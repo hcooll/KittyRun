@@ -132,10 +132,10 @@ public class CommonUtil {
      * @return
      */
     public static boolean isClicke(MotionEvent event, CCLayer layer, CCNode node) {
-        CGPoint point = layer.convertTouchToNodeSpace(event);
-        if (node == null) {
+        if (node == null || !node.getVisible()) {
             return false;
         }
+        CGPoint point = layer.convertTouchToNodeSpace(event);
         return CGRect.containsPoint(node.getBoundingBox(), point);
     }
 
@@ -192,7 +192,7 @@ public class CommonUtil {
     }
 
     public static boolean isCollision(CGPoint p1, CGPoint p2, CGSize s1, CGSize s2) {
-        if (MathLib.abs(p1.x - p2.x) < (s1.width + s2.width )/ 2 && MathLib.abs(p1.y - p2.y) < s1.height / 2 + s2.height / 2) {
+        if (MathLib.abs(p1.x - p2.x) < (s1.width + s2.width) / 2 && MathLib.abs(p1.y - p2.y) < s1.height / 2 + s2.height / 2) {
             return true;
         }
         return false;

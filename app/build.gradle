@@ -37,4 +37,7 @@ dependencies {
     // 听云 崩溃统计、网络监听
     compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.5.3'
 
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

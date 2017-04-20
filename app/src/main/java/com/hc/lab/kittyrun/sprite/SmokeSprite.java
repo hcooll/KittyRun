@@ -41,7 +41,7 @@ public class SmokeSprite extends ActionSprite {
         stopAllActions();
         setPosition(position);
         showSmoke();
-        CGPoint end = CGPoint.make(-getContentSize().width, position.y);
+        CGPoint end = CGPoint.make(-getContentSize().width/2, position.y);
         float t = CGPointUtil.distance(position, end) / lawnSpeed;
         CCMoveTo ccMoveTo = CCMoveTo.action(t, end);
         this.runAction(ccMoveTo);

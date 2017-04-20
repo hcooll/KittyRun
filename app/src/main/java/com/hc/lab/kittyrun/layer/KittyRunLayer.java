@@ -413,7 +413,9 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
             boolean isCollision = CommonUtil.isCollision(kittyPos, mPrevGiftSprite.getPosition(),
                     mKittySpirite.getContentSize(), mPrevGiftSprite.getContentSize());
             if (isCollision) {
+                Log.e(TAG," is Collision 1111");
                 if (!mPrevGiftSprite.isOnCollision) {
+                    Log.e(TAG," is Collision 2222");
                     GiftStrategy giftStrategy = (GiftStrategy) mPrevGiftSprite.getAction().getStrategy();
                     //碰撞到啦。。
                     mPrevGiftSprite.onCollision();

@@ -41,12 +41,12 @@ public class ShineSprite extends ActionSprite {
 
     public void followOnCollision(CGPoint position, float lawnSpeed) {
         if (!isShineing) {
-            Log.e("xxx","followOnCollision");
+            Log.e("ShineSprite", "followOnCollision");
             isShineing = true;
             stopAllActions();
             setPosition(position);
             onCollision();
-            CGPoint end = CGPoint.make(-getContentSize().width, position.y);
+            CGPoint end = CGPoint.make(-getContentSize().width / 2, position.y);
             float t = CGPointUtil.distance(position, end) / lawnSpeed;
             CCMoveTo ccMoveTo = CCMoveTo.action(t, end);
 

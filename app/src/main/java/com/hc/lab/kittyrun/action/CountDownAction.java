@@ -5,7 +5,11 @@ package com.hc.lab.kittyrun.action;
  */
 
 public class CountDownAction extends Action{
-    public CountDownAction() {
-        type = Action.TYPE_COUNT_DOWN;
+
+    public boolean isFirstGuide;
+
+    public CountDownAction(boolean isFirstGuide) {
+        this.type = Action.TYPE_COUNT_DOWN;
+        this.isFirstGuide = isFirstGuide;
     }
 }

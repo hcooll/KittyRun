@@ -88,6 +88,11 @@ public class ActionSprite extends BaseSprite implements ActionRunnable, Collisio
     @Override
     public void onExit() {
         super.onExit();
+        Log.e("Action sprite", "onExit:" + this);
+        stop();
+    }
+
+    protected void stop(){
         if (mActionListener != null) {
             mActionListener.onActionStop(mAction);
         }

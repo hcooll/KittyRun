@@ -1,26 +1,27 @@
 package com.hc.lab.kittyrun.sprite;
 
-import android.util.Log;
-
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.util.CommonUtil;
 
-import org.cocos2d.actions.CCScheduler;
 import org.cocos2d.actions.instant.CCCallFunc;
-import org.cocos2d.actions.interval.CCBezierTo;
 import org.cocos2d.actions.interval.CCJumpTo;
 import org.cocos2d.actions.interval.CCMoveTo;
 import org.cocos2d.actions.interval.CCSequence;
+import org.cocos2d.nodes.CCSpriteFrame;
 import org.cocos2d.nodes.CCTextureCache;
-import org.cocos2d.types.CCBezierConfig;
 import org.cocos2d.types.CGPoint;
+
+import java.util.ArrayList;
 
 /**
  * Created by congwiny on 2017/4/14.
  */
 
 public class KittySprite extends ActionSprite {
+
+    private ArrayList<CCSpriteFrame> mFlyFrames;
+    private ArrayList<CCSpriteFrame> mRunFrames;
 
     private boolean isWalking;
     private boolean isFlying;
@@ -47,6 +48,9 @@ public class KittySprite extends ActionSprite {
                 KittyJumpStrategy strategy = (KittyJumpStrategy) action.getStrategy();
                 startJump(strategy);
                 break;
+            case Action.TYPE_FALL_DOWN:
+                fallDown();
+                break;
         }
     }
 
@@ -56,7 +60,7 @@ public class KittySprite extends ActionSprite {
             isFlying = false;
             prePoxY = position_.y;
             this.stopAllActions();
-            this.runAction(CommonUtil.getRepeatAnimation(null, 0, 5, "image/kitty/run000%01d.png", 0.15f));
+            this.runAction(CommonUtil.getRepeatAnimation(mRunFrames, 0, 5, "image/kitty/run000%01d.png", 0.15f));
         }
     }
 
@@ -69,7 +73,7 @@ public class KittySprite extends ActionSprite {
             CCJumpTo ccJumpTo = CCJumpTo.action(duration, strategy.toPosition, strategy.jumpHeight, 1);
             CCSequence ccSequence = CCSequence.actions(ccJumpTo, CCCallFunc.action(this, "endJump"));
             this.runAction(ccSequence);
-            this.runAction(CommonUtil.getAnimation(null, 1, 3, "image/kitty/fly000%01d.png", duration / 4));
+            this.runAction(CommonUtil.getAnimation(mFlyFrames, 1, 3, "image/kitty/fly000%01d.png", duration / 4));
         }
     }
 
@@ -78,7 +82,7 @@ public class KittySprite extends ActionSprite {
         walk();
     }
 
-    public void fallDown() {
+    private void fallDown() {
         isWalking = false;
         isFlying = false;
         isDead = true;
@@ -91,6 +95,7 @@ public class KittySprite extends ActionSprite {
 
     public void gameOver() {
         this.stopAllActions();
+        this.stop();
     }
 
     public boolean isWalking() {

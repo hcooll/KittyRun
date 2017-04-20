@@ -27,6 +27,7 @@ public class GiftModel {
     public int giftId = 279;
     public int userId = 100097;
     public int type = 1;
+    public boolean isGuideGift = false; // 是否是引导礼物
 
     @Override
     public boolean equals(Object o) {
@@ -108,6 +109,26 @@ public class GiftModel {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public boolean isGuideGift() {
+        return isGuideGift;
+    }
+
+    public void setGuideGift(boolean guideGift) {
+        isGuideGift = guideGift;
+    }
+
+    // 新手引导礼物
+    public void setGuideGift(){
+        setSenderAvatar("http://s3-us-west-2.amazonaws.com/solomedia/image/314451/avatar/48f9947bb15bacfe0d5f09e93b3ecda4.jpg");
+        setCount(0);
+        setDiamond(80);
+        setGiftIcon("http://s3-us-west-2.amazonaws.com/solomedia/upload/resource/31a93616c0f34391aabf260afafd4306_mini_icon.png");
+        setGiftId(4781);
+        setType(3);
+        setUserId(314451);
+        setGuideGift(true);
     }
 
     public void setSecondGift(){

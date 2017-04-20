@@ -18,7 +18,7 @@ import com.hc.lab.kittyrun.model.GiftModel;
 import com.hc.lab.kittyrun.model.GiftResMoel;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
 import com.hc.lab.kittyrun.sprite.BounusSprite;
-import com.hc.lab.kittyrun.sprite.ComboSprite;
+import com.hc.lab.kittyrun.sprite.GameComboSprite;
 import com.hc.lab.kittyrun.sprite.CountdownSprite;
 import com.hc.lab.kittyrun.sprite.ExitSprite;
 import com.hc.lab.kittyrun.sprite.GiftBarSprite;
@@ -86,7 +86,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private GiftBarSprite mGiftBarSpirite;
     private MileSprite mMileSprite;
     private MoonSprite mMoonSprite;
-    private ComboSprite mComboSprite;
+    private GameComboSprite mGameComboSprite;
     private CountdownSprite mCountdownSprite;
 
     private SmokeSprite mSmokeSprite;
@@ -196,6 +196,13 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
         mBounusSprite.setPosition(0, positionY);
         addChild(mBounusSprite);
+
+        mGameComboSprite = new GameComboSprite("image/combo/game_combo0.png");
+        float comboX = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GAME_COMBO_X);
+        float comboY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GAME_COMBO_Y);
+        mGameComboSprite.setAnchorPoint(1f, 1f);
+        mGameComboSprite.setPosition(comboX, comboY);
+        addChild(mGameComboSprite);
 
     }
 
@@ -420,6 +427,16 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                     bounusPlusAction.setStrategy(bounusPlusStrategy);
                     mBounusPlusSprite.run(bounusPlusAction);
                     mBounusSprite.addBounus(bounusPlusStrategy.bounusCount);
+                    if (mPrevGiftSprite.isCombo) {
+                        //添加combo的值
+                        mGameComboSprite.addCombo(1);
+                    }
+                }
+            }
+            if (mPrevGiftSprite.getPosition().x <= 0) {
+                if (!mPrevGiftSprite.isCombo) {
+                    //combo 失败
+                    mGameComboSprite.resetCombo();
                 }
             }
         }

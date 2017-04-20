@@ -30,6 +30,9 @@ public class DataConstant {
     public static final int BOUNUS_NUMBER_WIDTH = 38; // 距离数字的宽高大小
     public static final int BOUNUS_NUMBER_HEIGHT = 46;
 
+    public static final int COMBO_NUMBER_WIDTH = 50; // combo数字的宽高
+    public static final int COMBO_NUMBER_HEIGHT = 60;
+
     public static final int MILE_PER_SECEND = 100; // 每一秒增加100米
 
     // 地面的高度
@@ -62,5 +65,8 @@ public class DataConstant {
 
     public static final float ORIGIN_GIFT_BAR_POSITON_Y = 1126;
     public static final float ORIGIN_BOUNUS_POSITON_Y = 1126;
+
+    public static final float ORIGIN_GAME_COMBO_X= 730;
+    public static final float ORIGIN_GAME_COMBO_Y = 1040;
 
 }

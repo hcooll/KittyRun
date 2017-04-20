@@ -165,7 +165,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
      * 加载背景音乐
      */
     private void loadBGM() {
-        mSoundEngine.playSound(getContext(), R.raw.bg_music, true);
+        playSound(R.raw.bgm, true);
     }
 
     // 布置初始场景
@@ -192,6 +192,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         mKittySpirite = new KittySprite("image/kitty/run0000.png");
         mKittySpirite.setTag(SpriteConstant.SPRITE_TAG_KITTY);
         mKittySpirite.setActionStatusListener(this);
+        mKittySpirite.setLayer(this);
         mKittySpirite.setPosition(cgSize.width / 4,
                 mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
         addChild(mKittySpirite, 2);
@@ -252,7 +253,6 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                             mMileSprite.getMiles(), mKittySpirite, mPrevLawnSprite, mCurrentLawnSprite);
                     action.setStrategy(kittyJumpStrategy);
                     mKittySpirite.run(action);
-                    mSoundEngine.playEffect(getContext(), R.raw.jump_sound);
                 }
                 break;
         }
@@ -468,6 +468,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                         //添加combo的值
                         mGameComboSprite.addCombo(1);
                     }
+                    playEffect(R.raw.receive_gift);
                     mFirstGuideHelper.checkGift();
                 }
             }

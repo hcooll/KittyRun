@@ -12,11 +12,13 @@ import org.cocos2d.types.CGSize;
 public abstract class BaseLayer extends CCLayer {
 	protected CGSize cgSize ;
 	protected static SoundEngine mSoundEngine;
-	
+
 	static{
 		mSoundEngine = SoundEngine.sharedEngine();
-		mSoundEngine.preloadSound(getContext(), R.raw.bg_music);
-		mSoundEngine.preloadEffect(getContext(), R.raw.jump_sound);
+		mSoundEngine.preloadSound(getContext(), R.raw.bgm);
+		mSoundEngine.preloadEffect(getContext(), R.raw.jump);
+		mSoundEngine.preloadEffect(getContext(), R.raw.fall_down);
+		mSoundEngine.preloadEffect(getContext(), R.raw.receive_gift);
 	}
 
 	public BaseLayer(){
@@ -34,6 +36,14 @@ public abstract class BaseLayer extends CCLayer {
 	public CGSize getCgSize() {
 		return cgSize;
 	}
+
+    public void playSound(int resId, boolean loop) {
+        mSoundEngine.playSound(getContext(), resId, loop);
+    }
+
+    public void playEffect(int resId) {
+        mSoundEngine.playEffect(getContext(), resId);
+    }
 
 	@Override
 	public void onExit() {

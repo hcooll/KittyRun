@@ -19,6 +19,9 @@ public class Action {
     public static final int TYPE_RUN_MILE = 6;
     public static final int TYPE_GIFT_ENTER = 7;
     public static final int TYPE_BOUNUS_PLUS = 8;
+    public static final int TYPE_SHOW_TIPS = 9;
+    public static final int TYPE_FALL_DOWN = 10;
+    public static final int TYPE_RE_ACTION= 11;
 
     private Strategy mStrategy;
 

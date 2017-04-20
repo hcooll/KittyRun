@@ -2,6 +2,8 @@ package com.hc.lab.kittyrun.base;
 
 import android.app.Activity;
 
+import com.hc.lab.kittyrun.R;
+
 import org.cocos2d.layers.CCLayer;
 import org.cocos2d.nodes.CCDirector;
 import org.cocos2d.sound.SoundEngine;
@@ -9,14 +11,12 @@ import org.cocos2d.types.CGSize;
 
 public abstract class BaseLayer extends CCLayer {
 	protected CGSize cgSize ;
-	protected static SoundEngine engine;
+	protected static SoundEngine mSoundEngine;
 	
 	static{
-		engine = SoundEngine.sharedEngine();
-//		engine.preloadSound(getContext(), R.raw.go);
-//		engine.preloadSound(getContext(), R.raw.day);
-//		engine.preloadSound(getContext(), R.raw.night);
-//		engine.preloadSound(getContext(), R.raw.onclick);
+		mSoundEngine = SoundEngine.sharedEngine();
+		mSoundEngine.preloadSound(getContext(), R.raw.bg_music);
+		mSoundEngine.preloadEffect(getContext(), R.raw.jump_sound);
 	}
 
 	public BaseLayer(){
@@ -34,5 +34,13 @@ public abstract class BaseLayer extends CCLayer {
 	public CGSize getCgSize() {
 		return cgSize;
 	}
+
+	@Override
+	public void onExit() {
+		super.onExit();
+		mSoundEngine.realesAllSounds();
+		mSoundEngine.realesAllEffects();
+	}
+
 
 }

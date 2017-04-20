@@ -1,7 +1,6 @@
 package com.hc.lab.kittyrun.screenplay;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -10,6 +9,8 @@ import android.util.Log;
 import com.hc.lab.kittyrun.KittyRunDirector;
 import com.hc.lab.kittyrun.action.CountDownAction;
 import com.hc.lab.kittyrun.action.GiftEnterAction;
+import com.hc.lab.kittyrun.action.ReAction;
+import com.hc.lab.kittyrun.action.TipsAction;
 import com.hc.lab.kittyrun.constant.PreferenceConstant;
 import com.hc.lab.kittyrun.listener.OnGiftResLoadListener;
 import com.hc.lab.kittyrun.model.GiftModel;
@@ -67,8 +68,9 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
     }
 
     public void beginAction() {
-        boolean isFirstGuide = mPref.getPrefBoolean(PreferenceConstant.PREF_KEY_IS_GUIDE, false);
-        mDirector.performanceAction(new CountDownAction());
+        boolean isFirstGuide = mPref.getPrefBoolean(PreferenceConstant.PREF_KEY_IS_GUIDE, true);
+        Log.e("beginAction", "isFirstGuide: " + isFirstGuide);
+        mDirector.performanceAction(new CountDownAction(isFirstGuide));
         GiftModel giftModel = new GiftModel();
         newGiftPlace(giftModel);
         mhandler.sendEmptyMessageDelayed(SECOND_GIFT, 2000);
@@ -81,16 +83,26 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
 
     public void reAction() {
         beginAction();
+    }
 
+    public void showReAction() {
+        mDirector.performanceAction(new ReAction());
+    }
+
+    // 通过了新手引导
+    public void clearanceTheGuide() {
+        mPref.setPrefBoolean(PreferenceConstant.PREF_KEY_IS_GUIDE, false);
+    }
+
+    public void showTips(TipsAction action){
+        mDirector.performanceAction(action);
     }
 
     //来了新的礼物
     public void newGiftPlace(GiftModel giftModel) {
         mGiftModelList.offer(giftModel);
         GlideWrapper.loadGiftRes(mContext, giftModel, this);
-
     }
-
 
     @Override
     public void onGiftResLoadSuccess(GiftResMoel giftResMoel, GiftModel giftModel) {

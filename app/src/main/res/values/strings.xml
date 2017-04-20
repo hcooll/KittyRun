@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">KittyRun</string>
+
+    <string name="tips_guide_loudly">大声叫出声音，可以让Kitty精灵跳起来  \n 啊啊啊···</string>
+    <string name="tips_guide_loudly_greate">干的漂亮。\n 接着让Kitty小精灵跳起来接入礼物吧。</string>
+    <string name="tips_guide_gift_greate">哇，厉害。\n 你正在向高手的行列迈步，加油！</string>
+    <string name="tips_guide_loudly_failure">哦哦，声音有点小。 \n  没关系，再来试一次，相信自己。</string>
+    <string name="tips_guide_gift_failure">可惜，就差一点就接住礼物了，\n 再来试一次。</string>
 </resources>

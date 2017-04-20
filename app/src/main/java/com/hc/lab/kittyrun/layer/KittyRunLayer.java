@@ -3,13 +3,17 @@ package com.hc.lab.kittyrun.layer;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.hc.lab.kittyrun.R;
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.action.BounusPlusAction;
+import com.hc.lab.kittyrun.action.CountDownAction;
 import com.hc.lab.kittyrun.action.GiftEnterAction;
+import com.hc.lab.kittyrun.action.KittyFalldownAction;
 import com.hc.lab.kittyrun.action.KittyJumpAction;
 import com.hc.lab.kittyrun.action.KittyWalkAction;
 import com.hc.lab.kittyrun.action.LawnMoveAction;
 import com.hc.lab.kittyrun.action.MileAction;
+import com.hc.lab.kittyrun.action.TipsAction;
 import com.hc.lab.kittyrun.base.BaseLayer;
 import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.constant.SpriteConstant;
@@ -17,6 +21,7 @@ import com.hc.lab.kittyrun.listener.ActionStatusListener;
 import com.hc.lab.kittyrun.model.GiftModel;
 import com.hc.lab.kittyrun.model.GiftResMoel;
 import com.hc.lab.kittyrun.screenplay.KittyRunSceenPlay;
+import com.hc.lab.kittyrun.sprite.BounusPlusSprite;
 import com.hc.lab.kittyrun.sprite.BounusSprite;
 import com.hc.lab.kittyrun.sprite.GameComboSprite;
 import com.hc.lab.kittyrun.sprite.CountdownSprite;
@@ -27,10 +32,10 @@ import com.hc.lab.kittyrun.sprite.KittySprite;
 import com.hc.lab.kittyrun.sprite.LawnSprite;
 import com.hc.lab.kittyrun.sprite.MileSprite;
 import com.hc.lab.kittyrun.sprite.MoonSprite;
-import com.hc.lab.kittyrun.sprite.BounusPlusSprite;
 import com.hc.lab.kittyrun.sprite.RestartSprite;
 import com.hc.lab.kittyrun.sprite.ShineSprite;
 import com.hc.lab.kittyrun.sprite.SmokeSprite;
+import com.hc.lab.kittyrun.sprite.TipsSprite;
 import com.hc.lab.kittyrun.sprite.TrapSprite;
 import com.hc.lab.kittyrun.strategy.BounusPlusStrategy;
 import com.hc.lab.kittyrun.strategy.GiftStrategy;
@@ -38,12 +43,11 @@ import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.strategy.LawnStrategy;
 import com.hc.lab.kittyrun.strategy.StrategyManager;
 import com.hc.lab.kittyrun.util.CommonUtil;
+import com.hc.lab.kittyrun.util.SizeConvertUtils;
 
 import org.cocos2d.actions.CCScheduler;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGSize;
-
-import com.hc.lab.kittyrun.util.SizeConvertUtils;
 
 import java.util.LinkedList;
 
@@ -70,6 +74,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private static final String TAG = KittyRunLayer.class.getSimpleName();
     KittyRunSceenPlay mSceenPlay;
     StrategyManager mStrategyManager;
+    FirstGuideHelper mFirstGuideHelper;
     //陷阱
     private LinkedList<TrapSprite> mTrapSpriteList;
     //已经显示出来礼物列表
@@ -95,6 +100,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
     private ShineSprite mShineSprite;
     private BounusPlusSprite mBounusPlusSprite;
     private BounusSprite mBounusSprite;
+    private TipsSprite mTipsSprite; // 文案提示
 
     private boolean isGameStarted = false;
     private GiftSprite mPrevGiftSprite;
@@ -103,11 +109,13 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         setIsTouchEnabled(true);
         this.mSceenPlay = sceenPlay;
         mStrategyManager = StrategyManager.getInstance();
+        mFirstGuideHelper = new FirstGuideHelper();
         mTrapSpriteList = new LinkedList<>();
         mAttachedGiftSprite = new LinkedList<>();
         mDettachedGiftSprite = new LinkedList<>();
-
         mLawnSpriteList = new LinkedList<>();
+
+        loadBGM();
         initLayerSprite();
     }
 
@@ -143,16 +151,31 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                     giftSprite.setAction(giftEnterAction);
                     enqueueGiftSprite(giftSprite);
                     break;
+                case Action.TYPE_SHOW_TIPS:
+                    mTipsSprite.run(action);
+                    break;
+                case Action.TYPE_RE_ACTION:
+                    mRestartSprite.setVisible(true);
+                    break;
             }
         }
     }
 
+    /**
+     * 加载背景音乐
+     */
+    private void loadBGM() {
+        mSoundEngine.playSound(getContext(), R.raw.bg_music, true);
+    }
+
     // 布置初始场景
     public void initLayerSprite() {
-        mMileSprite = new MileSprite("image/mile/0.png");
+        isGameStarted = false;
+        mStrategyManager.initStrategyMode();
+
+        mMileSprite = new MileSprite("blank.png");
         mMileSprite.setTag(SpriteConstant.SPRITE_TAG_MILE);
         addChild(mMileSprite);
-
 
         mCountdownSprite = new CountdownSprite("image/bounus/3.png");
         mCountdownSprite.setTag(SpriteConstant.SPRITE_TAG_COUNTDOWN);
@@ -168,6 +191,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
         mKittySpirite = new KittySprite("image/kitty/run0000.png");
         mKittySpirite.setTag(SpriteConstant.SPRITE_TAG_KITTY);
+        mKittySpirite.setActionStatusListener(this);
         mKittySpirite.setPosition(cgSize.width / 4,
                 mCurrentLawnSprite.getPosition().y + mCurrentLawnSprite.getContentSize().height);
         addChild(mKittySpirite, 2);
@@ -204,6 +228,13 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         mGameComboSprite.setPosition(comboX, comboY);
         addChild(mGameComboSprite);
 
+        mTipsSprite = new TipsSprite("blank.png");
+        addChild(mTipsSprite);
+
+        // 添加游戏重玩按钮
+        mRestartSprite = new RestartSprite("image/game_restart.png");
+        addChild(mRestartSprite, 1, SpriteConstant.SPRITE_TAG_RESTART);
+        mRestartSprite.setVisible(false);
     }
 
     @Override
@@ -221,6 +252,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                             mMileSprite.getMiles(), mKittySpirite, mPrevLawnSprite, mCurrentLawnSprite);
                     action.setStrategy(kittyJumpStrategy);
                     mKittySpirite.run(action);
+                    mSoundEngine.playEffect(getContext(), R.raw.jump_sound);
                 }
                 break;
         }
@@ -239,13 +271,12 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         }
         switch (action.type) {
             case Action.TYPE_COUNT_DOWN:
+                // 首次引导
+                mFirstGuideHelper.init(mSceenPlay, this, getContext(), ((CountDownAction) action).isFirstGuide);
+
                 // 添加游戏结束按钮
                 mExitSprite = new ExitSprite("image/game_exit.png");
                 addChild(mExitSprite, 1, SpriteConstant.SPRITE_TAG_EXIT);
-
-                // 添加游戏重玩按钮
-                mRestartSprite = new RestartSprite("image/game_restart.png");
-                addChild(mRestartSprite, 1, SpriteConstant.SPRITE_TAG_RESTART);
 
                 // 开始计算距离
                 mMileSprite.run(new MileAction());
@@ -266,10 +297,13 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
             case Action.TYPE_LAWN_MOVE:
 
                 break;
+            case Action.TYPE_FALL_DOWN:
+                mSceenPlay.showReAction();
+                break;
         }
     }
 
-    public LawnSprite getNewLawnSprite(boolean defaultLawn) {
+    private LawnSprite getNewLawnSprite(boolean defaultLawn) {
         LawnStrategy lawnStrategy = mStrategyManager.getLawnActionStrategy(defaultLawn);
         Log.e(TAG, "getNewLawnSprite Pic:" + lawnStrategy.lawnPic);
         LawnSprite spirite = new LawnSprite(lawnStrategy.lawnPic);
@@ -301,7 +335,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
 
 
                 //摆放礼物，并且和一起草坪走动
-                mPrevGiftSprite = mAttachedGiftSprite.poll();
+                mPrevGiftSprite = mFirstGuideHelper.getGiftSprite(mAttachedGiftSprite);
                 if (mPrevGiftSprite != null) {
                     GiftStrategy strategy = (GiftStrategy) mPrevGiftSprite.getAction().getStrategy();
                     LawnStrategy lawnStrategy = (LawnStrategy) mPrevLawnSprite.getAction().getStrategy();
@@ -367,6 +401,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                 // ok
                 // Log.e(TAG, "okokok111 kittyPositionX" + kittyPositionX +
                 // ",currentLawnLeftX" + currentLawnLeftX + ",currentLawnRightX" + currentLawnRightX);
+                mFirstGuideHelper.checkFirstTrip();
                 return;
             }
             if (mPrevLawnSprite != null) {
@@ -402,6 +437,8 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
             }
 
             gameOver();
+
+            mFirstGuideHelper.gameOver();
         }
     }
 
@@ -431,6 +468,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                         //添加combo的值
                         mGameComboSprite.addCombo(1);
                     }
+                    mFirstGuideHelper.checkGift();
                 }
             }
             if (mPrevGiftSprite.getPosition().x <= 0) {
@@ -491,18 +529,21 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
         if (mPrevLawnSprite != null) {
             mPrevLawnSprite.stopMove();
         }
-
         // mGiftBarSpirite.disappear();
-        mKittySpirite.fallDown();
+        mKittySpirite.run(new KittyFalldownAction());
         mSceenPlay.stopAction();
     }
 
     private void replayGame() {
         unschedule("checkBoundary");
-        mStrategyManager.initStrategyMode();
         mLawnSpriteList.clear();
         removeAllChildren(true);
         initLayerSprite();
         mSceenPlay.reAction();
     }
+
+    private void showTips(TipsAction action) {
+        mTipsSprite.run(action);
+    }
+
 }

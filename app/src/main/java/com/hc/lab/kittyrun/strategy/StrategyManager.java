@@ -52,7 +52,6 @@ public class StrategyManager {
 
     private StrategyManager() {
         mRandom = new Random();
-        initStrategyMode();
         mBounusData = new BounusData();
     }
 

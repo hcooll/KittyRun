@@ -18,6 +18,7 @@ import org.cocos2d.nodes.CCSpriteFrame;
 import org.cocos2d.types.CGPoint;
 import org.cocos2d.types.CGRect;
 import org.cocos2d.types.CGSize;
+import org.cocos2d.utils.javolution.MathLib;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,6 +133,9 @@ public class CommonUtil {
      */
     public static boolean isClicke(MotionEvent event, CCLayer layer, CCNode node) {
         CGPoint point = layer.convertTouchToNodeSpace(event);
+        if (node == null) {
+            return false;
+        }
         return CGRect.containsPoint(node.getBoundingBox(), point);
     }
 
@@ -185,5 +189,12 @@ public class CommonUtil {
 
         CCAnimate animate = CCAnimate.action(anim);
         return CCRepeatForever.action(animate);
+    }
+
+    public static boolean isCollision(CGPoint p1, CGPoint p2, CGSize s1, CGSize s2) {
+        if (MathLib.abs(p1.x - p2.x) < (s1.width + s2.width )/ 2 && MathLib.abs(p1.y - p2.y) < s1.height / 2 + s2.height / 2) {
+            return true;
+        }
+        return false;
     }
 }

@@ -48,6 +48,7 @@ public class ActionSprite extends BaseSprite implements ActionRunnable, Collisio
 
     @Override
     public void run(Action action) {
+        mAction = action;
         if (mActionListener != null) {
             mActionListener.onActionStart(action);
         }
@@ -87,7 +88,6 @@ public class ActionSprite extends BaseSprite implements ActionRunnable, Collisio
     @Override
     public void onExit() {
         super.onExit();
-        Log.e("Action sprite", "onExit:" + this);
         if (mActionListener != null) {
             mActionListener.onActionStop(mAction);
         }

@@ -3,8 +3,10 @@ package com.hc.lab.kittyrun.strategy;
 import android.util.Log;
 
 import com.hc.lab.kittyrun.constant.DataConstant;
+import com.hc.lab.kittyrun.data.BounusData;
 import com.hc.lab.kittyrun.sprite.KittySprite;
 import com.hc.lab.kittyrun.sprite.LawnSprite;
+import com.hc.lab.kittyrun.model.GiftModel;
 import com.hc.lab.kittyrun.util.MathRandom;
 import com.hc.lab.kittyrun.util.PhysicsUtils;
 
@@ -38,6 +40,8 @@ public class StrategyManager {
     private int strategyMode;
     private Random mRandom;
 
+    private BounusData mBounusData;
+
     private static final float[] KITTY_JUMP_HEIGHT = new float[]{
             DataConstant.MAX_JUMP_HEIGHT,
             DataConstant.MEDIUM_JUMP_HEIGHT
@@ -49,6 +53,11 @@ public class StrategyManager {
     private StrategyManager() {
         mRandom = new Random();
         initStrategyMode();
+        mBounusData = new BounusData();
+    }
+
+    public void resetBounusData() {
+        mBounusData.resetBonusCount();
     }
 
     public static StrategyManager getInstance() {
@@ -215,4 +224,32 @@ public class StrategyManager {
         }
         Log.e("", "setStrategyMode miles: " + miles + " strategyMode: " + this.strategyMode);
     }
+
+    public GiftStrategy getGiftStrategy(GiftModel giftModel) {
+        GiftStrategy giftStrategy = new GiftStrategy();
+        float initHeight;
+        if (giftModel.diamond <= 10) {
+            initHeight = 72 / 2;
+        } else if (giftModel.diamond <= 100) {
+            initHeight = 72 / 3 + 20;
+        } else if (giftModel.diamond <= 1000) {
+            initHeight = 72 / 3 + 40;
+        } else if (giftModel.diamond <= 2000) {
+            initHeight = 72 / 3 + 60;
+        } else if (giftModel.diamond <= 4000) {
+            initHeight = 72 / 3 + 70;
+        } else {
+            initHeight = 72 / 3 + 80;
+        }
+        giftStrategy.initHeight = initHeight;
+        return giftStrategy;
+    }
+
+    public BounusPlusStrategy getBounusPlusStrategy(int rubyCost, CGPoint giftPosition) {
+        BounusPlusStrategy bounusPlusStrategy = new BounusPlusStrategy();
+        bounusPlusStrategy.bounusCount = mBounusData.getBonus(rubyCost);
+        bounusPlusStrategy.position = CGPoint.ccp(giftPosition.x, giftPosition.y);
+        return bounusPlusStrategy;
+    }
+
 }

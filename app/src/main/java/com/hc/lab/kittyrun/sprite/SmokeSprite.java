@@ -1,5 +1,6 @@
 package com.hc.lab.kittyrun.sprite;
 
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.util.CommonUtil;
 
 import org.cocos2d.actions.instant.CCCallFunc;
@@ -23,6 +24,8 @@ public class SmokeSprite extends ActionSprite {
 
     public SmokeSprite(String filepath) {
         super(filepath);
+        setAnchorPoint(0.5f, 0.5f);
+        setScale(DataConstant.SCALE_SIZE);
     }
 
 

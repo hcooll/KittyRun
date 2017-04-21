@@ -2,6 +2,7 @@ package com.hc.lab.kittyrun.sprite;
 
 import android.util.Log;
 
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.util.CommonUtil;
 
 import org.cocos2d.actions.instant.CCCallFunc;
@@ -24,6 +25,8 @@ public class ShineSprite extends ActionSprite {
 
     public ShineSprite(String filepath) {
         super(filepath);
+        setAnchorPoint(0.5f, 0.5f);
+        setScale(DataConstant.SCALE_SIZE);
     }
 
     @Override

@@ -28,6 +28,10 @@ public class BounusPlusSprite extends ActionSprite {
 
     public BounusPlusSprite(String filepath) {
         super(filepath);
+
+        setAnchorPoint(0.5f, 0.5f);
+        setPosition(screenSize.width / 2, screenSize.height / 2);
+
         setTextureRect(CGRect.zero());
         labelAtlas = new CCLabelAtlas("0123456789", "image/bounus/bounus2.png",
                 DataConstant.BOUNUS_NUMBER_WIDTH, DataConstant.BOUNUS_NUMBER_HEIGHT, '0');
@@ -39,6 +43,8 @@ public class BounusPlusSprite extends ActionSprite {
         moonSprite.setAnchorPoint(0f, 0.5f);
         moonSprite.setPosition(labelAtlas.getPosition().x + labelAtlas.getWidth() / 2, labelAtlas.getPosition().y);
         addChild(moonSprite);
+
+        setScale(DataConstant.SCALE_SIZE);
     }
 
     @Override

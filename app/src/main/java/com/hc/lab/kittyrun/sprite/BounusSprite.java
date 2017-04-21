@@ -1,6 +1,7 @@
 package com.hc.lab.kittyrun.sprite;
 
 import com.hc.lab.kittyrun.constant.DataConstant;
+import com.hc.lab.kittyrun.util.SizeConvertUtils;
 
 import org.cocos2d.nodes.CCLabelAtlas;
 import org.cocos2d.types.CGRect;
@@ -17,8 +18,14 @@ public class BounusSprite extends ActionSprite {
     public BounusSprite(String filepath) {
         super(filepath);
 
-        setTextureRect(CGRect.zero());
+        setAnchorPoint(0f, 0f);
+        float positionX = SizeConvertUtils
+                .getConvertWidth(DataConstant.ORIGIN_BOUNUS_POSITON_X);
+        float positionY = SizeConvertUtils
+                .getConvertWidth(DataConstant.ORIGIN_BOUNUS_POSITON_Y);
+        setPosition(positionX, positionY);
 
+        setTextureRect(CGRect.zero());
         moonSprite = new MoonSprite("image/bounus/moon.png");
         moonSprite.setAnchorPoint(0f, 0.5f);
         addChild(moonSprite);
@@ -26,9 +33,12 @@ public class BounusSprite extends ActionSprite {
         labelAtlas = new CCLabelAtlas("0123456789", "image/bounus/bounus.png",
                 DataConstant.BOUNUS_NUMBER_WIDTH, DataConstant.BOUNUS_NUMBER_HEIGHT, '0');
         labelAtlas.setAnchorPoint(0f, 0.5f);
-        labelAtlas.setPosition(moonSprite.getPosition().x + moonSprite.getContentSize().width, moonSprite.getPosition().y);
+        float marginLeft = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_BOUNUS_MARGIN_RIGHT);
+        labelAtlas.setPosition(moonSprite.getPosition().x + moonSprite.getContentSize().width + marginLeft, moonSprite.getPosition().y);
         labelAtlas.setString(String.valueOf(0));
         addChild(labelAtlas);
+        setScale(DataConstant.SCALE_SIZE);
+
     }
 
     public void resetBounus() {

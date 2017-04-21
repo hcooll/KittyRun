@@ -73,8 +73,8 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
         mDirector.performanceAction(new CountDownAction(isFirstGuide));
         GiftModel giftModel = new GiftModel();
         newGiftPlace(giftModel);
-        mhandler.sendEmptyMessageDelayed(SECOND_GIFT, 2000);
-        mhandler.sendEmptyMessageDelayed(THRID_GIFT, 5000);
+        mhandler.sendEmptyMessageDelayed(SECOND_GIFT, 1000);
+        mhandler.sendEmptyMessageDelayed(THRID_GIFT, 1000);
     }
 
     public void stopAction() {

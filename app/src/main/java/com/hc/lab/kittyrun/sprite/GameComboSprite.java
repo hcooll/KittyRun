@@ -1,6 +1,7 @@
 package com.hc.lab.kittyrun.sprite;
 
 import com.hc.lab.kittyrun.constant.DataConstant;
+import com.hc.lab.kittyrun.util.SizeConvertUtils;
 
 import org.cocos2d.nodes.CCLabelAtlas;
 import org.cocos2d.types.CGRect;
@@ -18,6 +19,13 @@ public class GameComboSprite extends ActionSprite {
     public GameComboSprite(String filepath) {
         super(filepath);
 
+        float comboX = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GAME_COMBO_X);
+        float comboY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GAME_COMBO_Y);
+        float marginRight = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GAME_COMBO_MARGIN_RIGHT);
+
+        setAnchorPoint(1f, 1f);
+        setPosition(comboX-marginRight, comboY);
+
         setTextureRect(CGRect.zero());
 
         labelAtlas = new CCLabelAtlas("0123456789", "image/combo/combo.png",
@@ -31,6 +39,8 @@ public class GameComboSprite extends ActionSprite {
         comboSprite.setPosition(labelAtlas.getPosition().x - labelAtlas.getWidth() / 2
                 , labelAtlas.getPosition().y - labelAtlas.getHeight());
         addChild(comboSprite);
+        setScale(DataConstant.SCALE_SIZE);
+
     }
 
     public void addCombo(int combo) {

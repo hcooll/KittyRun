@@ -339,12 +339,7 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                     mSmokeSprite.setPosition(smokePositionX, smokePositionY);
                     mSmokeSprite.followShowSmoke(CGPoint.ccp(smokePositionX, smokePositionY), lawnStrategy.speed);
 
-                    float giftPositionX = mPrevLawnSprite.getPosition().x + mPrevLawnSprite.getContentSize().width
-                            - mPrevGiftSprite.getContentSize().width * 3 / 2;
-                    //float giftPositionY = mPrevLawnSprite.getContentSize().height + mKittySpirite.getContentSize().height
-                    //       + strategy.initHeight + giftSprite.getContentSize().height / 2;
-
-                    mPrevGiftSprite.followLawnMove(CGPoint.ccp(giftPositionX, smokePositionY), lawnStrategy.speed);
+                    mPrevGiftSprite.followLawnMove(CGPoint.ccp(smokePositionX, smokePositionY), lawnStrategy.speed);
 
                     if (!mAttachedGiftSprite.isEmpty()) {
                         for (int position = 0; position < mAttachedGiftSprite.size(); position++) {
@@ -447,7 +442,9 @@ public class KittyRunLayer extends BaseLayer implements ActionStatusListener {
                     //碰撞到啦。。
                     mPrevGiftSprite.onCollision();
                     LawnStrategy lawnStrategy = (LawnStrategy) mPrevLawnSprite.getAction().getStrategy();
-                    mShineSprite.followOnCollision(CGPoint.ccp(mPrevGiftSprite.getPosition().x, mPrevGiftSprite.getPosition().y),
+                    float smokePositionX = mPrevLawnSprite.getPosition().x + mPrevLawnSprite.getContentSize().width
+                            - mSmokeSprite.getContentSize().width / 2;
+                    mShineSprite.followOnCollision(CGPoint.ccp(smokePositionX, mPrevGiftSprite.getPosition().y),
                             lawnStrategy.speed);
                     int rubyCost = giftStrategy.getGiftModel().count * giftStrategy.getGiftModel().diamond;
                     BounusPlusAction bounusPlusAction = new BounusPlusAction();

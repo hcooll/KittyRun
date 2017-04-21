@@ -1,5 +1,6 @@
 package com.hc.lab.kittyrun.sprite;
 
+import com.hc.lab.kittyrun.R;
 import com.hc.lab.kittyrun.action.Action;
 import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.util.CommonUtil;
@@ -74,6 +75,7 @@ public class KittySprite extends ActionSprite {
             CCSequence ccSequence = CCSequence.actions(ccJumpTo, CCCallFunc.action(this, "endJump"));
             this.runAction(ccSequence);
             this.runAction(CommonUtil.getAnimation(mFlyFrames, 1, 3, "image/kitty/fly000%01d.png", duration / 4));
+            mLayer.playEffect(R.raw.jump);
         }
     }
 
@@ -91,6 +93,7 @@ public class KittySprite extends ActionSprite {
         CCMoveTo ccMoveTo = CCMoveTo.action(1.0f, CGPoint.ccp(position_.x, 0));
         CCSequence ccSequence = CCSequence.actions(ccMoveTo, CCCallFunc.action(this, "gameOver"));
         this.runAction(ccSequence);
+        mLayer.playEffect(R.raw.fall_down);
     }
 
     public void gameOver() {

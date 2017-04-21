@@ -19,7 +19,7 @@ public class MileSprite extends ActionSprite {
 
     public static final String TAG = MileSprite.class.getSimpleName();
     private CCLabelAtlas labelAtlas;
-    private TextBuilder fpsBuilder = new TextBuilder();
+    private TextBuilder mileTextBuilder = new TextBuilder();
     private long miles;
 
     public MileSprite(String filepath) {
@@ -28,13 +28,14 @@ public class MileSprite extends ActionSprite {
         float positionX = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_MILE_POSITION_X);
         float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_MILE_POSITION_Y);
         setPosition(positionX, positionY);
+
         setTextureRect(CGRect.zero());
 
-        labelAtlas = new CCLabelAtlas("0123456789", "image/mile/mile_number.png",
+        labelAtlas = new CCLabelAtlas("0123456789:", "image/mile/mile_number.png",
                 DataConstant.MILE_NUMBER_WIDTH, DataConstant.MILE_NUMBER_HEIGHT, '0');
         labelAtlas.setAnchorPoint(0.0f, 0.0f);
         labelAtlas.setPosition(0.0f, 0.0f);
-        labelAtlas.setString("0");
+        labelAtlas.setString("0:");
         addChild(labelAtlas);
         setScale(DataConstant.SCALE_SIZE);
     }
@@ -56,8 +57,8 @@ public class MileSprite extends ActionSprite {
     public void setMile(float t) {
         Log.d(TAG, "setMile t: " + t);
         miles += DataConstant.MILE_PER_SECEND;
-        fpsBuilder.reset();
-        fpsBuilder.append(miles);
-        labelAtlas.setString(fpsBuilder);
+        mileTextBuilder.reset();
+        mileTextBuilder.append(miles).append(":");
+        labelAtlas.setString(mileTextBuilder);
     }
 }

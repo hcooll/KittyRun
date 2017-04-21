@@ -35,24 +35,30 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
     private Context mContext;
     private PreferenceUtils mPref;
 
-    private static final int THRID_GIFT = 111;
+    private static final int FIRST_GIFT = 111;
     private static final int SECOND_GIFT = 222;
+    private static final int THRID_GIFT = 333;
     //开始了才接受外部消息
     private boolean isKittyRunStart;
+
     private Handler mhandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
+                case FIRST_GIFT:
+                    GiftModel giftModel1 = new GiftModel();
+                    newGiftPlace(giftModel1);
+                    break;
                 case SECOND_GIFT:
-                    GiftModel giftModel = new GiftModel();
-                    giftModel.setSecondGift();
-                    newGiftPlace(giftModel);
+                    GiftModel giftModel2 = new GiftModel();
+                    giftModel2.setSecondGift();
+                    newGiftPlace(giftModel2);
                     break;
                 case THRID_GIFT:
-                    GiftModel giftModel2 = new GiftModel();
-                    giftModel2.setThirdGift();
-                    newGiftPlace(giftModel2);
+                    GiftModel giftModel3 = new GiftModel();
+                    giftModel3.setThirdGift();
+                    newGiftPlace(giftModel3);
                     break;
             }
         }
@@ -71,10 +77,10 @@ public class KittyRunSceenPlay extends ScreenPlay implements OnGiftResLoadListen
         boolean isFirstGuide = mPref.getPrefBoolean(PreferenceConstant.PREF_KEY_IS_GUIDE, true);
         Log.e("beginAction", "isFirstGuide: " + isFirstGuide);
         mDirector.performanceAction(new CountDownAction(isFirstGuide));
-        GiftModel giftModel = new GiftModel();
-        newGiftPlace(giftModel);
-        mhandler.sendEmptyMessageDelayed(SECOND_GIFT, 1000);
-        mhandler.sendEmptyMessageDelayed(THRID_GIFT, 1000);
+
+        mhandler.sendEmptyMessageDelayed(FIRST_GIFT, 1000);
+        mhandler.sendEmptyMessageDelayed(SECOND_GIFT, 2000);
+        mhandler.sendEmptyMessageDelayed(THRID_GIFT, 3000);
     }
 
     public void stopAction() {

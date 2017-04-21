@@ -33,7 +33,7 @@ public class BounusPlusSprite extends ActionSprite {
         setPosition(screenSize.width / 2, screenSize.height / 2);
 
         setTextureRect(CGRect.zero());
-        labelAtlas = new CCLabelAtlas("0123456789", "image/bounus/bounus2.png",
+        labelAtlas = new CCLabelAtlas("0123456789:", "image/bounus/bounus2.png",
                 DataConstant.BOUNUS_NUMBER_WIDTH, DataConstant.BOUNUS_NUMBER_HEIGHT, '0');
         labelAtlas.setAnchorPoint(0.5f, 0.5f);
         labelAtlas.setString(":15");

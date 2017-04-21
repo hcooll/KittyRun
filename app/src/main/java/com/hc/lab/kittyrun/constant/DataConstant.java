@@ -24,8 +24,8 @@ public class DataConstant {
     public static final float LAWN_MOVE_TIME = 3.5f; // 草坪移动一个屏幕的时间，单位：秒
     public static final float LAWN_MOVE_VELOCITY = (float) WIDTH / LAWN_MOVE_TIME; // 草坪移动的速度
 
-    public static final int MILE_NUMBER_WIDTH = 38; // 距离数字的宽高大小
-    public static final int MILE_NUMBER_HEIGHT = 46;
+    public static final int MILE_NUMBER_WIDTH = 36; // 距离数字的宽高大小
+    public static final int MILE_NUMBER_HEIGHT = 42;
 
     public static final int BOUNUS_NUMBER_WIDTH = 38; // 距离数字的宽高大小
     public static final int BOUNUS_NUMBER_HEIGHT = 46;

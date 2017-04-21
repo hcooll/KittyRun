@@ -49,6 +49,10 @@ public class DataConstant {
     //重力加速度
     public static final int GA = 10;
 
+    //根据测量原图得来
+    public static final float ORIGN_POSITION_X_KITTY = 233;
+    public static final float ORIGN_POSITION_Y_KITTY = 446;
+
     //根据图片的大小
     public static final float ORIGIN_GIFT_WIDTH = 80;
     public static final float ORIGIN_AVATAR_WIDTH = 80;

@@ -40,12 +40,17 @@ public class GiftSprite extends ActionSprite {
 
     public GiftSprite(String image) {
         super(image);
+        initGift();
     }
 
     public GiftSprite(Bitmap image, String key) {
         super(image, key);
+        initGift();
     }
 
+    private void initGift() {
+        setAnchorPoint(0.5f, 0.5f);
+    }
 
     @Override
     public void run(Action action) {
@@ -77,28 +82,31 @@ public class GiftSprite extends ActionSprite {
 
     }
 
-    public void moveXAndScale(int position, float delay) {
+    public void moveXAndScale(int position, float delay, float giftBarWidth) {
         float t;
         CGPoint toPosition;
         CCMoveTo moveTo;
 
         switch (position) {
             case 0:
-                float toX1 = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT1_MOVE_X);
+                float moveX1 = giftBarWidth * DataConstant.GIFT1_MOVE_X_PERCENT;
+                float toX1 = screenSize.width - moveX1;
                 t = toX1 / DataConstant.GIFT_MOVE_X_VELOCITY;
                 toPosition = CGPoint.ccp(toX1, getPosition().y);
                 moveTo = CCMoveTo.action(t, toPosition);
                 this.runAction(CCSequence.actions(CCDelayTime.action(delay), moveTo, CCCallFunc.action(this, "repeatScale")));
                 break;
             case 1:
-                float toX2 = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT2_MOVE_X);
+                float moveX2 = giftBarWidth * DataConstant.GIFT2_MOVE_X_PERCENT;
+                float toX2 = screenSize.width - moveX2;
                 t = toX2 / DataConstant.GIFT_MOVE_X_VELOCITY;
                 toPosition = CGPoint.ccp(toX2, getPosition().y);
                 moveTo = CCMoveTo.action(t, toPosition);
                 this.runAction(CCSequence.actions(CCDelayTime.action(delay), moveTo));
                 break;
             case 2:
-                float toX3 = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT3_MOVE_X);
+                float moveX3 = giftBarWidth * DataConstant.GIFT3_MOVE_X_PERCENT;
+                float toX3 = screenSize.width - moveX3;
                 t = toX3 / DataConstant.GIFT_MOVE_X_VELOCITY;
                 toPosition = CGPoint.ccp(toX3, getPosition().y);
                 moveTo = CCMoveTo.action(t, toPosition);

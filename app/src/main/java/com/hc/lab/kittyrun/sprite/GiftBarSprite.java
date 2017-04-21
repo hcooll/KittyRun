@@ -1,5 +1,7 @@
 package com.hc.lab.kittyrun.sprite;
 
+import android.util.Log;
+
 import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.util.SizeConvertUtils;
 
@@ -28,13 +30,10 @@ public class GiftBarSprite extends ActionSprite {
 
     private void initGiftBar() {
         setColor(ccColor3B.ccc3(255, 20, 147));
-        float width = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_WIDTH);
-        float height = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_HEIGHT);
-        setContentSize(CGSize.make(width, height));
         setAnchorPoint(CGPoint.ccp(0f, 0.5f));
         float positionY = SizeConvertUtils.getConvertWidth(DataConstant.ORIGIN_GIFT_BAR_POSITON_Y);
         setPosition(DataConstant.WIDTH, positionY);
-
+        setScale(DataConstant.SCALE_SIZE);
     }
 
     public void show() {

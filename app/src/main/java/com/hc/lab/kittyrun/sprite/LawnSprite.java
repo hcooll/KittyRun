@@ -3,6 +3,7 @@ package com.hc.lab.kittyrun.sprite;
 import android.util.Log;
 
 import com.hc.lab.kittyrun.action.Action;
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.strategy.LawnStrategy;
 
 import org.cocos2d.actions.CCScheduler;
@@ -24,7 +25,7 @@ public class LawnSprite extends ActionSprite {
 
     public LawnSprite(String filepath) {
         super(filepath);
-        this.setScale(0.7f);
+        setScale(DataConstant.SCALE_SIZE);
     }
 
     @Override

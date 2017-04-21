@@ -2,6 +2,7 @@ package com.hc.lab.kittyrun.sprite;
 
 import com.hc.lab.kittyrun.R;
 import com.hc.lab.kittyrun.action.Action;
+import com.hc.lab.kittyrun.constant.DataConstant;
 import com.hc.lab.kittyrun.strategy.KittyJumpStrategy;
 import com.hc.lab.kittyrun.util.CommonUtil;
 
@@ -32,7 +33,7 @@ public class KittySprite extends ActionSprite {
     public KittySprite(String filepath) {
         super(filepath);
         setAnchorPoint(0, 0);
-        setScale(0.4f);
+        setScale(DataConstant.SCALE_SIZE);
     }
 
     @Override
